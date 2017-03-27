@@ -16,18 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Security;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 
 namespace Bank
 {
@@ -59,10 +49,21 @@ namespace Bank
 
         private void Init()
         {
-            using (var account = new Account())
+            using (var db = new Database())
             {
-                account.Open(@"c:\temp\test.db");
-                account.CreateTables();
+                db.Open(@"%MyDocuments%\bank.bdb".ReplaceSpecialFolder());
+                foreach (var account in db.GetAccounts())
+                {
+                    MessageBox.Show(account.Name);
+                    DateTime from = db.GetFirstDate(account).Value;
+                    from = from.AddDays(-(from.Day - 1));
+                    var to = from.AddMonths(1);
+                    MessageBox.Show($"Get bookings from [{from}...{to}[.");
+                    foreach (var booking in db.GetBookings(account, from, to))
+                    {
+                        MessageBox.Show($"{booking.Date}|{booking.Text}|{booking.Amount}|{booking.Balance}");
+                    }
+                }
             }
         }
 
