@@ -59,6 +59,11 @@ namespace Bank
 
         private void Init()
         {
+            using (var account = new Account())
+            {
+                account.Open(@"c:\temp\test.db");
+                account.CreateTables();
+            }
         }
 
         private void HandleError(Exception ex)
