@@ -1,0 +1,56 @@
+<Window x:Class="Bank.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        mc:Ignorable="d"
+        Loaded="Window_Loaded" Closing="Window_Closing"
+        Icon="Images/logo.png"
+        xmlns:self="clr-namespace:Bank"        
+        xmlns:props="clr-namespace:Bank.Properties"
+        Height="400" Width="600" MinWidth="200" MinHeight="300" >
+    <Window.Resources>
+        <Style x:Key="ImageEnabled" TargetType="Image">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.25"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+    <Grid Margin="0,0,0,0">
+        <DockPanel LastChildFill="True">
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+            </Grid>
+            <StatusBar DockPanel.Dock="Bottom">
+                <StatusBarItem>
+                    <TextBlock x:Name="textBlockStatus" />
+                </StatusBarItem>
+            </StatusBar>
+            <ListView VirtualizingStackPanel.IsVirtualizing="False" KeyboardNavigation.TabIndex="3" x:Name="listView" TextSearch.TextPath="Name">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_NAME}" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Image}" Width="16" Height="16" Margin="0,0,10,0"/>
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn x:Name="gridViewColumnLogin" Header="{x:Static props:Resources.COLUMN_NAME}" Width="200" DisplayMemberBinding="{Binding Text}"/>
+                        <GridViewColumn x:Name="gridViewColumnPassword" Header="{x:Static props:Resources.COLUMN_NAME}" Width="150" DisplayMemberBinding="{Binding Amount}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+    </Grid>
+</Window>
