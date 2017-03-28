@@ -17,12 +17,15 @@
 */
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 
 namespace Bank
 {
     public partial class MainWindow : Window
     {
+        private Database database = new Database();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -43,27 +46,69 @@ namespace Bank
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            try
+            {
+                if (WindowState == WindowState.Normal)
+                {
+                    Properties.Settings.Default.Left = Left;
+                    Properties.Settings.Default.Top = Top;
+                    Properties.Settings.Default.Width = Width;
+                    Properties.Settings.Default.Height = Height;
+                }
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
         }
 
         // actions
 
         private void Init()
         {
-            using (var db = new Database())
+            Title = Properties.Resources.TITLE_BANK;
+            this.RestorePosition(
+                Properties.Settings.Default.Left,
+                Properties.Settings.Default.Top,
+                Properties.Settings.Default.Width,
+                Properties.Settings.Default.Height);
+            string filename = Properties.Settings.Default.DatabaseFile.ReplaceSpecialFolder();
+            FileInfo fi = new FileInfo(filename);
+            if (!fi.Directory.Exists)
             {
-                db.Open(@"%MyDocuments%\bank.bdb".ReplaceSpecialFolder());
-                foreach (var account in db.GetAccounts())
+                PrepareDirectory(fi.Directory.FullName);
+            }
+            database.Open(filename);
+            UpdateControls();
+        }
+
+        private void UpdateControls()
+        {
+        }
+
+        private void SortListView()
+        {
+            listView.Items.SortDescriptions.Clear();
+            listView.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            listView.Items.Refresh();
+        }
+
+        private void PrepareDirectory(string path)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(path))
                 {
-                    MessageBox.Show(account.Name);
-                    DateTime from = db.GetFirstDate(account).Value;
-                    from = from.AddDays(-(from.Day - 1));
-                    var to = from.AddMonths(1);
-                    MessageBox.Show($"Get bookings from [{from}...{to}[.");
-                    foreach (var booking in db.GetBookings(account, from, to))
+                    if (!Directory.Exists(path))
                     {
-                        MessageBox.Show($"{booking.Date}|{booking.Text}|{booking.Amount}|{booking.Balance}");
+                        Directory.CreateDirectory(path);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
             }
         }
 

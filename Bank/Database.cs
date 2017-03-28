@@ -28,11 +28,6 @@ namespace Bank
     {
         private SQLiteConnection con;
 
-        public void Dispose()
-        {
-            con?.Dispose();
-        }
-
         public class Booking
         {
             public DateTime Date { get; set; }
@@ -53,6 +48,11 @@ namespace Bank
             public string Name { get; set; }
 
             public string Description { get; set; }
+        }
+
+        public void Dispose()
+        {
+            con?.Dispose();
         }
 
         public void Open(string filename)

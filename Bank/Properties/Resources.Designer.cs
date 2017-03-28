@@ -380,6 +380,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bank Account Manager ähnelt.
+        /// </summary>
+        public static string TITLE_BANK {
+            get {
+                return ResourceManager.GetString("TITLE_BANK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Change password ähnelt.
         /// </summary>
         public static string TITLE_CHANGE_PASSWORD {
@@ -403,15 +412,6 @@ namespace Bank.Properties {
         public static string TITLE_NEW {
             get {
                 return ResourceManager.GetString("TITLE_NEW", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bank Account Manager ähnelt.
-        /// </summary>
-        public static string TITLE_PASSWORD_MANAGER {
-            get {
-                return ResourceManager.GetString("TITLE_PASSWORD_MANAGER", resourceCulture);
             }
         }
         

@@ -2,17 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Bank.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="LastUsedRepositoryFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="Language" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="InitialDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">%MyDocuments%\MynaBank</Value>
-    </Setting>
-    <Setting Name="Topmost" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Left" Type="System.Double" Scope="User">
       <Value Profile="(Default)">-1</Value>
@@ -25,6 +19,9 @@
     </Setting>
     <Setting Name="Height" Type="System.Double" Scope="User">
       <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="DatabaseFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">%MyDocuments%\MynaBank\Bank.bdb</Value>
     </Setting>
   </Settings>
 </SettingsFile>

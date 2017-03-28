@@ -26,18 +26,6 @@ namespace Bank.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastUsedRepositoryFile {
-            get {
-                return ((string)(this["LastUsedRepositoryFile"]));
-            }
-            set {
-                this["LastUsedRepositoryFile"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Language {
             get {
                 return ((string)(this["Language"]));
@@ -56,18 +44,6 @@ namespace Bank.Properties {
             }
             set {
                 this["InitialDirectory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Topmost {
-            get {
-                return ((bool)(this["Topmost"]));
-            }
-            set {
-                this["Topmost"] = value;
             }
         }
         
@@ -116,6 +92,18 @@ namespace Bank.Properties {
             }
             set {
                 this["Height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("%MyDocuments%\\MynaBank\\Bank.bdb")]
+        public string DatabaseFile {
+            get {
+                return ((string)(this["DatabaseFile"]));
+            }
+            set {
+                this["DatabaseFile"] = value;
             }
         }
     }

@@ -226,6 +226,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TITLE_ADD" xml:space="preserve">
     <value>Hinzufügen</value>
   </data>
+  <data name="TITLE_BANK" xml:space="preserve">
+    <value>Kontoverwaltung</value>
+  </data>
   <data name="TITLE_CHANGE_PASSWORD" xml:space="preserve">
     <value>Passwort ändern</value>
   </data>
@@ -234,9 +237,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   </data>
   <data name="TITLE_NEW" xml:space="preserve">
     <value>Neue Kontodatei</value>
-  </data>
-  <data name="TITLE_PASSWORD_MANAGER" xml:space="preserve">
-    <value>Kontoverwaltung</value>
   </data>
   <data name="TITLE_PROPERTIES" xml:space="preserve">
     <value>Eigenschaften</value>
