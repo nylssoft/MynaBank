@@ -16,9 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Bank
 {
@@ -29,6 +31,7 @@ namespace Bank
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new BookingsViewModel();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -80,6 +83,15 @@ namespace Bank
                 PrepareDirectory(fi.Directory.FullName);
             }
             database.Open(filename);
+            var accounts = database.GetAccounts();
+            foreach (var acc in accounts)
+            {
+                comboBoxAccounts.Items.Add(new ComboBoxItem() { Content = acc.Name, Tag = acc });
+            }
+            if (comboBoxAccounts.Items.Count > 0)
+            {
+                comboBoxAccounts.SelectedIndex = 0;
+            }
             UpdateControls();
         }
 
@@ -89,9 +101,9 @@ namespace Bank
 
         private void SortListView()
         {
-            listView.Items.SortDescriptions.Clear();
-            listView.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
-            listView.Items.Refresh();
+            //listView.Items.SortDescriptions.Clear();
+            //listView.Items.SortDescriptions.Add(new SortDescription("DateTime", ListSortDirection.Descending));
+            //listView.Items.Refresh();
         }
 
         private void PrepareDirectory(string path)
@@ -120,6 +132,58 @@ namespace Bank
                 Title,
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
+        }
+
+        // private DateTime? lastBookingDate = null;
+        // private List<Database.Booking> bookings = new List<Database.Booking>();
+
+        private void comboBoxAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var cbi = comboBoxAccounts.SelectedItem as ComboBoxItem;
+                if (cbi == null) return;
+                var account = cbi.Tag as Database.Account;
+                if (account == null) return;
+                DateTime? first = database.GetFirstDate(account);
+                DateTime? last = database.GetLastDate(account);
+                if (first.HasValue && last.HasValue)
+                {
+                    var bookings = database.GetBookings(account, first.Value, last.Value);
+                    DataContext = new BookingsViewModel(bookings) { LastDate = last.Value, FirstDate = last.Value.AddDays(-30.0) };
+                    TimeSpan ts = last.Value - first.Value;
+                    slider.Minimum = 30.0;
+                    slider.Maximum = ts.TotalDays;
+                    slider.TickFrequency = 30.0;
+                    slider.Value = 30.0;
+                    slider.IsSnapToTickEnabled = true;
+                    // slider_ValueChanged(null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            int days = (int)slider.Value;
+            textBlockTimeSpan.Text = $"{days} Tage";
+            try
+            {
+                var cbi = comboBoxAccounts.SelectedItem as ComboBoxItem;
+                if (cbi == null) return;
+                var account = cbi.Tag as Database.Account;
+                if (account == null) return;
+                BookingsViewModel vm = this.DataContext as BookingsViewModel;
+                // vm.LastDate = vm.FirstDate.AddDays(slider.Value);
+                vm.FirstDate = vm.LastDate.AddDays(-slider.Value);                
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
         }
     }
 }

@@ -162,14 +162,26 @@
   <data name="CMD_SETTINGS" xml:space="preserve">
     <value>Einste_llungen...</value>
   </data>
-  <data name="COLUMN_NAME" xml:space="preserve">
-    <value>Name</value>
+  <data name="COLUMN_AMOUNT" xml:space="preserve">
+    <value>Betrag</value>
+  </data>
+  <data name="COLUMN_BALANCE" xml:space="preserve">
+    <value>Kontostand</value>
+  </data>
+  <data name="COLUMN_DATE" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="COLUMN_TEXT" xml:space="preserve">
+    <value>Text</value>
   </data>
   <data name="ERROR_OCCURRED_0" xml:space="preserve">
     <value>Es ist ein Fehler aufgetreten. {0}</value>
   </data>
   <data name="FILE_DIALOG_FILTER" xml:space="preserve">
     <value>Konto Dateien (*.bdb)|*.bdb|Alle Dateien (*.*)|*.*</value>
+  </data>
+  <data name="LABEL_ACCOUNT" xml:space="preserve">
+    <value>Konto:</value>
   </data>
   <data name="LABEL_CONFIRM_PASSWORD" xml:space="preserve">
     <value>Bestätigtes Pass_wort:</value>

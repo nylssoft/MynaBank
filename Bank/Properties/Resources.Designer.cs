@@ -196,11 +196,38 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Name ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Amount ähnelt.
         /// </summary>
-        public static string COLUMN_NAME {
+        public static string COLUMN_AMOUNT {
             get {
-                return ResourceManager.GetString("COLUMN_NAME", resourceCulture);
+                return ResourceManager.GetString("COLUMN_AMOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Balance ähnelt.
+        /// </summary>
+        public static string COLUMN_BALANCE {
+            get {
+                return ResourceManager.GetString("COLUMN_BALANCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Date ähnelt.
+        /// </summary>
+        public static string COLUMN_DATE {
+            get {
+                return ResourceManager.GetString("COLUMN_DATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text ähnelt.
+        /// </summary>
+        public static string COLUMN_TEXT {
+            get {
+                return ResourceManager.GetString("COLUMN_TEXT", resourceCulture);
             }
         }
         
@@ -219,6 +246,15 @@ namespace Bank.Properties {
         public static string FILE_DIALOG_FILTER {
             get {
                 return ResourceManager.GetString("FILE_DIALOG_FILTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Account: ähnelt.
+        /// </summary>
+        public static string LABEL_ACCOUNT {
+            get {
+                return ResourceManager.GetString("LABEL_ACCOUNT", resourceCulture);
             }
         }
         

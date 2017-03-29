@@ -27,27 +27,50 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Konto:" />
+                    <ComboBox x:Name="comboBoxAccounts" Grid.Column="1" MinWidth="100" HorizontalAlignment="Left" Margin="0,3,0,3" SelectionChanged="comboBoxAccounts_SelectionChanged"/>
+                    <Label Grid.Column="2" Content="Zeitraum:" />
+                    <Slider x:Name="slider" Grid.Column="3" Width="200" Margin="0,3,0,0" Maximum="100" ValueChanged="slider_ValueChanged" />
+                    <TextBlock Grid.Column="4" x:Name="textBlockTimeSpan"/>
+                </Grid>
             </Grid>
             <StatusBar DockPanel.Dock="Bottom">
                 <StatusBarItem>
                     <TextBlock x:Name="textBlockStatus" />
                 </StatusBarItem>
             </StatusBar>
-            <ListView VirtualizingStackPanel.IsVirtualizing="False" KeyboardNavigation.TabIndex="3" x:Name="listView" TextSearch.TextPath="Name">
+            <ListView ItemsSource="{Binding Path=FilteredBookings, Mode=OneWay}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_NAME}" Width="200">
+                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_DATE}" Width="100" DisplayMemberBinding="{Binding Date}"/>
+                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_TEXT}" Width="200" DisplayMemberBinding="{Binding Text}"/>
+                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_AMOUNT}" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding Image}" Width="16" Height="16" Margin="0,0,10,0"/>
-                                        <TextBlock Text="{Binding Name}" />
-                                    </StackPanel>
+                                    <TextBlock Text="{Binding Amount}" TextAlignment="Right" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn x:Name="gridViewColumnLogin" Header="{x:Static props:Resources.COLUMN_NAME}" Width="200" DisplayMemberBinding="{Binding Text}"/>
-                        <GridViewColumn x:Name="gridViewColumnPassword" Header="{x:Static props:Resources.COLUMN_NAME}" Width="150" DisplayMemberBinding="{Binding Amount}" />
+                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_BALANCE}" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Balance}" TextAlignment="Right" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

@@ -15,6 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+using System;
 using System.ComponentModel;
 using System.Globalization;
 
@@ -45,11 +46,19 @@ namespace Bank
             set
             {
                 booking = value;
+                DateTime = booking.Date;
                 Date = booking.Date.ToShortDateString();
                 Text = booking.Text;
                 // @TODO: use current culture? number format configurable?
-                Amount = booking.Amount.ToString("c", euroCulture);
-                Balance = booking.Amount.ToString("c", euroCulture);
+                double a = booking.Amount / 100.0;
+                double b = booking.Balance / 100.0;
+                if (DateTime.Year <= 2001)
+                {
+                    a = a * 0.511292;
+                    b = b * 0.511292;
+                }
+                Amount = a.ToString("c", euroCulture);
+                Balance = b.ToString("c", euroCulture);
             }
         }
 
@@ -62,5 +71,7 @@ namespace Bank
         public string Amount { get; private set; }
 
         public string Balance { get; private set; }
+
+        public DateTime DateTime { get; private set; }
     }
 }
