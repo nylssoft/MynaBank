@@ -47,7 +47,7 @@
                     <TextBlock x:Name="textBlockStatus" />
                 </StatusBarItem>
             </StatusBar>
-            <ListView ItemsSource="{Binding Path=FilteredBookings, Mode=OneWay}">
+            <ListView DataContext="{Binding BookingsModel}" ItemsSource="{Binding Path=FilteredBookings, Mode=OneWay}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

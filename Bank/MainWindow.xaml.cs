@@ -28,10 +28,11 @@ namespace Bank
     {
         private Database database = new Database();
 
+        public BookingsViewModel BookingsModel { get; set; } = new BookingsViewModel();
+
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new BookingsViewModel();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -150,14 +151,13 @@ namespace Bank
                 if (first.HasValue && last.HasValue)
                 {
                     var bookings = database.GetBookings(account, first.Value, last.Value);
-                    DataContext = new BookingsViewModel(bookings) { LastDate = last.Value, FirstDate = last.Value.AddDays(-30.0) };
+                    BookingsModel = new BookingsViewModel(bookings) { LastDate = last.Value, FirstDate = last.Value.AddDays(-30.0) };
                     TimeSpan ts = last.Value - first.Value;
                     slider.Minimum = 30.0;
                     slider.Maximum = ts.TotalDays;
                     slider.TickFrequency = 30.0;
                     slider.Value = 30.0;
                     slider.IsSnapToTickEnabled = true;
-                    // slider_ValueChanged(null, null);
                 }
             }
             catch (Exception ex)
@@ -176,9 +176,7 @@ namespace Bank
                 if (cbi == null) return;
                 var account = cbi.Tag as Database.Account;
                 if (account == null) return;
-                BookingsViewModel vm = this.DataContext as BookingsViewModel;
-                // vm.LastDate = vm.FirstDate.AddDays(slider.Value);
-                vm.FirstDate = vm.LastDate.AddDays(-slider.Value);                
+                BookingsModel.FirstDate = BookingsModel.LastDate.AddDays(-slider.Value);                
             }
             catch (Exception ex)
             {
