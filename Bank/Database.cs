@@ -132,7 +132,7 @@ namespace Bank
                     cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
                     cmd.ExecuteNonQuery();
                     cmd.Parameters.Clear();
-                    cmd.CommandText = "DELETE FROM defaultext WHERE accountid=@p1";
+                    cmd.CommandText = "DELETE FROM defaulttext WHERE accountid=@p1";
                     cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
                     cmd.ExecuteNonQuery();
                     cmd.Parameters.Clear();
@@ -146,24 +146,36 @@ namespace Bank
 
         public Balance CreateBalance(Account account, int month, int year, long first, long last)
         {
-            using (var cmd = new SQLiteCommand(con))
+            var defaultbookings = GetDefaultBookings(account);
+            using (var trans = con.BeginTransaction())
             {
-                cmd.CommandText = "INSERT INTO balance VALUES(@p1,@p2,@p3,@p4,@p5)";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
-                cmd.Parameters.Add(new SQLiteParameter("@p2", month));
-                cmd.Parameters.Add(new SQLiteParameter("@p3", year));
-                cmd.Parameters.Add(new SQLiteParameter("@p4", first));
-                cmd.Parameters.Add(new SQLiteParameter("@p5", last));
-                cmd.ExecuteNonQuery();
-                return new Balance()
+                Balance ret = null;
+                using (var cmd = new SQLiteCommand(con))
                 {
-                    Id = con.LastInsertRowId,
-                    Account = account,
-                    Month = month,
-                    Year = year,
-                    First = first,
-                    Last = last
-                };
+                    cmd.CommandText = "INSERT INTO balance VALUES(@p1,@p2,@p3,@p4,@p5)";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                    cmd.Parameters.Add(new SQLiteParameter("@p2", month));
+                    cmd.Parameters.Add(new SQLiteParameter("@p3", year));
+                    cmd.Parameters.Add(new SQLiteParameter("@p4", first));
+                    cmd.Parameters.Add(new SQLiteParameter("@p5", last));
+                    cmd.ExecuteNonQuery();
+                    ret = new Balance()
+                    {
+                        Id = con.LastInsertRowId,
+                        Account = account,
+                        Month = month,
+                        Year = year,
+                        First = first,
+                        Last = last
+                    };
+                    foreach (var defaultbooking in defaultbookings)
+                    {
+                        // @TODO: month mask...
+                        CreateBooking(ret, defaultbooking.Day, defaultbooking.Text, defaultbooking.Amount);
+                    }
+                }
+                trans.Commit();
+                return ret;
             }
         }
 
@@ -235,31 +247,29 @@ namespace Bank
             }
         }
 
-        public Booking CreateBooking(Account account, Balance balance, int day, string text, long amount)
+        public Booking CreateBooking(Balance balance, int day, string text, long amount)
         {
             using (var trans = con.BeginTransaction())
             {
+                Booking ret = new Booking();
                 using (var cmd = new SQLiteCommand(con))
                 {
-                    cmd.CommandText = "INSERT INTO booking VALUES(@p1,@p2,@p3,@p4,@p5)";
-                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
-                    cmd.Parameters.Add(new SQLiteParameter("@p2", balance.Id));
-                    cmd.Parameters.Add(new SQLiteParameter("@p3", day));
-                    cmd.Parameters.Add(new SQLiteParameter("@p4", text));
-                    cmd.Parameters.Add(new SQLiteParameter("@p5", amount));
+                    cmd.CommandText = "INSERT INTO booking VALUES(@p1,@p2,@p3,@p4)";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", balance.Id));
+                    cmd.Parameters.Add(new SQLiteParameter("@p2", day));
+                    cmd.Parameters.Add(new SQLiteParameter("@p3", text));
+                    cmd.Parameters.Add(new SQLiteParameter("@p4", amount));
                     cmd.ExecuteNonQuery();
+                    ret.Id = con.LastInsertRowId;
                     balance.Last += amount;
                     UpdateBalance(balance);
+                    ret.Balance = balance;
+                    ret.Day = day;
+                    ret.Text = text;
+                    ret.Amount = amount;
                 }
                 trans.Commit();
-                return new Booking()
-                {
-                    Id = con.LastInsertRowId,
-                    Balance = balance,
-                    Day = day,
-                    Text = text,
-                    Amount = amount
-                };
+                return ret;
             }
         }
 
@@ -276,10 +286,10 @@ namespace Bank
                         return new Booking()
                         {
                             Id = rowid,
-                            Balance = new Balance() { Id = reader.GetInt64(1) },
-                            Day = reader.GetInt32(2),
-                            Text = reader.GetString(3),
-                            Amount = reader.GetInt64(4)
+                            Balance = new Balance() { Id = reader.GetInt64(0) },
+                            Day = reader.GetInt32(1),
+                            Text = reader.GetString(2),
+                            Amount = reader.GetInt64(3)
                         };
                     }
                 }
@@ -351,6 +361,72 @@ namespace Bank
                                 Amount = reader.GetInt64(3)
                             };
                             ret.Add(booking);
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public void InsertDefaultBooking(DefaultBooking defaultBooking)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "INSERT INTO defaultbooking VALUES(@p1,@p2,@p3,@p4,@p5)";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", defaultBooking.Account.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", defaultBooking.Monthmask));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", defaultBooking.Day));
+                cmd.Parameters.Add(new SQLiteParameter("@p4", defaultBooking.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@p5", defaultBooking.Amount));
+                cmd.ExecuteNonQuery();
+                defaultBooking.Id = con.LastInsertRowId;
+            }
+        }
+
+        public void UpdateDefaultBooking(DefaultBooking defaultBooking)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "UPDATE defaultbooking SET monthmask=@p2,day=@p3,text=@p4,amount=@p5 WHERE rowid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", defaultBooking.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", defaultBooking.Monthmask));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", defaultBooking.Day));
+                cmd.Parameters.Add(new SQLiteParameter("@p4", defaultBooking.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@p5", defaultBooking.Amount));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteDefaultBooking(DefaultBooking defaultBooking)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "DELETE FROM defaultbooking WHERE rowid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", defaultBooking.Id));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public List<DefaultBooking> GetDefaultBookings(Account account)
+        {
+            var ret = new List<DefaultBooking>();
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "SELECT monthmask, day, text, amount FROM defaultbooking WHERE accountid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            ret.Add(new DefaultBooking() {
+                                Account = account,
+                                Monthmask = reader.GetInt32(0),
+                                Day = reader.GetInt32(1),
+                                Text = reader.GetString(2),
+                                Amount = reader.GetInt64(3)
+                            });
                         }
                     }
                 }

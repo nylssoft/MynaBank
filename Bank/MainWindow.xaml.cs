@@ -23,6 +23,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Bank
@@ -111,16 +112,16 @@ namespace Bank
                     Close();
                     break;
                 case "New":
-                    //CreateRepository();
+                    CreateAccount();
                     break;
                 case "Add":
-                    //AddItemAsync();
+                    InsertBooking();
                     break;
                 case "Edit":
-                    //EditItem();
+                    UpdateBooking();
                     break;
                 case "Remove":
-                    //RemoveItems();
+                    DeleteBooking();
                     break;
                 case "About":
                     //About();
@@ -138,7 +139,7 @@ namespace Bank
             UpdateStatus();
         }
 
-        private void comboBoxAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBoxAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
@@ -163,7 +164,7 @@ namespace Bank
                     slider.Value = 0;
                     slider.IsSnapToTickEnabled = true;
                     slider.Visibility = Visibility.Visible;
-                    slider_ValueChanged(null, null);
+                    SliderValue_Changed(null, null);
                 }
             }
             catch (Exception ex)
@@ -172,7 +173,7 @@ namespace Bank
             }
         }
 
-        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void SliderValue_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             int cnt = (int)slider.Value;
             if (cnt < 0 || cnt >= balances.Count) return;
@@ -218,8 +219,101 @@ namespace Bank
             {
                 accounts.Add(account);
             }
+            var view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("Day", ListSortDirection.Ascending));
         }
 
+        private void CreateAccount()
+        {
+            try
+            {
+                var del = new List<Account>();
+                foreach (var acc in accounts)
+                {
+                    if (acc.Name == "test")
+                    {
+                        del.Add(acc);
+                    }
+                }
+                foreach (var d in del)
+                {
+                    database.DeleteAccount(d);
+                    accounts.Remove(d);
+                }
+                var account = database.CreateAccount("test");
+                accounts.Add(account);
+
+                var defaultbooking = new DefaultBooking();
+                defaultbooking.Account = account;
+                defaultbooking.Monthmask = 1;
+                defaultbooking.Day = 17;
+                defaultbooking.Text = "Test";
+                defaultbooking.Amount = 33300;
+                database.InsertDefaultBooking(defaultbooking);
+
+                long first = 0;
+                DateTime now = DateTime.Now;            
+                var balance = database.CreateBalance(account, now.Month, now.Year, first, first);
+                comboBox.SelectedItem = account;
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void InsertBooking()
+        {
+            try
+            {
+                int cnt = (int)slider.Value;
+                if (cnt < 0 || cnt >= balances.Count) return;
+                var balance = balances[balances.Count - cnt - 1];
+                bookings.Add(database.CreateBooking(balance, 14, "Miete3", 80000));
+                bookings.Add(database.CreateBooking(balance, 7, "Miete4", 80000));
+                
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+        private void UpdateBooking()
+        {
+            try
+            {
+                var booking = listView.SelectedItem as Booking;
+                if (booking == null) return;
+                booking.Text = "Miete2";
+                booking.Amount = 100000;
+                database.UpdateBooking(booking);
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void DeleteBooking()
+        {
+            try
+            {
+                var del = new List<Booking>();
+                foreach (Booking booking in listView.SelectedItems)
+                {
+                    del.Add(booking);
+                }
+                foreach (var d in del)
+                {
+                    database.DeleteBooking(d);
+                    bookings.Remove(d);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
         private void UpdateStatus()
         {
             int selected = listView.SelectedItems.Count;
