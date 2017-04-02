@@ -10,16 +10,9 @@
         xmlns:props="clr-namespace:Bank.Properties"
         Height="400" Width="600" MinWidth="200" MinHeight="300" >
     <Window.Resources>
-        <Style x:Key="ImageEnabled" TargetType="Image">
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Opacity" Value="0.25"></Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <self:CurrencyConverter x:Key="CurrencyConverter" />
     </Window.Resources>
-    <Grid Margin="0,0,0,0">
+    <Grid Margin="0,10,0,0">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
@@ -27,27 +20,35 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="3">
+                <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="200"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Konto:" />
-                    <ComboBox x:Name="comboBoxAccounts" Grid.Column="1" MinWidth="100" HorizontalAlignment="Left" Margin="0,3,0,3" SelectionChanged="comboBoxAccounts_SelectionChanged"/>
-                    <Label Grid.Column="2" Content="Zeitraum:" />
-                    <Slider x:Name="slider" Grid.Column="3" Width="200" Margin="0,3,0,0" Maximum="100" ValueChanged="slider_ValueChanged" />
-                    <TextBlock Grid.Column="4" x:Name="textBlockTimeSpan"/>
+                    <Label Grid.Column="0" Content="{x:Static props:Resources.LABEL_ACCOUNT}" />
+                    <ComboBox x:Name="comboBox" Grid.Column="1" MinWidth="100" Margin="0,3,0,3" HorizontalAlignment="Left" SelectionChanged="comboBoxAccounts_SelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBlock Grid.Column="2" x:Name="textBlockCurrent" Margin="20,5,5,5"/>
+                    <TextBlock Grid.Column="3" x:Name="textBlockLast" Margin="20,5,5,5"/>
+                    <Slider x:Name="slider" Grid.Column="4" Margin="0,3,0,0" Visibility="Hidden" Minimum="0" Maximum="0" ValueChanged="slider_ValueChanged" />
+                    <TextBlock Grid.Column="5" x:Name="textBlockFirst" Margin="5,5,5,5"/>
                 </Grid>
             </Grid>
             <StatusBar DockPanel.Dock="Bottom">
                 <StatusBarItem>
-                    <TextBlock x:Name="textBlockStatus" />
+                    <TextBlock x:Name="textBlockStatus" TextTrimming="CharacterEllipsis" />
                 </StatusBarItem>
             </StatusBar>
-            <ListView DataContext="{Binding BookingsModel}" ItemsSource="{Binding Path=FilteredBookings, Mode=OneWay}">
+            <ListView x:Name="listView">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -55,19 +56,19 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_DATE}" Width="100" DisplayMemberBinding="{Binding Date}"/>
+                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_DAY}" Width="50" DisplayMemberBinding="{Binding Day}"/>
                         <GridViewColumn Header="{x:Static props:Resources.COLUMN_TEXT}" Width="200" DisplayMemberBinding="{Binding Text}"/>
                         <GridViewColumn Header="{x:Static props:Resources.COLUMN_AMOUNT}" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Amount}" TextAlignment="Right" />
+                                    <TextBlock Text="{Binding Amount, Converter={StaticResource CurrencyConverter}}" TextAlignment="Right" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="{x:Static props:Resources.COLUMN_BALANCE}" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Balance}" TextAlignment="Right" />
+                                    <TextBlock Text="{Binding CurrentBalance, Converter={StaticResource CurrencyConverter}}" TextAlignment="Right" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

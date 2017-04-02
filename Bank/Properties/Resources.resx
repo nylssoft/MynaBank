@@ -171,6 +171,9 @@
   <data name="COLUMN_DATE" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="COLUMN_DAY" xml:space="preserve">
+    <value>Day</value>
+  </data>
   <data name="COLUMN_TEXT" xml:space="preserve">
     <value>Text</value>
   </data>
@@ -231,6 +234,9 @@
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</value>
+  </data>
+  <data name="TEXT_CURRENT_BALANCE_0" xml:space="preserve">
+    <value>Current sheet: {0}</value>
   </data>
   <data name="TEXT_SEARCH_LIST" xml:space="preserve">
     <value>Search list</value>

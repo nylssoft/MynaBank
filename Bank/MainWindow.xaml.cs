@@ -17,7 +17,9 @@
 */
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,12 +29,15 @@ namespace Bank
     public partial class MainWindow : Window
     {
         private Database database = new Database();
-
-        public BookingsViewModel BookingsModel { get; set; } = new BookingsViewModel();
+        private ObservableCollection<Account> accounts = new ObservableCollection<Account>();
+        private List<Balance> balances = new List<Balance>();
+        private ObservableCollection<Booking> bookings = new ObservableCollection<Booking>();
 
         public MainWindow()
         {
             InitializeComponent();
+            listView.ItemsSource = bookings;
+            comboBox.ItemsSource = accounts;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -84,27 +89,11 @@ namespace Bank
                 PrepareDirectory(fi.Directory.FullName);
             }
             database.Open(filename);
-            var accounts = database.GetAccounts();
-            foreach (var acc in accounts)
+            accounts.Clear();
+            foreach (var account in database.GetAccounts())
             {
-                comboBoxAccounts.Items.Add(new ComboBoxItem() { Content = acc.Name, Tag = acc });
+                accounts.Add(account);
             }
-            if (comboBoxAccounts.Items.Count > 0)
-            {
-                comboBoxAccounts.SelectedIndex = 0;
-            }
-            UpdateControls();
-        }
-
-        private void UpdateControls()
-        {
-        }
-
-        private void SortListView()
-        {
-            //listView.Items.SortDescriptions.Clear();
-            //listView.Items.SortDescriptions.Add(new SortDescription("DateTime", ListSortDirection.Descending));
-            //listView.Items.Refresh();
         }
 
         private void PrepareDirectory(string path)
@@ -135,29 +124,32 @@ namespace Bank
                 MessageBoxImage.Error);
         }
 
-        // private DateTime? lastBookingDate = null;
-        // private List<Database.Booking> bookings = new List<Database.Booking>();
-
         private void comboBoxAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                var cbi = comboBoxAccounts.SelectedItem as ComboBoxItem;
-                if (cbi == null) return;
-                var account = cbi.Tag as Database.Account;
+                var account = comboBox.SelectedItem as Account;
                 if (account == null) return;
-                DateTime? first = database.GetFirstDate(account);
-                DateTime? last = database.GetLastDate(account);
-                if (first.HasValue && last.HasValue)
+                balances.Clear();
+                foreach (var balance in database.GetBalances(account))
                 {
-                    var bookings = database.GetBookings(account, first.Value, last.Value);
-                    BookingsModel = new BookingsViewModel(bookings) { LastDate = last.Value, FirstDate = last.Value.AddDays(-30.0) };
-                    TimeSpan ts = last.Value - first.Value;
-                    slider.Minimum = 30.0;
-                    slider.Maximum = ts.TotalDays;
-                    slider.TickFrequency = 30.0;
-                    slider.Value = 30.0;
+                    balances.Add(balance);
+                }
+                if (balances.Count > 0)
+                {
+                    var minidx = 0;
+                    var maxidx = balances.Count - 1;
+                    DateTime dtFirst = new DateTime(balances[minidx].Year, balances[maxidx].Month, 1);
+                    DateTime dtLast = new DateTime(balances[maxidx].Year, balances[maxidx].Month, 1);
+                    textBlockFirst.Text = $"{dtFirst:y}";
+                    textBlockLast.Text = $"{dtLast:y}"; ;
+                    slider.Minimum = 0;
+                    slider.Maximum = maxidx;
+                    slider.TickFrequency = 1;
+                    slider.Value = 0;
                     slider.IsSnapToTickEnabled = true;
+                    slider.Visibility = Visibility.Visible;
+                    slider_ValueChanged(null, null);
                 }
             }
             catch (Exception ex)
@@ -168,15 +160,21 @@ namespace Bank
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            int days = (int)slider.Value;
-            textBlockTimeSpan.Text = $"{days} Tage";
+            int cnt = (int)slider.Value;
+            if (cnt < 0 || cnt >= balances.Count) return;
+            var balance = balances[balances.Count - cnt - 1];
+            DateTime dt = new DateTime(balance.Year, balance.Month, 1);
+            textBlockCurrent.Text = string.Format(Properties.Resources.TEXT_CURRENT_BALANCE_0, $"{dt:y}");
             try
             {
-                var cbi = comboBoxAccounts.SelectedItem as ComboBoxItem;
-                if (cbi == null) return;
-                var account = cbi.Tag as Database.Account;
-                if (account == null) return;
-                BookingsModel.FirstDate = BookingsModel.LastDate.AddDays(-slider.Value);                
+                bookings.Clear();
+                long currentBalance = balance.First;
+                foreach (var booking in database.GetBookings(balance))
+                {
+                    currentBalance += booking.Amount;
+                    booking.CurrentBalance = currentBalance;
+                    bookings.Add(booking);
+                }
             }
             catch (Exception ex)
             {

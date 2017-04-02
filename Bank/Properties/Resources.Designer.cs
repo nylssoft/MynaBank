@@ -223,6 +223,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Day ähnelt.
+        /// </summary>
+        public static string COLUMN_DAY {
+            get {
+                return ResourceManager.GetString("COLUMN_DAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Text ähnelt.
         /// </summary>
         public static string COLUMN_TEXT {
@@ -394,6 +403,15 @@ namespace Bank.Properties {
         public static string TEXT_COPYRIGHT {
             get {
                 return ResourceManager.GetString("TEXT_COPYRIGHT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Current sheet: {0} ähnelt.
+        /// </summary>
+        public static string TEXT_CURRENT_BALANCE_0 {
+            get {
+                return ResourceManager.GetString("TEXT_CURRENT_BALANCE_0", resourceCulture);
             }
         }
         

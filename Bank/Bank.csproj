@@ -64,8 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BookingsViewModel.cs" />
-    <Compile Include="BookingViewItem.cs" />
+    <Compile Include="Account.cs" />
+    <Compile Include="Balance.cs" />
+    <Compile Include="Booking.cs" />
+    <Compile Include="CurrencyConverter.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\Resources.de.Designer.cs">

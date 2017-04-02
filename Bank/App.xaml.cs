@@ -35,6 +35,7 @@ namespace Bank
                     typeof(FrameworkElement),
                     new FrameworkPropertyMetadata(
                     System.Windows.Markup.XmlLanguage.GetLanguage(CultureInfo.CurrentUICulture.IetfLanguageTag)));
+                CurrencyConverter.Culture = ci;
             }
         }
     }

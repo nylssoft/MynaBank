@@ -28,34 +28,9 @@ namespace Bank
     {
         private SQLiteConnection con;
 
-        public class Booking
-        {
-            public long Id { get; set; }
-
-            public long AccountId { get; set; }
-
-            public DateTime Date { get; set; }
-
-            public string Text { get; set; }
-
-            public long Amount { get; set; }
-
-            public long Balance { get; set; }
-        }
-
-        public class Account
-        {
-            public long Id { get; set; }
-
-            public string Guid { get; set; }
-
-            public string Name { get; set; }
-
-            public string Description { get; set; }
-        }
-
         public void Dispose()
         {
+
             con?.Dispose();
         }
 
@@ -64,20 +39,24 @@ namespace Bank
             var sb = new SQLiteConnectionStringBuilder() { DataSource = filename };
             con = new SQLiteConnection(sb.ToString());
             con.Open();
-            CreateTables(con);
+            Init(con);
         }
 
-        private void CreateTables(SQLiteConnection con)
+        private void Init(SQLiteConnection con)
         {
             using (var cmd = new SQLiteCommand(con))
             {
                 cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS account " +
-                    "(guid TEXT, name TEXT, description TEXT);";
+                    "(name TEXT);";
+                cmd.ExecuteNonQuery();
+                cmd.CommandText =
+                    "CREATE TABLE IF NOT EXISTS balance " +
+                    "(accountid INTEGER, month INTEGER, year INTEGER, first INTEGER, last INTEGER);";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS booking " +
-                    "(accountid INTEGER, date INTEGER, text TEXT, amount INTEGER, balance INTEGER);";
+                    "(balanceid INTEGER, day INTEGER, text TEXT, amount INTEGER);";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS defaulttext "+
@@ -95,20 +74,14 @@ namespace Bank
             var ret = new List<Account>();
             using (var cmd = new SQLiteCommand(con))
             {
-                cmd.CommandText = "SELECT rowid, guid, name, description FROM account";
+                cmd.CommandText = "SELECT rowid, name FROM account";
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
                         while (reader.Read())
                         {
-                            ret.Add(new Account()
-                            {
-                                Id = reader.GetInt64(0),
-                                Guid = reader.GetString(1),
-                                Name = reader.GetString(2),
-                                Description = reader.GetString(3)
-                            });
+                            ret.Add(new Account() { Id = reader.GetInt64(0), Name = reader.GetString(1) });
                         }
                     }
                 }
@@ -116,16 +89,14 @@ namespace Bank
             return ret;
         }
 
-        public void CreateAccount(Account account)
+        public Account CreateAccount(string name)
         {
             using (var cmd = new SQLiteCommand(con))
             {
-                cmd.CommandText = "INSERT INTO account VALUES(@p1,@p2,@p3)";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", Guid.NewGuid().ToString()));
-                cmd.Parameters.Add(new SQLiteParameter("@p2", account.Name));
-                cmd.Parameters.Add(new SQLiteParameter("@p3", account.Description));
+                cmd.CommandText = "INSERT INTO account VALUES(@p1)";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", name));
                 cmd.ExecuteNonQuery();
-                account.Id = con.LastInsertRowId;
+                return new Account { Id = con.LastInsertRowId, Name = name };
             }
         }
 
@@ -133,10 +104,9 @@ namespace Bank
         {
             using (var cmd = new SQLiteCommand(con))
             {
-                cmd.CommandText = "UPDATE account SET name=@p2, description=@p3 WHERE rowid=@p1";
+                cmd.CommandText = "UPDATE account SET name=@p2 WHERE rowid=@p1";
                 cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
                 cmd.Parameters.Add(new SQLiteParameter("@p2", account.Name));
-                cmd.Parameters.Add(new SQLiteParameter("@p3", account.Description));
                 cmd.ExecuteNonQuery();
             }
         }
@@ -145,75 +115,197 @@ namespace Bank
         {
             using (var cmd = new SQLiteCommand(con))
             {
-                cmd.CommandText = "DELETE FROM account WHERE rowid=@p1";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
-                cmd.ExecuteNonQuery();
+                using (var trans = con.BeginTransaction())
+                {
+                    cmd.CommandText = "DELETE FROM booking WHERE balanceid=@p1";
+                    foreach (var balance in GetBalances(account))
+                    {
+                        cmd.Parameters.Add(new SQLiteParameter("@p1", balance.Id));
+                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+                    }
+                    cmd.CommandText = "DELETE FROM balance WHERE accountid=@p1";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "DELETE FROM defaultbooking WHERE accountid=@p1";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "DELETE FROM defaultext WHERE accountid=@p1";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "DELETE FROM account WHERE rowid=@p1";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
             }
         }
 
-        public DateTime? GetFirstDate(Account account)
-        {
-            return GetMinMaxDate(account, true);
-        }
-
-        public DateTime? GetLastDate(Account account)
-        {
-            return GetMinMaxDate(account, false);
-        }
-
-        private DateTime? GetMinMaxDate(Account account, bool mindate)
+        public Balance CreateBalance(Account account, int month, int year, long first, long last)
         {
             using (var cmd = new SQLiteCommand(con))
             {
-                string op = mindate ? "MIN" : "MAX";
-                cmd.CommandText = $"SELECT {op}(date) FROM booking WHERE accountid=@p1";
+                cmd.CommandText = "INSERT INTO balance VALUES(@p1,@p2,@p3,@p4,@p5)";
                 cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", month));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", year));
+                cmd.Parameters.Add(new SQLiteParameter("@p4", first));
+                cmd.Parameters.Add(new SQLiteParameter("@p5", last));
+                cmd.ExecuteNonQuery();
+                return new Balance()
+                {
+                    Id = con.LastInsertRowId,
+                    Account = account,
+                    Month = month,
+                    Year = year,
+                    First = first,
+                    Last = last
+                };
+            }
+        }
+
+        public List<Balance> GetBalances(Account account)
+        {
+            var ret = new List<Balance>();
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText =
+                    "SELECT rowid, month, year, first, last FROM balance"+
+                    " WHERE accountid=@p1 ORDER BY year, month ASC";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            ret.Add(new Balance()
+                            {
+                                Id = reader.GetInt64(0),
+                                Account = account,
+                                Month = reader.GetInt32(1),
+                                Year = reader.GetInt32(2),
+                                First = reader.GetInt64(3),
+                                Last = reader.GetInt64(4)
+                            });
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public Balance GetBalanceById(long rowid)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "SELECT accountid, month, year, first, last FROM balance WHERE rowid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", rowid));
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows && reader.Read())
                     {
-                        var dto = DateTimeOffset.FromUnixTimeMilliseconds(reader.GetInt64(0));
-                        return dto.DateTime.ToLocalTime();
+                        return new Balance()
+                        {
+                            Id = rowid,
+                            Account = new Account() { Id = reader.GetInt64(0) },
+                            Month = reader.GetInt32(1),
+                            Year = reader.GetInt32(2),
+                            First = reader.GetInt64(3),
+                            Last = reader.GetInt64(4)
+                        };
+                    }
+                }
+                return null;
+            }
+        }
+
+        public void UpdateBalance(Balance balance)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "UPDATE balance SET first=@p2, last=@p3 WHERE rowid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", balance.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", balance.First));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", balance.Last));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public Booking CreateBooking(Account account, Balance balance, int day, string text, long amount)
+        {
+            using (var trans = con.BeginTransaction())
+            {
+                using (var cmd = new SQLiteCommand(con))
+                {
+                    cmd.CommandText = "INSERT INTO booking VALUES(@p1,@p2,@p3,@p4,@p5)";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                    cmd.Parameters.Add(new SQLiteParameter("@p2", balance.Id));
+                    cmd.Parameters.Add(new SQLiteParameter("@p3", day));
+                    cmd.Parameters.Add(new SQLiteParameter("@p4", text));
+                    cmd.Parameters.Add(new SQLiteParameter("@p5", amount));
+                    cmd.ExecuteNonQuery();
+                    balance.Last += amount;
+                    UpdateBalance(balance);
+                }
+                trans.Commit();
+                return new Booking()
+                {
+                    Id = con.LastInsertRowId,
+                    Balance = balance,
+                    Day = day,
+                    Text = text,
+                    Amount = amount
+                };
+            }
+        }
+
+        private Booking GetBookingById(long rowid)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "SELECT balanceid, day, text, amount FROM booking WHERE rowid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", rowid));
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows && reader.Read())
+                    {
+                        return new Booking()
+                        {
+                            Id = rowid,
+                            Balance = new Balance() { Id = reader.GetInt64(1) },
+                            Day = reader.GetInt32(2),
+                            Text = reader.GetString(3),
+                            Amount = reader.GetInt64(4)
+                        };
                     }
                 }
             }
             return null;
         }
 
-        public void AddBooking(Account account, Booking booking)
-        {
-            using (var cmd = new SQLiteCommand(con))
-            {
-                var dto = new DateTimeOffset(booking.Date.ToUniversalTime());
-                cmd.CommandText = "INSERT INTO booking VALUES(@p1,@p2,@p3,@p4,@p5)";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
-                cmd.Parameters.Add(new SQLiteParameter("@p2", dto.ToUnixTimeMilliseconds()));
-                cmd.Parameters.Add(new SQLiteParameter("@p3", booking.Text));
-                cmd.Parameters.Add(new SQLiteParameter("@p4", booking.Amount));
-                cmd.Parameters.Add(new SQLiteParameter("@p5", booking.Balance));
-                cmd.ExecuteNonQuery();
-                booking.Id = con.LastInsertRowId;
-            }
-        }
-
-        public void UpdateBooking(Booking booking, long oldBalance)
+        public void UpdateBooking(Booking booking)
         {
             using (var trans = con.BeginTransaction())
             {
+                var oldBooking = GetBookingById(booking.Id);
                 using (var cmd = new SQLiteCommand(con))
                 {
-                    var dto = new DateTimeOffset(booking.Date.ToUniversalTime());
-                    cmd.CommandText = "UPDATE booking SET date=@p2, text=@p3, amount=@p4, balance=@p5 WHERE rowid=@p1";
+                    cmd.CommandText = "UPDATE booking SET day=@p2, text=@p3, amount=@p4 WHERE rowid=@p1";
                     cmd.Parameters.Add(new SQLiteParameter("@p1", booking.Id));
-                    cmd.Parameters.Add(new SQLiteParameter("@p2", dto));
+                    cmd.Parameters.Add(new SQLiteParameter("@p2", booking.Day));
                     cmd.Parameters.Add(new SQLiteParameter("@p3", booking.Text));
                     cmd.Parameters.Add(new SQLiteParameter("@p4", booking.Amount));
-                    cmd.Parameters.Add(new SQLiteParameter("@p5", booking.Balance));
                     cmd.ExecuteNonQuery();
                 }
-                long diff = booking.Balance - oldBalance;
-                // @TODO: more complicated if date is changed...
-                AdjustBooking(booking.AccountId, booking.Date, diff);
+                if (oldBooking.Amount != booking.Amount)
+                {                    
+                    booking.Balance.Last += (booking.Amount - oldBooking.Amount);
+                    UpdateBalance(booking.Balance);
+                }
                 trans.Commit();
             }
         }
@@ -228,56 +320,35 @@ namespace Bank
                     cmd.Parameters.Add(new SQLiteParameter("@p1", booking.Id));
                     cmd.ExecuteNonQuery();
                 }
+                var balance = booking.Balance;
+                balance.Last -= booking.Amount;
+                UpdateBalance(balance);
                 trans.Commit();
             }
         }
 
-        private void AdjustBooking(long accountid, DateTime date, long diffBalance)
-        {
-            if (diffBalance != 0)
-            {
-                string op = diffBalance > 0 ? $"+{diffBalance}" : $"-{diffBalance}";
-                var dto = new DateTimeOffset(date.ToUniversalTime());
-                using (var cmd = new SQLiteCommand(con))
-                {
-                    cmd.CommandText =
-                        $"UPDATE booking SET balance=balance{op}" +
-                         " WHERE accountid=@p1 AND date>@p2";
-                    cmd.Parameters.Add(new SQLiteParameter("@p1", accountid));
-                    cmd.Parameters.Add(new SQLiteParameter("@p2", dto.ToUnixTimeMilliseconds()));
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
-        public List<Booking> GetBookings(Account account, DateTime from, DateTime to)
+        public List<Booking> GetBookings(Balance balance)
         {
             var ret = new List<Booking>();
             using (var cmd = new SQLiteCommand(con))
             {
-                var dtofrom = new DateTimeOffset(from.ToUniversalTime());
-                var dtoto = new DateTimeOffset(to.ToUniversalTime());
                 cmd.CommandText =
-                    "SELECT rowid, date, text, amount, balance FROM booking"+
-                    " WHERE accountid=@p1 AND date>=@p2 AND date<@p3 ORDER BY date";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
-                cmd.Parameters.Add(new SQLiteParameter("@p2", dtofrom.ToUnixTimeMilliseconds()));
-                cmd.Parameters.Add(new SQLiteParameter("@p3", dtoto.ToUnixTimeMilliseconds()));
+                    "SELECT rowid, day, text, amount FROM booking"+
+                    " WHERE balanceid=@p1 ORDER BY day ASC";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", balance.Id));
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
                         while (reader.Read())
                         {
-                            long rowid = reader.GetInt64(0);
-                            var dto = DateTimeOffset.FromUnixTimeMilliseconds(reader.GetInt64(1));
                             var booking = new Booking()
                             {
-                                Id = rowid,
-                                Date = dto.DateTime.ToLocalTime(),
+                                Id = reader.GetInt64(0),
+                                Balance = balance,
+                                Day = reader.GetInt32(1),
                                 Text = reader.GetString(2),
-                                Amount = reader.GetInt64(3),
-                                Balance = reader.GetInt64(4)
+                                Amount = reader.GetInt64(3)
                             };
                             ret.Add(booking);
                         }
@@ -291,14 +362,22 @@ namespace Bank
         {
             DirectoryInfo dirinfo = new DirectoryInfo(directory);
             string accountname = dirinfo.Name;
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "SELECT COUNT(*) FROM account WHERE name=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", accountname));
+                var obj = cmd.ExecuteScalar();
+                if (obj is long && ((long)obj) > 0)
+                {
+                    return;
+                }
+            }
             string guid = Guid.NewGuid().ToString();
             long accountid = 0;
             using (var cmd = new SQLiteCommand(con))
             {
-                cmd.CommandText = "INSERT INTO account VALUES(@p1, @p2, @p3)";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", guid));
-                cmd.Parameters.Add(new SQLiteParameter("@p2", accountname));
-                cmd.Parameters.Add(new SQLiteParameter("@p3", $"Migrated on {DateTime.Now.ToString()}"));
+                cmd.CommandText = "INSERT INTO account VALUES(@p1)";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", accountname));
                 cmd.ExecuteNonQuery();
                 accountid = con.LastInsertRowId;
             }
@@ -396,10 +475,20 @@ namespace Bank
             var allines = File.ReadAllLines(txtfile, Encoding.GetEncoding("ISO-8859-1"));
             using (var cmd = new SQLiteCommand(con))
             {
-                long money = (long)(Double.Parse(allines[0], ci.NumberFormat) * 100.0);
-                cmd.CommandText = "INSERT INTO booking VALUES(@p1, @p2, @p3, @p4, @p5)";
                 using (var transaction = con.BeginTransaction())
                 {
+                    long first = (long)(Double.Parse(allines[0], ci.NumberFormat) * 100.0);
+                    long last = (long)(Double.Parse(allines[1], ci.NumberFormat) * 100.0);
+                    cmd.CommandText = "INSERT INTO balance VALUES(@p1,@p2,@p3,@p4,@p5)";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", accountid));
+                    cmd.Parameters.Add(new SQLiteParameter("@p2", month));
+                    cmd.Parameters.Add(new SQLiteParameter("@p3", year));
+                    cmd.Parameters.Add(new SQLiteParameter("@p4", first));
+                    cmd.Parameters.Add(new SQLiteParameter("@p5", last));
+                    cmd.ExecuteNonQuery();
+                    var balanceid = con.LastInsertRowId;
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "INSERT INTO booking VALUES(@p1, @p2, @p3, @p4)";
                     for (int cnt = 2; cnt < allines.Length; cnt++)
                     {
                         int day = 0;
@@ -426,15 +515,15 @@ namespace Bank
                                 idx++;
                             }
                         }
-                        DateTime dt = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Local);
-                        DateTimeOffset dto = new DateTimeOffset(dt.ToUniversalTime());
-                        long datems = dto.ToUnixTimeMilliseconds();
-                        money += amount;
-                        cmd.Parameters.Add(new SQLiteParameter("@p1", accountid));
-                        cmd.Parameters.Add(new SQLiteParameter("@p2", datems));
+                        if (year <= 2001)
+                        {
+                            double am = Math.Round((amount / 100.0) * 0.511292 * 100.0);
+                            amount = Convert.ToInt64(am);
+                        }
+                        cmd.Parameters.Add(new SQLiteParameter("@p1", balanceid));
+                        cmd.Parameters.Add(new SQLiteParameter("@p2", day));
                         cmd.Parameters.Add(new SQLiteParameter("@p3", text));
                         cmd.Parameters.Add(new SQLiteParameter("@p4", amount));
-                        cmd.Parameters.Add(new SQLiteParameter("@p5", money));
                         cmd.ExecuteNonQuery();
                         cmd.Parameters.Clear();
                     }
