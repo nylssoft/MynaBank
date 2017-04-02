@@ -23,6 +23,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Bank
 {
@@ -72,56 +73,69 @@ namespace Bank
             }
         }
 
-        // actions
-
-        private void Init()
+        private void Command_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            Title = Properties.Resources.TITLE_BANK;
-            this.RestorePosition(
-                Properties.Settings.Default.Left,
-                Properties.Settings.Default.Top,
-                Properties.Settings.Default.Width,
-                Properties.Settings.Default.Height);
-            string filename = Properties.Settings.Default.DatabaseFile.ReplaceSpecialFolder();
-            FileInfo fi = new FileInfo(filename);
-            if (!fi.Directory.Exists)
+            RoutedUICommand r = e.Command as RoutedUICommand;
+            if (r == null) return;
+            Account account = comboBox?.SelectedItem as Account;
+            int selcount = (listView != null ? listView.SelectedItems.Count : 0);
+            switch (r.Name)
             {
-                PrepareDirectory(fi.Directory.FullName);
-            }
-            database.Open(filename);
-            accounts.Clear();
-            foreach (var account in database.GetAccounts())
-            {
-                accounts.Add(account);
+                case "New":
+                case "About":
+                case "ShowSettings":
+                case "Exit":
+                    e.CanExecute = true;
+                    break;
+                case "Add":
+                    e.CanExecute = account != null;
+                    break;
+                case "Edit":
+                    e.CanExecute = selcount == 1;
+                    break;
+                case "Remove":
+                    e.CanExecute = selcount >= 1;
+                    break;
+                default:
+                    break;
             }
         }
 
-        private void PrepareDirectory(string path)
+        private void Command_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            try
+            RoutedUICommand r = e.Command as RoutedUICommand;
+            if (r == null) return;
+            switch (r.Name)
             {
-                if (!string.IsNullOrEmpty(path))
-                {
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleError(ex);
+                case "Exit":
+                    Close();
+                    break;
+                case "New":
+                    //CreateRepository();
+                    break;
+                case "Add":
+                    //AddItemAsync();
+                    break;
+                case "Edit":
+                    //EditItem();
+                    break;
+                case "Remove":
+                    //RemoveItems();
+                    break;
+                case "About":
+                    //About();
+                    break;
+                case "ShowSettings":
+                    //ShowSettings();
+                    break;
+                default:
+                    break;
             }
         }
 
-        private void HandleError(Exception ex)
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show(
-                this,
-                string.Format(Properties.Resources.ERROR_OCCURRED_0, ex.Message),
-                Title,
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
+            UpdateStatus();
         }
 
         private void comboBoxAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -181,5 +195,88 @@ namespace Bank
                 HandleError(ex);
             }
         }
+
+        // actions
+
+        private void Init()
+        {
+            Title = Properties.Resources.TITLE_BANK;
+            this.RestorePosition(
+                Properties.Settings.Default.Left,
+                Properties.Settings.Default.Top,
+                Properties.Settings.Default.Width,
+                Properties.Settings.Default.Height);
+            string filename = Properties.Settings.Default.DatabaseFile.ReplaceSpecialFolder();
+            FileInfo fi = new FileInfo(filename);
+            if (!fi.Directory.Exists)
+            {
+                PrepareDirectory(fi.Directory.FullName);
+            }
+            database.Open(filename);
+            accounts.Clear();
+            foreach (var account in database.GetAccounts())
+            {
+                accounts.Add(account);
+            }
+        }
+
+        private void UpdateStatus()
+        {
+            int selected = listView.SelectedItems.Count;
+            int total = listView.Items.Count;
+            string status = string.Empty;
+            if (selected > 0)
+            {
+                if (total == 1)
+                {
+                    status = Properties.Resources.SELECTED_ONE;
+                }
+                else
+                {
+                    status = string.Format(Properties.Resources.SELECTED_0_OF_1, selected, total);
+                }
+            }
+            else if (total > 0)
+            {
+                if (total == 1)
+                {
+                    status = Properties.Resources.TOTAL_ONE;
+                }
+                else
+                {
+                    status = string.Format(Properties.Resources.TOTAL_0, total);
+                }
+            }
+            textBlockStatus.Text = status;
+        }
+
+        private void PrepareDirectory(string path)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void HandleError(Exception ex)
+        {
+            MessageBox.Show(
+                this,
+                string.Format(Properties.Resources.ERROR_OCCURRED_0, ex.Message),
+                Title,
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+
     }
 }

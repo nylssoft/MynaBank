@@ -68,6 +68,7 @@
     <Compile Include="Balance.cs" />
     <Compile Include="Booking.cs" />
     <Compile Include="CurrencyConverter.cs" />
+    <Compile Include="CustomCommands.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\Resources.de.Designer.cs">
