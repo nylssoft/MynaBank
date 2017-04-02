@@ -143,29 +143,7 @@ namespace Bank
         {
             try
             {
-                var account = comboBox.SelectedItem as Account;
-                if (account == null) return;
-                balances.Clear();
-                foreach (var balance in database.GetBalances(account))
-                {
-                    balances.Add(balance);
-                }
-                if (balances.Count > 0)
-                {
-                    var minidx = 0;
-                    var maxidx = balances.Count - 1;
-                    DateTime dtFirst = new DateTime(balances[minidx].Year, balances[maxidx].Month, 1);
-                    DateTime dtLast = new DateTime(balances[maxidx].Year, balances[maxidx].Month, 1);
-                    textBlockFirst.Text = $"{dtFirst:y}";
-                    textBlockLast.Text = $"{dtLast:y}"; ;
-                    slider.Minimum = 0;
-                    slider.Maximum = maxidx;
-                    slider.TickFrequency = 1;
-                    slider.Value = 0;
-                    slider.IsSnapToTickEnabled = true;
-                    slider.Visibility = Visibility.Visible;
-                    SliderValue_Changed(null, null);
-                }
+                ShowAccount();
             }
             catch (Exception ex)
             {
@@ -175,21 +153,12 @@ namespace Bank
 
         private void SliderValue_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            int cnt = (int)slider.Value;
-            if (cnt < 0 || cnt >= balances.Count) return;
-            var balance = balances[balances.Count - cnt - 1];
-            DateTime dt = new DateTime(balance.Year, balance.Month, 1);
-            textBlockCurrent.Text = string.Format(Properties.Resources.TEXT_CURRENT_BALANCE_0, $"{dt:y}");
             try
             {
-                bookings.Clear();
-                long currentBalance = balance.First;
-                foreach (var booking in database.GetBookings(balance))
-                {
-                    currentBalance += booking.Amount;
-                    booking.CurrentBalance = currentBalance;
-                    bookings.Add(booking);
-                }
+                int cnt = (int)slider.Value;
+                if (cnt < 0 || cnt >= balances.Count) return;
+                var balance = balances[balances.Count - cnt - 1];
+                ShowBalance(balance);
             }
             catch (Exception ex)
             {
@@ -250,11 +219,12 @@ namespace Bank
                 defaultbooking.Text = "Test";
                 defaultbooking.Amount = 33300;
                 database.InsertDefaultBooking(defaultbooking);
-
+                /*
                 long first = 0;
                 DateTime now = DateTime.Now;            
                 var balance = database.CreateBalance(account, now.Month, now.Year, first, first);
                 comboBox.SelectedItem = account;
+                */
             }
             catch (Exception ex)
             {
@@ -266,6 +236,14 @@ namespace Bank
         {
             try
             {
+                if (balances.Count == 0)
+                {
+                    var account = comboBox.SelectedItem as Account;
+                    if (account == null) return;
+                    database.CreateBalance(account, 7, 2017, 0, 0);
+                    ShowAccount();
+                    return;
+                }
                 int cnt = (int)slider.Value;
                 if (cnt < 0 || cnt >= balances.Count) return;
                 var balance = balances[balances.Count - cnt - 1];
@@ -278,6 +256,48 @@ namespace Bank
                 HandleError(ex);
             }
         }
+
+        private void ShowAccount()
+        {
+            var account = comboBox.SelectedItem as Account;
+            if (account == null) return;
+            balances.Clear();
+            foreach (var balance in database.GetBalances(account))
+            {
+                balances.Add(balance);
+            }
+            if (balances.Count > 0)
+            {
+                var minidx = 0;
+                var maxidx = balances.Count - 1;
+                DateTime dtFirst = new DateTime(balances[minidx].Year, balances[minidx].Month, 1);
+                DateTime dtLast = new DateTime(balances[maxidx].Year, balances[maxidx].Month, 1);
+                textBlockFirst.Text = $"{dtFirst:y}";
+                textBlockLast.Text = $"{dtLast:y}"; ;
+                slider.Minimum = 0;
+                slider.Maximum = maxidx;
+                slider.TickFrequency = 1;
+                slider.Value = 0;
+                slider.IsSnapToTickEnabled = true;
+                slider.Visibility = Visibility.Visible;
+                ShowBalance(balances[maxidx]);
+            }
+        }
+
+        private void ShowBalance(Balance balance)
+        {
+            DateTime dt = new DateTime(balance.Year, balance.Month, 1);
+            textBlockCurrent.Text = string.Format(Properties.Resources.TEXT_CURRENT_BALANCE_0, $"{dt:y}");
+            bookings.Clear();
+            long currentBalance = balance.First;
+            foreach (var booking in database.GetBookings(balance))
+            {
+                currentBalance += booking.Amount;
+                booking.CurrentBalance = currentBalance;
+                bookings.Add(booking);
+            }
+        }
+
         private void UpdateBooking()
         {
             try
