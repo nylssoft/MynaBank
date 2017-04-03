@@ -48,7 +48,7 @@ namespace Bank
             {
                 cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS account " +
-                    "(name TEXT);";
+                    "(name TEXT NOT NULL);";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS balance " +
@@ -144,6 +144,51 @@ namespace Bank
             }
         }
 
+        public Balance GetBalance(Account account, int month, int year, bool create)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "SELECT rowid, first, last FROM balance WHERE accountid=@p1 AND month=@p2 AND year=@p3";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", month));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", year));
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows && reader.Read())
+                    {
+                        return new Balance()
+                        {
+                            Id = reader.GetInt64(0),
+                            Account = account,
+                            Month = month,
+                            Year = year,
+                            First = reader.GetInt64(1),
+                            Last = reader.GetInt64(2)
+                        };
+                    }
+                }
+                if (create)
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT last FROM balance WHERE" +
+                        " accountid=@p1 AND (year=@p3 AND month<@p2 OR year<@p3)"+
+                        " ORDER BY year DESC, month DESC";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                    cmd.Parameters.Add(new SQLiteParameter("@p2", month));
+                    cmd.Parameters.Add(new SQLiteParameter("@p3", year));
+                    long last = 0L;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows && reader.Read())
+                        {
+                            last = reader.GetInt64(0);
+                        }
+                    }
+                    return CreateBalance(account, month, year, last, last);
+                }
+                return null;
+            }
+        }
         public Balance CreateBalance(Account account, int month, int year, long first, long last)
         {
             var defaultbookings = GetDefaultBookings(account);
@@ -176,6 +221,24 @@ namespace Bank
                 }
                 trans.Commit();
                 return ret;
+            }
+        }
+
+        public void DeleteBalance(Balance balance)
+        {
+            using (var trans = con.BeginTransaction())
+            {
+                using (var cmd = new SQLiteCommand(con))
+                {
+                    cmd.CommandText = "DELETE FROM booking WHERE balanceid=@p1";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", balance.Id));
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "DELETE FROM balance WHERE rowid=@p1";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", balance.Id));
+                    cmd.ExecuteNonQuery();
+                }
+                trans.Commit();
             }
         }
 
@@ -235,7 +298,7 @@ namespace Bank
             }
         }
 
-        public void UpdateBalance(Balance balance)
+        public void UpdateBalance(Balance balance, long change)
         {
             using (var cmd = new SQLiteCommand(con))
             {
@@ -243,6 +306,15 @@ namespace Bank
                 cmd.Parameters.Add(new SQLiteParameter("@p1", balance.Id));
                 cmd.Parameters.Add(new SQLiteParameter("@p2", balance.First));
                 cmd.Parameters.Add(new SQLiteParameter("@p3", balance.Last));
+                cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                cmd.CommandText =
+                    "UPDATE balance SET first=first+@p4, last=last+@p4"+
+                    " WHERE accountid=@p1 AND (year=@p2 AND month>@p3 OR year>@p2)";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", balance.Account.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", balance.Year));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", balance.Month));
+                cmd.Parameters.Add(new SQLiteParameter("@p4", change));
                 cmd.ExecuteNonQuery();
             }
         }
@@ -262,7 +334,7 @@ namespace Bank
                     cmd.ExecuteNonQuery();
                     ret.Id = con.LastInsertRowId;
                     balance.Last += amount;
-                    UpdateBalance(balance);
+                    UpdateBalance(balance, amount);
                     ret.Balance = balance;
                     ret.Day = day;
                     ret.Text = text;
@@ -312,9 +384,10 @@ namespace Bank
                     cmd.ExecuteNonQuery();
                 }
                 if (oldBooking.Amount != booking.Amount)
-                {                    
-                    booking.Balance.Last += (booking.Amount - oldBooking.Amount);
-                    UpdateBalance(booking.Balance);
+                {
+                    var amount = (booking.Amount - oldBooking.Amount);
+                    booking.Balance.Last += amount;
+                    UpdateBalance(booking.Balance, amount);
                 }
                 trans.Commit();
             }
@@ -332,7 +405,7 @@ namespace Bank
                 }
                 var balance = booking.Balance;
                 balance.Last -= booking.Amount;
-                UpdateBalance(balance);
+                UpdateBalance(balance, -booking.Amount);
                 trans.Commit();
             }
         }

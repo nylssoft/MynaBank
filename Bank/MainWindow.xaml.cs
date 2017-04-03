@@ -82,14 +82,18 @@ namespace Bank
             int selcount = (listView != null ? listView.SelectedItems.Count : 0);
             switch (r.Name)
             {
-                case "New":
+                case "CreateAccount":
                 case "About":
                 case "ShowSettings":
                 case "Exit":
                     e.CanExecute = true;
                     break;
                 case "Add":
+                case "DeleteAccount":
                     e.CanExecute = account != null;
+                    break;
+                case "DeleteSheet":
+                    e.CanExecute = balances.Count > 0;
                     break;
                 case "Edit":
                     e.CanExecute = selcount == 1;
@@ -111,8 +115,14 @@ namespace Bank
                 case "Exit":
                     Close();
                     break;
-                case "New":
+                case "CreateAccount":
                     CreateAccount();
+                    break;
+                case "DeleteAccount":
+                    DeleteAccount();
+                    break;
+                case "DeleteSheet":
+                    DeleteSheet();
                     break;
                 case "Add":
                     InsertBooking();
@@ -143,7 +153,7 @@ namespace Bank
         {
             try
             {
-                ShowAccount();
+                ShowAccount(null);
             }
             catch (Exception ex)
             {
@@ -155,10 +165,7 @@ namespace Bank
         {
             try
             {
-                int cnt = (int)slider.Value;
-                if (cnt < 0 || cnt >= balances.Count) return;
-                var balance = balances[balances.Count - cnt - 1];
-                ShowBalance(balance);
+                ShowBalance(CurrentBalance);
             }
             catch (Exception ex)
             {
@@ -190,41 +197,97 @@ namespace Bank
             }
             var view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
             view.SortDescriptions.Add(new SortDescription("Day", ListSortDirection.Ascending));
+            view.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
+        }
+
+        private Balance CurrentBalance
+        {
+            get
+            {
+                int cnt = (int)slider.Value;
+                if (cnt < 0 || cnt >= balances.Count) return null;
+                var balance = balances[balances.Count - cnt - 1];
+                return balance;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    slider.Value = 0;
+                }
+                else
+                {
+                    int idx = 0;
+                    foreach (var b in balances)
+                    {
+                        if (b.Year == value.Year && b.Month == value.Month)
+                        {
+                            break;
+                        }
+                        idx++;
+                    }
+                    slider.Value = balances.Count - idx - 1;
+                }
+            }
         }
 
         private void CreateAccount()
         {
             try
             {
-                var del = new List<Account>();
-                foreach (var acc in accounts)
+                var wnd = new PrepareWindow();
+                if (wnd.ShowDialog() == true)
                 {
-                    if (acc.Name == "test")
-                    {
-                        del.Add(acc);
-                    }
+                    var account = database.CreateAccount(wnd.AccountName);
+                    accounts.Add(account);
+                    comboBox.SelectedItem = account;
                 }
-                foreach (var d in del)
-                {
-                    database.DeleteAccount(d);
-                    accounts.Remove(d);
-                }
-                var account = database.CreateAccount("test");
-                accounts.Add(account);
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
 
-                var defaultbooking = new DefaultBooking();
-                defaultbooking.Account = account;
-                defaultbooking.Monthmask = 1;
-                defaultbooking.Day = 17;
-                defaultbooking.Text = "Test";
-                defaultbooking.Amount = 33300;
-                database.InsertDefaultBooking(defaultbooking);
-                /*
-                long first = 0;
-                DateTime now = DateTime.Now;            
-                var balance = database.CreateBalance(account, now.Month, now.Year, first, first);
-                comboBox.SelectedItem = account;
-                */
+        private void DeleteAccount()
+        {
+            try
+            {
+                var account = comboBox.SelectedItem as Account;
+                if (account == null) return;
+                if (MessageBox.Show(
+                    $"Wollen Sie das Konto '{account.Name}' wirklich löschen?",
+                    Title,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    database.DeleteAccount(account);
+                    accounts.Remove(account);
+                    ShowAccount(null);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void DeleteSheet()
+        {
+            try
+            {
+                var current = CurrentBalance;
+                if (current == null) return;
+                DateTime dt = new DateTime(current.Year, current.Month, 1);
+                if (MessageBox.Show(
+                    $"Wollen Sie den Kontoauszug für {dt:y} wirklich löschen?",
+                    Title,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    database.DeleteBalance(current);
+                    ShowAccount(null);
+                }
             }
             catch (Exception ex)
             {
@@ -236,20 +299,21 @@ namespace Bank
         {
             try
             {
-                if (balances.Count == 0)
+                var account = comboBox.SelectedItem as Account;
+                if (account == null) return;
+                var current = CurrentBalance;
+                DateTime dt = DateTime.Now;
+                if (current != null)
                 {
-                    var account = comboBox.SelectedItem as Account;
-                    if (account == null) return;
-                    database.CreateBalance(account, 7, 2017, 0, 0);
-                    ShowAccount();
-                    return;
+                    dt = new DateTime(current.Year, current.Month, 1);
                 }
-                int cnt = (int)slider.Value;
-                if (cnt < 0 || cnt >= balances.Count) return;
-                var balance = balances[balances.Count - cnt - 1];
-                bookings.Add(database.CreateBooking(balance, 14, "Miete3", 80000));
-                bookings.Add(database.CreateBooking(balance, 7, "Miete4", 80000));
-                
+                var wnd = new EditWindow(dt);
+                if (wnd.ShowDialog() == true)
+                {
+                    var balance = database.GetBalance(account, wnd.Month, wnd.Year, true /* create */);
+                    database.CreateBooking(balance, wnd.Booking.Day, wnd.Booking.Text, wnd.Booking.Amount);
+                    ShowAccount(balance);
+                }
             }
             catch (Exception ex)
             {
@@ -257,14 +321,16 @@ namespace Bank
             }
         }
 
-        private void ShowAccount()
+        private void ShowAccount(Balance current)
         {
-            var account = comboBox.SelectedItem as Account;
-            if (account == null) return;
             balances.Clear();
-            foreach (var balance in database.GetBalances(account))
+            var account = comboBox.SelectedItem as Account;
+            if (account != null)
             {
-                balances.Add(balance);
+                foreach (var balance in database.GetBalances(account))
+                {
+                    balances.Add(balance);
+                }
             }
             if (balances.Count > 0)
             {
@@ -277,24 +343,39 @@ namespace Bank
                 slider.Minimum = 0;
                 slider.Maximum = maxidx;
                 slider.TickFrequency = 1;
-                slider.Value = 0;
                 slider.IsSnapToTickEnabled = true;
                 slider.Visibility = Visibility.Visible;
-                ShowBalance(balances[maxidx]);
+                if (current == null)
+                {
+                    current = balances[balances.Count - 1];
+                }
+                CurrentBalance = current;
             }
+            else
+            {
+                slider.Maximum = 0;
+                slider.Visibility = Visibility.Hidden;
+                textBlockCurrent.Text = "";
+                textBlockFirst.Text = "";
+                textBlockLast.Text = "";
+            }
+            ShowBalance(CurrentBalance);
         }
 
         private void ShowBalance(Balance balance)
         {
-            DateTime dt = new DateTime(balance.Year, balance.Month, 1);
-            textBlockCurrent.Text = string.Format(Properties.Resources.TEXT_CURRENT_BALANCE_0, $"{dt:y}");
             bookings.Clear();
-            long currentBalance = balance.First;
-            foreach (var booking in database.GetBookings(balance))
+            if (balance != null)
             {
-                currentBalance += booking.Amount;
-                booking.CurrentBalance = currentBalance;
-                bookings.Add(booking);
+                DateTime dt = new DateTime(balance.Year, balance.Month, 1);
+                textBlockCurrent.Text = string.Format(Properties.Resources.TEXT_CURRENT_BALANCE_0, $"{dt:y}");
+                long currentBalance = balance.First;
+                foreach (var booking in database.GetBookings(balance))
+                {
+                    currentBalance += booking.Amount;
+                    booking.CurrentBalance = currentBalance;
+                    bookings.Add(booking);
+                }
             }
         }
 
@@ -307,6 +388,7 @@ namespace Bank
                 booking.Text = "Miete2";
                 booking.Amount = 100000;
                 database.UpdateBooking(booking);
+                ShowAccount(CurrentBalance);
             }
             catch (Exception ex)
             {
@@ -318,15 +400,21 @@ namespace Bank
         {
             try
             {
-                var del = new List<Booking>();
-                foreach (Booking booking in listView.SelectedItems)
+                if (MessageBox.Show(
+                    $"Wollen Sie die ausgewählten Buchungen wirklich löschen?",
+                    Title, MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    del.Add(booking);
-                }
-                foreach (var d in del)
-                {
-                    database.DeleteBooking(d);
-                    bookings.Remove(d);
+                    var del = new List<Booking>();
+                    foreach (Booking booking in listView.SelectedItems)
+                    {
+                        del.Add(booking);
+                    }
+                    foreach (var d in del)
+                    {
+                        database.DeleteBooking(d);
+                    }
+                    ShowAccount(CurrentBalance);
                 }
             }
             catch (Exception ex)

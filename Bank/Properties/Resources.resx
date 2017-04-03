@@ -135,8 +135,17 @@
   <data name="CMD_CLOSE" xml:space="preserve">
     <value>_Close</value>
   </data>
+  <data name="CMD_CREATE_ACCOUNT" xml:space="preserve">
+    <value>Create new account...</value>
+  </data>
   <data name="CMD_DELETE" xml:space="preserve">
     <value>_Remove</value>
+  </data>
+  <data name="CMD_DELETE_ACCOUNT" xml:space="preserve">
+    <value>Delete account...</value>
+  </data>
+  <data name="CMD_DELETE_SHEET" xml:space="preserve">
+    <value>Delete account sheet...</value>
   </data>
   <data name="CMD_EDIT" xml:space="preserve">
     <value>_Edit...</value>

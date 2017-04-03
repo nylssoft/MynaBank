@@ -9,12 +9,23 @@ namespace Bank
 {
     public class CustomCommands
     {
-        public static readonly RoutedUICommand New =
+        public static readonly RoutedUICommand CreateAccount =
             new RoutedUICommand(
-            Properties.Resources.CMD_NEW,
-            "New",
-            typeof(CustomCommands),
-            new InputGestureCollection() { new KeyGesture(Key.N, ModifierKeys.Control) });
+            Properties.Resources.CMD_CREATE_ACCOUNT,
+            "CreateAccount",
+            typeof(CustomCommands));
+
+        public static readonly RoutedUICommand DeleteAccount =
+            new RoutedUICommand(
+            Properties.Resources.CMD_DELETE_ACCOUNT,
+            "DeleteAccount",
+            typeof(CustomCommands));
+
+        public static readonly RoutedUICommand DeleteSheet =
+            new RoutedUICommand(
+            Properties.Resources.CMD_DELETE_SHEET,
+            "DeleteSheet",
+            typeof(CustomCommands));
 
         public static readonly RoutedUICommand Exit =
             new RoutedUICommand(

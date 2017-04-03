@@ -22,12 +22,6 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="2" Grid.Column="0" Content="Tag:" />
-        <TextBox Grid.Row="2" Grid.Column="1" Width="50" Margin="0,2,0,2" HorizontalAlignment="Left" MaxLength="3"/>
-        <Label Grid.Row="3" Grid.Column="0" Content="Text:"/>
-        <TextBox Grid.Row="3" Grid.Column="1" MaxLength="256" Margin="0,2,0,2"/>
-        <Label Grid.Row="4" Grid.Column="0" Content="Betrag:" />
-        <TextBox Grid.Row="4" Grid.Column="1" Width="100"  Margin="0,2,0,2" HorizontalAlignment="Left" MaxLength="10"/>
         <Grid Grid.Row="0" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -36,13 +30,16 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label Content="Monat:" />
-            <ComboBox Grid.Column="1" Width="100" HorizontalAlignment="Left">
-                <ComboBoxItem IsSelected="True">Januar</ComboBoxItem>
-                <ComboBoxItem>Februar</ComboBoxItem>
-            </ComboBox>
+            <TextBox x:Name="textBoxMonth" Grid.Column="1" Width="100" HorizontalAlignment="Left" />
             <Label Grid.Column="2" Content="Jahr:" />
-            <TextBox Grid.Column="3" Width="100"  Margin="0,2,0,2" HorizontalAlignment="Left" MaxLength="10"/>
+            <TextBox x:Name="textBoxYear" Grid.Column="3" Width="100"  Margin="0,2,0,2" HorizontalAlignment="Left" MaxLength="10"/>
         </Grid>
+        <Label Grid.Row="2" Grid.Column="0" Content="Tag:" />
+        <TextBox x:Name="textBoxDay" Grid.Row="2" Grid.Column="1" Width="50" Margin="0,2,0,2" HorizontalAlignment="Left" MaxLength="3"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="Text:"/>
+        <TextBox x:Name="textBoxText" Grid.Row="3" Grid.Column="1" MaxLength="256" Margin="0,2,0,2"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="Betrag:" />
+        <TextBox x:Name="textBoxAmount" Grid.Row="4" Grid.Column="1" Width="100"  Margin="0,2,0,2" HorizontalAlignment="Left" MaxLength="10"/>
         <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="buttonOK" IsDefault="True" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
             <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />

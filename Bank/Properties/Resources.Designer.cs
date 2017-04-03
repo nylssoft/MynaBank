@@ -115,11 +115,38 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Create new account... ähnelt.
+        /// </summary>
+        public static string CMD_CREATE_ACCOUNT {
+            get {
+                return ResourceManager.GetString("CMD_CREATE_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Remove ähnelt.
         /// </summary>
         public static string CMD_DELETE {
             get {
                 return ResourceManager.GetString("CMD_DELETE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete account... ähnelt.
+        /// </summary>
+        public static string CMD_DELETE_ACCOUNT {
+            get {
+                return ResourceManager.GetString("CMD_DELETE_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete account sheet... ähnelt.
+        /// </summary>
+        public static string CMD_DELETE_SHEET {
+            get {
+                return ResourceManager.GetString("CMD_DELETE_SHEET", resourceCulture);
             }
         }
         

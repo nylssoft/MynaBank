@@ -20,7 +20,9 @@
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="self:CustomCommands.New" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.CreateAccount" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.DeleteAccount" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.DeleteSheet" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Exit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Add" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Edit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
@@ -38,11 +40,14 @@
                 </Grid.RowDefinitions>
                 <Menu Grid.Row="0" KeyboardNavigation.TabIndex="0">
                     <MenuItem Header="{x:Static props:Resources.MENUITEM_FILE}">
-                        <MenuItem Command="self:CustomCommands.New">
+                        <MenuItem Command="self:CustomCommands.CreateAccount">
                             <MenuItem.Icon>
                                 <Image Source="Images/16x16/document-new-6.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                             </MenuItem.Icon>
                         </MenuItem>
+                        <MenuItem Command="self:CustomCommands.DeleteAccount" />
+                        <Separator />
+                        <MenuItem Command="self:CustomCommands.DeleteSheet" />
                         <Separator />
                         <MenuItem Command="self:CustomCommands.ShowSettings" />
                         <Separator />
@@ -78,11 +83,6 @@
                     </MenuItem>
                 </Menu>
                 <ToolBarTray Grid.Row="1" KeyboardNavigation.TabIndex="1">
-                    <ToolBar KeyboardNavigation.TabNavigation="Continue">
-                        <Button Command="self:CustomCommands.New" ToolTip="{x:Static props:Resources.TOOLTIP_NEW}">
-                            <Image Source="Images/32x32/document-new-6.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
-                        </Button>
-                    </ToolBar>
                     <ToolBar KeyboardNavigation.TabNavigation="Continue">
                         <Button Command="self:CustomCommands.Add" ToolTip="{x:Static props:Resources.TOOLTIP_ADD}">
                             <Image Source="Images/32x32/list-add-4.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
