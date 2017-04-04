@@ -8,22 +8,24 @@
         mc:Ignorable="d"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
         Icon="Images/logo.png"
-        Height="150" Width="400">
+        ResizeMode="NoResize"
+        Height="170" Width="420">
     <Grid>
         <Grid Margin="5,5,5,5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Margin="5,0,0,0" x:Name="textBlockInfo" Grid.Row="0" Grid.ColumnSpan="2" Text="Geben Sie den Kontostand vor dem 1.1.2017 an." />
-            <Label Grid.Row="1" Grid.Column="0" Content="Kontostand:" />
-            <TextBox x:Name="textBoxFirst" Margin="0,3,0,0" Grid.Row="1" Height="23" VerticalAlignment="Top" Grid.Column="1" Width="100" MaxLength="10" HorizontalAlignment="Left"/>
-            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock Margin="5,0,0,0" x:Name="textBlockInfo" TextWrapping="Wrap" Grid.Row="0" Grid.ColumnSpan="2" />
+            <Label Grid.Row="1" Grid.Column="0" Content="{x:Static props:Resources.LABEL_BALANCE}" Target="{Binding ElementName=textBoxFirst}"/>
+            <TextBox x:Name="textBoxFirst" Grid.Row="1" Grid.Column="1" Height="23" Width="100" MaxLength="10" HorizontalAlignment="Left"/>
+            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="buttonOK" IsDefault="True" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
                 <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
             </StackPanel>

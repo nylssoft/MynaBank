@@ -66,11 +66,5 @@ namespace Bank
             Properties.Resources.CMD_ABOUT,
             "About",
             typeof(CustomCommands));
-
-        public static readonly RoutedUICommand ShowSettings =
-            new RoutedUICommand(
-            Properties.Resources.CMD_SETTINGS,
-            "ShowSettings",
-            typeof(CustomCommands));
     }
 }

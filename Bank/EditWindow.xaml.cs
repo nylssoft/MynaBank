@@ -1,16 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+    Myna Bank
+    Copyright (C) 2017 Niels Stockfleth
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Bank
 {
@@ -22,13 +29,13 @@ namespace Bank
         public string Text { get; private set; }
         public long Amount { get; private set; }
 
-        public EditWindow(DateTime dt, Booking booking)
+        public EditWindow(Window owner, string title, DateTime dt, Booking booking)
         {
+            Owner = owner;
+            Title = title;
             InitializeComponent();
             textBoxMonth.Text = Convert.ToString(dt.Month);
             textBoxYear.Text = Convert.ToString(dt.Year);
-            textBoxDay.Text = Convert.ToString(DateTime.Now.Day);
-            textBoxAmount.Text = CurrencyConverter.ConvertToInputString(0);
             if (booking != null)
             {
                 textBoxMonth.IsEnabled = false;
@@ -38,6 +45,35 @@ namespace Bank
                 textBoxAmount.Text = CurrencyConverter.ConvertToInputString(booking.Amount);
             }
             textBoxDay.Focus();
+            UpdateControls();
+        }
+
+        private void UpdateControls()
+        {
+            bool ok = false;
+            try
+            {
+                if (!string.IsNullOrEmpty(textBoxYear.Text) &&
+                    !string.IsNullOrEmpty(textBoxMonth.Text) &&
+                    !string.IsNullOrEmpty(textBoxDay.Text) &&
+                    !string.IsNullOrEmpty(textBoxText.Text) &&
+                    !string.IsNullOrEmpty(textBoxAmount.Text))
+                {
+                    new DateTime(Convert.ToInt32(textBoxYear.Text), Convert.ToInt32(textBoxMonth.Text), Convert.ToInt32(textBoxDay.Text));
+                    CurrencyConverter.ParseCurrency(textBoxAmount.Text);
+                    ok = true;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+            buttonOK.IsEnabled = ok;
+        }
+
+        private void TextBox_Changed(object sender, TextChangedEventArgs e)
+        {
+            UpdateControls();
         }
 
         private void ButtonOK_Click(object sender, RoutedEventArgs e)
@@ -55,7 +91,7 @@ namespace Bank
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(string.Format(Properties.Resources.ERROR_OCCURRED_0, ex.Message), Title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

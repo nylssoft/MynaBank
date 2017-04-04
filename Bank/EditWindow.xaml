@@ -7,39 +7,38 @@
         xmlns:props="clr-namespace:Bank.Properties"
         mc:Ignorable="d"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-        Height="250" Width="450" MinHeight="250" MinWidth="300" Icon="Images/logo.png">
+        Height="250" Width="450" ResizeMode="NoResize" Icon="Images/logo.png">
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+        <Label Grid.Row="0" Content="{x:Static props:Resources.LABEL_MONTH}" Target="{Binding ElementName=textBoxMonth}"/>
+        <Grid Grid.Row="0" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Content="Monat:" />
-            <TextBox x:Name="textBoxMonth" Grid.Column="1" Width="100" HorizontalAlignment="Left" />
-            <Label Grid.Column="2" Content="Jahr:" />
-            <TextBox x:Name="textBoxYear" Grid.Column="3" Width="100"  Margin="0,2,0,2" HorizontalAlignment="Left" MaxLength="10"/>
+            <TextBox x:Name="textBoxMonth" Grid.Column="0" Width="40" Height="23" HorizontalAlignment="Left" MaxLength="2" TextChanged="TextBox_Changed"/>
+            <Label Grid.Column="1" Content="{x:Static props:Resources.LABEL_YEAR}" Target="{Binding ElementName=textBoxYear}" />
+            <TextBox x:Name="textBoxYear" Grid.Column="2" Width="60" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_Changed"/>
         </Grid>
-        <Label Grid.Row="2" Grid.Column="0" Content="Tag:" />
-        <TextBox x:Name="textBoxDay" Grid.Row="2" Grid.Column="1" Width="50" Margin="0,2,0,2" HorizontalAlignment="Left" MaxLength="3"/>
-        <Label Grid.Row="3" Grid.Column="0" Content="Text:"/>
-        <TextBox x:Name="textBoxText" Grid.Row="3" Grid.Column="1" MaxLength="256" Margin="0,2,0,2"/>
-        <Label Grid.Row="4" Grid.Column="0" Content="Betrag:" />
-        <TextBox x:Name="textBoxAmount" Grid.Row="4" Grid.Column="1" Width="100"  Margin="0,2,0,2" HorizontalAlignment="Left" MaxLength="10"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="{x:Static props:Resources.LABEL_DAY}" Target="{Binding ElementName=textBoxDay}"/>
+        <TextBox x:Name="textBoxDay" Grid.Row="2" Grid.Column="1" Width="40" Height="23" HorizontalAlignment="Left" MaxLength="2" TextChanged="TextBox_Changed"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="{x:Static props:Resources.LABEL_TEXT}" Target="{Binding ElementName=textBoxText}"/>
+        <TextBox x:Name="textBoxText" Grid.Row="3" Grid.Column="1" Height="23" MaxLength="200" Margin="0,0,5,0" TextChanged="TextBox_Changed"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="{x:Static props:Resources.LABEL_AMOUNT}" Target="{Binding ElementName=textBoxAmount}"/>
+        <TextBox x:Name="textBoxAmount" Grid.Row="4" Grid.Column="1" Width="100" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_Changed"/>
         <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="buttonOK" IsDefault="True" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
             <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />

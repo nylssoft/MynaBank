@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -89,7 +88,6 @@ namespace Bank
             {
                 case "CreateAccount":
                 case "About":
-                case "ShowSettings":
                 case "Exit":
                     e.CanExecute = true;
                     break;
@@ -147,9 +145,6 @@ namespace Bank
                 case "About":
                     //About();
                     break;
-                case "ShowSettings":
-                    //ShowSettings();
-                    break;
                 default:
                     break;
             }
@@ -160,11 +155,28 @@ namespace Bank
             UpdateStatus();
         }
 
+        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var mousePosition = e.GetPosition(listView);
+            var lvitem = listView.GetItemAt(mousePosition);
+            if (lvitem != null)
+            {
+                UpdateBooking(lvitem.Content as Booking);
+            }
+        }
+
         private void ComboBoxAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
                 ShowAccount(null);
+                /*
+                listView.Focus();
+                if (bookings.Count > 0)
+                {
+                    listView.SelectedIndex = 0;
+                }
+                */
             }
             catch (Exception ex)
             {
@@ -246,7 +258,7 @@ namespace Bank
         {
             try
             {
-                var wnd = new PrepareWindow();
+                var wnd = new PrepareWindow(this, Properties.Resources.TITLE_NEW);
                 if (wnd.ShowDialog() == true)
                 {
                     var account = database.CreateAccount(wnd.AccountName);
@@ -267,7 +279,7 @@ namespace Bank
                 var account = comboBox.SelectedItem as Account;
                 if (account == null) return;
                 if (MessageBox.Show(
-                    $"Wollen Sie das Konto '{account.Name}' wirklich löschen?",
+                    string.Format(Properties.Resources.QUESTION_DELETE_ACCOUNT_0, account.Name),
                     Title,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -291,7 +303,7 @@ namespace Bank
                 if (current == null) return;
                 DateTime dt = new DateTime(current.Year, current.Month, 1);
                 if (MessageBox.Show(
-                    $"Wollen Sie den Kontoauszug für {dt:y} wirklich löschen?",
+                    string.Format(Properties.Resources.QUESTION_DELETE_SHEET_0, $"{dt:y}"),
                     Title,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -313,7 +325,7 @@ namespace Bank
                 var current = CurrentBalance;
                 if (current == null) return;
                 long old = current.First;
-                var wnd = new UpdateBalanceWindow(current);
+                var wnd = new UpdateBalanceWindow(this, Properties.Resources.TITLE_UPDATE_BALANCE, current);
                 if (wnd.ShowDialog() == true)
                 {
                     long change = wnd.First - old;
@@ -344,7 +356,7 @@ namespace Bank
                 {
                     dt = new DateTime(current.Year, current.Month, 1);
                 }
-                var wnd = new EditWindow(dt, null);
+                var wnd = new EditWindow(this, Properties.Resources.TITLE_ADD, dt, null);
                 if (wnd.ShowDialog() == true)
                 {
                     var balance = database.GetBalance(account, wnd.Month, wnd.Year, true /* create */);
@@ -361,40 +373,35 @@ namespace Bank
         private void ShowAccount(Balance current)
         {
             balances.Clear();
-            var account = comboBox.SelectedItem as Account;
-            if (account != null)
+            if (comboBox.SelectedItem is Account account)
             {
                 foreach (var balance in database.GetBalances(account))
                 {
                     balances.Add(balance);
                 }
             }
-            if (balances.Count > 0)
+            if (balances.Count > 1)
             {
-                var minidx = 0;
-                var maxidx = balances.Count - 1;
-                DateTime dtFirst = new DateTime(balances[minidx].Year, balances[minidx].Month, 1);
-                DateTime dtLast = new DateTime(balances[maxidx].Year, balances[maxidx].Month, 1);
-                textBlockFirst.Text = $"{dtFirst:y}";
-                textBlockLast.Text = $"{dtLast:y}"; ;
                 slider.Minimum = 0;
-                slider.Maximum = maxidx;
+                slider.Maximum = balances.Count - 1;
                 slider.TickFrequency = 1;
                 slider.IsSnapToTickEnabled = true;
                 slider.Visibility = Visibility.Visible;
-                if (current == null)
-                {
-                    current = balances[balances.Count - 1];
-                }
-                CurrentBalance = current;
+                slider.Width = 100;
             }
             else
             {
                 slider.Maximum = 0;
                 slider.Visibility = Visibility.Hidden;
+                slider.Width = 0;
                 textBlockCurrent.Text = "";
-                textBlockFirst.Text = "";
-                textBlockLast.Text = "";
+                textBlockCurrent.Width = 0;
+            }
+            CurrentBalance = null;
+            if (balances.Count > 0)
+            {
+                textBlockCurrent.Width = 100;
+                CurrentBalance = balances[balances.Count - 1];
             }
             ShowBalance(CurrentBalance);
         }
@@ -405,7 +412,7 @@ namespace Bank
             if (balance != null)
             {
                 DateTime dt = new DateTime(balance.Year, balance.Month, 1);
-                textBlockCurrent.Text = string.Format(Properties.Resources.TEXT_CURRENT_BALANCE_0, $"{dt:y}");
+                textBlockCurrent.Text = $"{dt:y}";
                 long currentBalance = balance.First;
                 foreach (var booking in database.GetBookings(balance))
                 {
@@ -418,12 +425,16 @@ namespace Bank
 
         private void UpdateBooking()
         {
+            UpdateBooking(listView.SelectedItem as Booking);
+        }
+
+        private void UpdateBooking(Booking booking)
+        {
             try
             {
-                var booking = listView.SelectedItem as Booking;
                 if (booking == null) return;
                 var current = CurrentBalance;
-                var wnd = new EditWindow(new DateTime(current.Year, current.Month, 1), booking);
+                var wnd = new EditWindow(this, Properties.Resources.TITLE_EDIT, new DateTime(current.Year, current.Month, 1), booking);
                 if (wnd.ShowDialog() == true)
                 {
                     booking.Day = wnd.Day;
@@ -444,7 +455,7 @@ namespace Bank
             try
             {
                 if (MessageBox.Show(
-                    $"Wollen Sie die ausgewählten Buchungen wirklich löschen?",
+                    Properties.Resources.QUESTION_DELETE_ITEMS,
                     Title, MessageBoxButton.YesNo,
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {

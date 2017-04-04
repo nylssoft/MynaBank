@@ -88,7 +88,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Add... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Add booking... ähnelt.
         /// </summary>
         public static string CMD_ADD {
             get {
@@ -97,25 +97,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change _password... ähnelt.
-        /// </summary>
-        public static string CMD_CHANGE_PASSWORD {
-            get {
-                return ResourceManager.GetString("CMD_CHANGE_PASSWORD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Close ähnelt.
-        /// </summary>
-        public static string CMD_CLOSE {
-            get {
-                return ResourceManager.GetString("CMD_CLOSE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Create new account... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Create _new account... ähnelt.
         /// </summary>
         public static string CMD_CREATE_ACCOUNT {
             get {
@@ -124,7 +106,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Remove ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Delete booking... ähnelt.
         /// </summary>
         public static string CMD_DELETE {
             get {
@@ -133,7 +115,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Delete account... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die D_elete account... ähnelt.
         /// </summary>
         public static string CMD_DELETE_ACCOUNT {
             get {
@@ -142,7 +124,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Delete account sheet... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete account _sheet... ähnelt.
         /// </summary>
         public static string CMD_DELETE_SHEET {
             get {
@@ -151,7 +133,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Edit... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Edit booking... ähnelt.
         /// </summary>
         public static string CMD_EDIT {
             get {
@@ -169,61 +151,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _New... ähnelt.
-        /// </summary>
-        public static string CMD_NEW {
-            get {
-                return ResourceManager.GetString("CMD_NEW", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Open... ähnelt.
-        /// </summary>
-        public static string CMD_OPEN {
-            get {
-                return ResourceManager.GetString("CMD_OPEN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Properties... ähnelt.
-        /// </summary>
-        public static string CMD_PROPERTIES {
-            get {
-                return ResourceManager.GetString("CMD_PROPERTIES", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Save ähnelt.
-        /// </summary>
-        public static string CMD_SAVE {
-            get {
-                return ResourceManager.GetString("CMD_SAVE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Save _As... ähnelt.
-        /// </summary>
-        public static string CMD_SAVE_AS {
-            get {
-                return ResourceManager.GetString("CMD_SAVE_AS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Se_ttings... ähnelt.
-        /// </summary>
-        public static string CMD_SETTINGS {
-            get {
-                return ResourceManager.GetString("CMD_SETTINGS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Update balance... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Update account sheet... ähnelt.
         /// </summary>
         public static string CMD_UPDATE_BALANCE {
             get {
@@ -286,16 +214,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bank files (*.bdb)|*.bdb|All files (*.*)|*.* ähnelt.
-        /// </summary>
-        public static string FILE_DIALOG_FILTER {
-            get {
-                return ResourceManager.GetString("FILE_DIALOG_FILTER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Account: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Account: ähnelt.
         /// </summary>
         public static string LABEL_ACCOUNT {
             get {
@@ -304,29 +223,38 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Confirm passw_ord: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Amount: ähnelt.
         /// </summary>
-        public static string LABEL_CONFIRM_PASSWORD {
+        public static string LABEL_AMOUNT {
             get {
-                return ResourceManager.GetString("LABEL_CONFIRM_PASSWORD", resourceCulture);
+                return ResourceManager.GetString("LABEL_AMOUNT", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Description: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Account balance: ähnelt.
         /// </summary>
-        public static string LABEL_DESCRIPTION {
+        public static string LABEL_BALANCE {
             get {
-                return ResourceManager.GetString("LABEL_DESCRIPTION", resourceCulture);
+                return ResourceManager.GetString("LABEL_BALANCE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the password for &apos;{0}&apos;. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Day: ähnelt.
         /// </summary>
-        public static string LABEL_ENTER_PASSWORD_FOR_0 {
+        public static string LABEL_DAY {
             get {
-                return ResourceManager.GetString("LABEL_ENTER_PASSWORD_FOR_0", resourceCulture);
+                return ResourceManager.GetString("LABEL_DAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Month: ähnelt.
+        /// </summary>
+        public static string LABEL_MONTH {
+            get {
+                return ResourceManager.GetString("LABEL_MONTH", resourceCulture);
             }
         }
         
@@ -340,20 +268,20 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Password: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Text: ähnelt.
         /// </summary>
-        public static string LABEL_PASSWORD {
+        public static string LABEL_TEXT {
             get {
-                return ResourceManager.GetString("LABEL_PASSWORD", resourceCulture);
+                return ResourceManager.GetString("LABEL_TEXT", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Show _windows always in front ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Year: ähnelt.
         /// </summary>
-        public static string LABEL_TOPMOST {
+        public static string LABEL_YEAR {
             get {
-                return ResourceManager.GetString("LABEL_TOPMOST", resourceCulture);
+                return ResourceManager.GetString("LABEL_YEAR", resourceCulture);
             }
         }
         
@@ -385,16 +313,16 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _View ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to delete the account &apos;{0}&apos;? ähnelt.
         /// </summary>
-        public static string MENUITEM_VIEW {
+        public static string QUESTION_DELETE_ACCOUNT_0 {
             get {
-                return ResourceManager.GetString("MENUITEM_VIEW", resourceCulture);
+                return ResourceManager.GetString("QUESTION_DELETE_ACCOUNT_0", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to delete the selected items? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to delete the selected bookings? ähnelt.
         /// </summary>
         public static string QUESTION_DELETE_ITEMS {
             get {
@@ -403,16 +331,16 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to save the changes? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to delete the account sheet for {0}? ähnelt.
         /// </summary>
-        public static string QUESTION_SAVE_CHANGES {
+        public static string QUESTION_DELETE_SHEET_0 {
             get {
-                return ResourceManager.GetString("QUESTION_SAVE_CHANGES", resourceCulture);
+                return ResourceManager.GetString("QUESTION_DELETE_SHEET_0", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} of {1} items selected. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} of {1} booking selected. ähnelt.
         /// </summary>
         public static string SELECTED_0_OF_1 {
             get {
@@ -421,7 +349,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die 1 item selected. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die 1 booking selected. ähnelt.
         /// </summary>
         public static string SELECTED_ONE {
             get {
@@ -443,25 +371,16 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Current sheet: {0} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the account balance for the first of {0}. ähnelt.
         /// </summary>
-        public static string TEXT_CURRENT_BALANCE_0 {
+        public static string TEXT_ENTER_ACCOUNT_BALANCE_0 {
             get {
-                return ResourceManager.GetString("TEXT_CURRENT_BALANCE_0", resourceCulture);
+                return ResourceManager.GetString("TEXT_ENTER_ACCOUNT_BALANCE_0", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Search list ähnelt.
-        /// </summary>
-        public static string TEXT_SEARCH_LIST {
-            get {
-                return ResourceManager.GetString("TEXT_SEARCH_LIST", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Add ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add booking ähnelt.
         /// </summary>
         public static string TITLE_ADD {
             get {
@@ -479,16 +398,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change password ähnelt.
-        /// </summary>
-        public static string TITLE_CHANGE_PASSWORD {
-            get {
-                return ResourceManager.GetString("TITLE_CHANGE_PASSWORD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Edit ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit booking ähnelt.
         /// </summary>
         public static string TITLE_EDIT {
             get {
@@ -497,7 +407,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die New bank account file ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Create new account ähnelt.
         /// </summary>
         public static string TITLE_NEW {
             get {
@@ -506,25 +416,16 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Properties ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Update account sheet ähnelt.
         /// </summary>
-        public static string TITLE_PROPERTIES {
+        public static string TITLE_UPDATE_BALANCE {
             get {
-                return ResourceManager.GetString("TITLE_PROPERTIES", resourceCulture);
+                return ResourceManager.GetString("TITLE_UPDATE_BALANCE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Settings ähnelt.
-        /// </summary>
-        public static string TITLE_SETTINGS {
-            get {
-                return ResourceManager.GetString("TITLE_SETTINGS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Add ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add booking ähnelt.
         /// </summary>
         public static string TOOLTIP_ADD {
             get {
@@ -533,25 +434,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Copy login to clipboard ähnelt.
-        /// </summary>
-        public static string TOOLTIP_COPY_LOGIN {
-            get {
-                return ResourceManager.GetString("TOOLTIP_COPY_LOGIN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Copy password to clipboard ähnelt.
-        /// </summary>
-        public static string TOOLTIP_COPY_PASSWORD {
-            get {
-                return ResourceManager.GetString("TOOLTIP_COPY_PASSWORD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Remove ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete booking ähnelt.
         /// </summary>
         public static string TOOLTIP_DELETE {
             get {
@@ -560,7 +443,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Edit ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit booking ähnelt.
         /// </summary>
         public static string TOOLTIP_EDIT {
             get {
@@ -569,70 +452,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Start password generator ähnelt.
-        /// </summary>
-        public static string TOOLTIP_GENERATE_PASSWORD {
-            get {
-                return ResourceManager.GetString("TOOLTIP_GENERATE_PASSWORD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hide password ähnelt.
-        /// </summary>
-        public static string TOOLTIP_HIDE_PASSWORD {
-            get {
-                return ResourceManager.GetString("TOOLTIP_HIDE_PASSWORD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die New ähnelt.
-        /// </summary>
-        public static string TOOLTIP_NEW {
-            get {
-                return ResourceManager.GetString("TOOLTIP_NEW", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Open ähnelt.
-        /// </summary>
-        public static string TOOLTIP_OPEN {
-            get {
-                return ResourceManager.GetString("TOOLTIP_OPEN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Open URL in browser ähnelt.
-        /// </summary>
-        public static string TOOLTIP_OPEN_URL {
-            get {
-                return ResourceManager.GetString("TOOLTIP_OPEN_URL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Save ähnelt.
-        /// </summary>
-        public static string TOOLTIP_SAVE {
-            get {
-                return ResourceManager.GetString("TOOLTIP_SAVE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Show password ähnelt.
-        /// </summary>
-        public static string TOOLTIP_SHOW_PASSWORD {
-            get {
-                return ResourceManager.GetString("TOOLTIP_SHOW_PASSWORD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} items. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} bookings. ähnelt.
         /// </summary>
         public static string TOTAL_0 {
             get {
@@ -641,20 +461,11 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die 1 item. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die 1 booking. ähnelt.
         /// </summary>
         public static string TOTAL_ONE {
             get {
                 return ResourceManager.GetString("TOTAL_ONE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Verify password ähnelt.
-        /// </summary>
-        public static string VERIFY_PASSWORD {
-            get {
-                return ResourceManager.GetString("VERIFY_PASSWORD", resourceCulture);
             }
         }
     }

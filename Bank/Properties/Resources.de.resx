@@ -127,52 +127,28 @@
     <value>Ü_ber...</value>
   </data>
   <data name="CMD_ADD" xml:space="preserve">
-    <value>_Hinzufügen...</value>
-  </data>
-  <data name="CMD_CHANGE_PASSWORD" xml:space="preserve">
-    <value>Ändere _Passwort...</value>
-  </data>
-  <data name="CMD_CLOSE" xml:space="preserve">
-    <value>S_chließen</value>
+    <value>Buchung _hinzufügen...</value>
   </data>
   <data name="CMD_CREATE_ACCOUNT" xml:space="preserve">
-    <value>Neues Konto anlegen...</value>
+    <value>_Neues Konto anlegen...</value>
   </data>
   <data name="CMD_DELETE" xml:space="preserve">
-    <value>_Entfernen...</value>
+    <value>Buchung _löschen...</value>
   </data>
   <data name="CMD_DELETE_ACCOUNT" xml:space="preserve">
-    <value>Konto löschen...</value>
+    <value>K_onto löschen...</value>
   </data>
   <data name="CMD_DELETE_SHEET" xml:space="preserve">
-    <value>Kontoauszug löschen...</value>
+    <value>Konto_auszug löschen...</value>
   </data>
   <data name="CMD_EDIT" xml:space="preserve">
-    <value>_Bearbeiten...</value>
+    <value>Buchung _bearbeiten...</value>
   </data>
   <data name="CMD_EXIT" xml:space="preserve">
     <value>B_eenden</value>
   </data>
-  <data name="CMD_NEW" xml:space="preserve">
-    <value>_Neu...</value>
-  </data>
-  <data name="CMD_OPEN" xml:space="preserve">
-    <value>Ö_ffnen...</value>
-  </data>
-  <data name="CMD_PROPERTIES" xml:space="preserve">
-    <value>Ei_genschaften...</value>
-  </data>
-  <data name="CMD_SAVE" xml:space="preserve">
-    <value>_Speichern</value>
-  </data>
-  <data name="CMD_SAVE_AS" xml:space="preserve">
-    <value>Speichern _unter...</value>
-  </data>
-  <data name="CMD_SETTINGS" xml:space="preserve">
-    <value>Einste_llungen...</value>
-  </data>
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
-    <value>Kontostand korrigieren...</value>
+    <value>_Kontostand anpassen...</value>
   </data>
   <data name="COLUMN_AMOUNT" xml:space="preserve">
     <value>Betrag</value>
@@ -192,29 +168,29 @@
   <data name="ERROR_OCCURRED_0" xml:space="preserve">
     <value>Es ist ein Fehler aufgetreten. {0}</value>
   </data>
-  <data name="FILE_DIALOG_FILTER" xml:space="preserve">
-    <value>Konto Dateien (*.bdb)|*.bdb|Alle Dateien (*.*)|*.*</value>
-  </data>
   <data name="LABEL_ACCOUNT" xml:space="preserve">
-    <value>Konto:</value>
+    <value>_Konto:</value>
   </data>
-  <data name="LABEL_CONFIRM_PASSWORD" xml:space="preserve">
-    <value>Bestätigtes Pass_wort:</value>
+  <data name="LABEL_AMOUNT" xml:space="preserve">
+    <value>_Betrag:</value>
   </data>
-  <data name="LABEL_DESCRIPTION" xml:space="preserve">
-    <value>_Beschreibung:</value>
+  <data name="LABEL_BALANCE" xml:space="preserve">
+    <value>_Kontostand:</value>
   </data>
-  <data name="LABEL_ENTER_PASSWORD_FOR_0" xml:space="preserve">
-    <value>Geben Sie das Passwort für '{0}' ein.</value>
+  <data name="LABEL_DAY" xml:space="preserve">
+    <value>_Tag:</value>
+  </data>
+  <data name="LABEL_MONTH" xml:space="preserve">
+    <value>_Monat:</value>
   </data>
   <data name="LABEL_NAME" xml:space="preserve">
     <value>_Name:</value>
   </data>
-  <data name="LABEL_PASSWORD" xml:space="preserve">
-    <value>_Passwort:</value>
+  <data name="LABEL_TEXT" xml:space="preserve">
+    <value>T_ext:</value>
   </data>
-  <data name="LABEL_TOPMOST" xml:space="preserve">
-    <value>_Fenster immer im Vordergrund anzeigen</value>
+  <data name="LABEL_YEAR" xml:space="preserve">
+    <value>_Jahr:</value>
   </data>
   <data name="MENUITEM_EDIT" xml:space="preserve">
     <value>_Bearbeiten</value>
@@ -225,20 +201,20 @@
   <data name="MENUITEM_HELP" xml:space="preserve">
     <value>_Hilfe</value>
   </data>
-  <data name="MENUITEM_VIEW" xml:space="preserve">
-    <value>_Ansicht</value>
+  <data name="QUESTION_DELETE_ACCOUNT_0" xml:space="preserve">
+    <value>Wollen Sie das Konto '{0}' löschen?</value>
   </data>
   <data name="QUESTION_DELETE_ITEMS" xml:space="preserve">
-    <value>Wollen Sie die ausgewählten Elemente löschen?</value>
+    <value>Wollen Sie die ausgewählten Buchungen löschen?</value>
   </data>
-  <data name="QUESTION_SAVE_CHANGES" xml:space="preserve">
-    <value>Wollen Sie die Änderungen speichern?</value>
+  <data name="QUESTION_DELETE_SHEET_0" xml:space="preserve">
+    <value>Wollen Sie den Kontoauszug für {0} löschen?</value>
   </data>
   <data name="SELECTED_0_OF_1" xml:space="preserve">
-    <value>{0} von {1} Elementen ausgewählt.</value>
+    <value>{0} von {1} Buchungen ausgewählt.</value>
   </data>
   <data name="SELECTED_ONE" xml:space="preserve">
-    <value>1 Element ausgewählt.</value>
+    <value>1 Buchung ausgewählt.</value>
   </data>
   <data name="TEXT_COPYRIGHT" xml:space="preserve">
     <value>Copyright 2017 Niels Stockfleth
@@ -247,55 +223,37 @@ This program is free software: you can redistribute it and/or modify it under th
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</value>
   </data>
-  <data name="TEXT_CURRENT_BALANCE_0" xml:space="preserve">
-    <value>Auszug: {0}</value>
-  </data>
-  <data name="TEXT_SEARCH_LIST" xml:space="preserve">
-    <value>Liste durchsuchen</value>
+  <data name="TEXT_ENTER_ACCOUNT_BALANCE_0" xml:space="preserve">
+    <value>Geben Sie den Kontostand am Monatsanfang für {0} ein.</value>
   </data>
   <data name="TITLE_ADD" xml:space="preserve">
-    <value>Hinzufügen</value>
+    <value>Buchung hinzufügen</value>
   </data>
   <data name="TITLE_BANK" xml:space="preserve">
     <value>Kontoverwaltung</value>
   </data>
-  <data name="TITLE_CHANGE_PASSWORD" xml:space="preserve">
-    <value>Passwort ändern</value>
-  </data>
   <data name="TITLE_EDIT" xml:space="preserve">
-    <value>Bearbeiten</value>
+    <value>Buchung bearbeiten</value>
   </data>
   <data name="TITLE_NEW" xml:space="preserve">
-    <value>Neue Kontodatei</value>
+    <value>Neues Konto anlegen</value>
   </data>
-  <data name="TITLE_PROPERTIES" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
-  <data name="TITLE_SETTINGS" xml:space="preserve">
-    <value>Einstellungen</value>
+  <data name="TITLE_UPDATE_BALANCE" xml:space="preserve">
+    <value>Kontostand anpassen</value>
   </data>
   <data name="TOOLTIP_ADD" xml:space="preserve">
-    <value>Hinzufügen</value>
+    <value>Buchung hinzufügen</value>
   </data>
   <data name="TOOLTIP_DELETE" xml:space="preserve">
-    <value>Entfernen</value>
+    <value>Buchung entfernen</value>
   </data>
   <data name="TOOLTIP_EDIT" xml:space="preserve">
-    <value>Bearbeiten</value>
-  </data>
-  <data name="TOOLTIP_NEW" xml:space="preserve">
-    <value>Neu</value>
-  </data>
-  <data name="TOOLTIP_OPEN" xml:space="preserve">
-    <value>Öffnen</value>
-  </data>
-  <data name="TOOLTIP_SAVE" xml:space="preserve">
-    <value>Speichern</value>
+    <value>Buchung bearbeiten</value>
   </data>
   <data name="TOTAL_0" xml:space="preserve">
-    <value>{0} Elemente.</value>
+    <value>{0} Buchungen.</value>
   </data>
   <data name="TOTAL_ONE" xml:space="preserve">
-    <value>1 Element.</value>
+    <value>1 Buchung.</value>
   </data>
 </root>
