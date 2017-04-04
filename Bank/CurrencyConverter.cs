@@ -16,8 +16,7 @@ namespace Bank
         {
             if (value is long)
             {
-                double v = ((long)value) / 100.0;
-                return v.ToString("c", Culture);
+                return ConvertToCurrencyString((long)value);
             }
             return "<undefined>";
         }
@@ -25,6 +24,27 @@ namespace Bank
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+
+        public static long ParseCurrency(string txt)
+        {
+            if (decimal.TryParse(txt, out decimal ret))
+            {
+                return (long)(ret * 100m);
+            }
+            return (long)(decimal.Parse(txt, System.Globalization.NumberStyles.Any) * 100m);
+        }
+
+        public static string ConvertToInputString(long val)
+        {
+            decimal v = val / 100m;
+            return System.Convert.ToString(v);
+        }
+
+        public static string ConvertToCurrencyString(long val)
+        {
+            decimal v = val / 100m;
+            return v.ToString("c", Culture);
         }
     }
 }

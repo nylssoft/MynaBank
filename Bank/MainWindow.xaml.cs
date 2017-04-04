@@ -80,6 +80,11 @@ namespace Bank
             if (r == null) return;
             Account account = comboBox?.SelectedItem as Account;
             int selcount = (listView != null ? listView.SelectedItems.Count : 0);
+            bool updatebalance = false;
+            if (account != null && balances.Count > 0)
+            {
+                updatebalance = (int)slider.Value == (int)slider.Maximum;
+            }
             switch (r.Name)
             {
                 case "CreateAccount":
@@ -87,6 +92,9 @@ namespace Bank
                 case "ShowSettings":
                 case "Exit":
                     e.CanExecute = true;
+                    break;
+                case "UpdateBalance":
+                    e.CanExecute = updatebalance;
                     break;
                 case "Add":
                 case "DeleteAccount":
@@ -123,6 +131,9 @@ namespace Bank
                     break;
                 case "DeleteSheet":
                     DeleteSheet();
+                    break;
+                case "UpdateBalance":
+                    UpdateBalance();
                     break;
                 case "Add":
                     InsertBooking();
@@ -295,6 +306,32 @@ namespace Bank
             }
         }
 
+        private void UpdateBalance()
+        {
+            try
+            {
+                var current = CurrentBalance;
+                if (current == null) return;
+                long old = current.First;
+                var wnd = new UpdateBalanceWindow(current);
+                if (wnd.ShowDialog() == true)
+                {
+                    long change = wnd.First - old;
+                    if (change != 0)
+                    {
+                        current.First += change;
+                        current.Last += change;
+                        database.UpdateBalance(current, change);
+                        ShowAccount(current);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
         private void InsertBooking()
         {
             try
@@ -307,11 +344,11 @@ namespace Bank
                 {
                     dt = new DateTime(current.Year, current.Month, 1);
                 }
-                var wnd = new EditWindow(dt);
+                var wnd = new EditWindow(dt, null);
                 if (wnd.ShowDialog() == true)
                 {
                     var balance = database.GetBalance(account, wnd.Month, wnd.Year, true /* create */);
-                    database.CreateBooking(balance, wnd.Booking.Day, wnd.Booking.Text, wnd.Booking.Amount);
+                    database.CreateBooking(balance, wnd.Day, wnd.Text, wnd.Amount);
                     ShowAccount(balance);
                 }
             }
@@ -385,10 +422,16 @@ namespace Bank
             {
                 var booking = listView.SelectedItem as Booking;
                 if (booking == null) return;
-                booking.Text = "Miete2";
-                booking.Amount = 100000;
-                database.UpdateBooking(booking);
-                ShowAccount(CurrentBalance);
+                var current = CurrentBalance;
+                var wnd = new EditWindow(new DateTime(current.Year, current.Month, 1), booking);
+                if (wnd.ShowDialog() == true)
+                {
+                    booking.Day = wnd.Day;
+                    booking.Text = wnd.Text;
+                    booking.Amount = wnd.Amount;
+                    database.UpdateBooking(booking);
+                    ShowAccount(current);
+                }
             }
             catch (Exception ex)
             {

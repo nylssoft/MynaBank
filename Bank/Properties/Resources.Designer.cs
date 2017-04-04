@@ -223,6 +223,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Update balance... ähnelt.
+        /// </summary>
+        public static string CMD_UPDATE_BALANCE {
+            get {
+                return ResourceManager.GetString("CMD_UPDATE_BALANCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Amount ähnelt.
         /// </summary>
         public static string COLUMN_AMOUNT {

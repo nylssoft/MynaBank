@@ -16,17 +16,28 @@ namespace Bank
 {
     public partial class EditWindow : Window
     {
-        public int Year { get; set; }
-        public int Month { get; set; }
+        public int Year { get; private set; }
+        public int Month { get; private set; }
+        public int Day { get; private set; }
+        public string Text { get; private set; }
+        public long Amount { get; private set; }
 
-        public Booking Booking { get; set; }
-
-        public EditWindow(DateTime dt)
+        public EditWindow(DateTime dt, Booking booking)
         {
             InitializeComponent();
-            DataContext = this;
             textBoxMonth.Text = Convert.ToString(dt.Month);
             textBoxYear.Text = Convert.ToString(dt.Year);
+            textBoxDay.Text = Convert.ToString(DateTime.Now.Day);
+            textBoxAmount.Text = CurrencyConverter.ConvertToInputString(0);
+            if (booking != null)
+            {
+                textBoxMonth.IsEnabled = false;
+                textBoxYear.IsEnabled = false;
+                textBoxDay.Text = Convert.ToString(booking.Day);
+                textBoxText.Text = booking.Text;
+                textBoxAmount.Text = CurrencyConverter.ConvertToInputString(booking.Amount);
+            }
+            textBoxDay.Focus();
         }
 
         private void ButtonOK_Click(object sender, RoutedEventArgs e)
@@ -35,13 +46,10 @@ namespace Bank
             {
                 Year = Convert.ToInt32(textBoxYear.Text);
                 Month = Convert.ToInt32(textBoxMonth.Text);
-                var b = new Booking()
-                {
-                    Day = Convert.ToInt32(textBoxDay.Text),
-                    Text = textBoxText.Text,
-                    Amount = Convert.ToInt64(textBoxAmount.Text)
-                };
-                Booking = b;
+                Day = Convert.ToInt32(textBoxDay.Text);
+                Text = textBoxText.Text;
+                Amount = CurrencyConverter.ParseCurrency(textBoxAmount.Text);
+                new DateTime(Year, Month, Day); // test valid date
                 DialogResult = true;
                 Close();
             }

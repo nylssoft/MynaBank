@@ -171,6 +171,9 @@
   <data name="CMD_SETTINGS" xml:space="preserve">
     <value>Einste_llungen...</value>
   </data>
+  <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
+    <value>Kontostand korrigieren...</value>
+  </data>
   <data name="COLUMN_AMOUNT" xml:space="preserve">
     <value>Betrag</value>
   </data>

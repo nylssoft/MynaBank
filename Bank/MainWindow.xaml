@@ -23,6 +23,7 @@
         <CommandBinding Command="self:CustomCommands.CreateAccount" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.DeleteAccount" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.DeleteSheet" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.UpdateBalance" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Exit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Add" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Edit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
@@ -48,6 +49,8 @@
                         <MenuItem Command="self:CustomCommands.DeleteAccount" />
                         <Separator />
                         <MenuItem Command="self:CustomCommands.DeleteSheet" />
+                        <Separator />
+                        <MenuItem Command="self:CustomCommands.UpdateBalance" />
                         <Separator />
                         <MenuItem Command="self:CustomCommands.ShowSettings" />
                         <Separator />

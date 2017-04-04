@@ -171,6 +171,9 @@
   <data name="CMD_SETTINGS" xml:space="preserve">
     <value>Se_ttings...</value>
   </data>
+  <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
+    <value>Update balance...</value>
+  </data>
   <data name="COLUMN_AMOUNT" xml:space="preserve">
     <value>Amount</value>
   </data>

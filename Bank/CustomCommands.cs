@@ -21,6 +21,12 @@ namespace Bank
             "DeleteAccount",
             typeof(CustomCommands));
 
+        public static readonly RoutedUICommand UpdateBalance =
+            new RoutedUICommand(
+                Properties.Resources.CMD_UPDATE_BALANCE,
+                "UpdateBalance",
+                typeof(CustomCommands));
+
         public static readonly RoutedUICommand DeleteSheet =
             new RoutedUICommand(
             Properties.Resources.CMD_DELETE_SHEET,

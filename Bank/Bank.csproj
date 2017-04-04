@@ -83,6 +83,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="UpdateBalanceWindow.xaml.cs">
+      <DependentUpon>UpdateBalanceWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="EditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -100,6 +103,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PrepareWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UpdateBalanceWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

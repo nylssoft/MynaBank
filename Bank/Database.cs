@@ -52,19 +52,31 @@ namespace Bank
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS balance " +
-                    "(accountid INTEGER, month INTEGER, year INTEGER, first INTEGER, last INTEGER);";
+                    "(accountid INTEGER NOT NULL," +
+                    " month INTEGER NOT NULL," +
+                    " year INTEGER NOT NULL," +
+                    " first INTEGER NOT NULL," +
+                    " last INTEGER NOT NULL);";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS booking " +
-                    "(balanceid INTEGER, day INTEGER, text TEXT, amount INTEGER);";
+                    "(balanceid INTEGER NOT NULL," +
+                    " day INTEGER NOT NULL," +
+                    " text TEXT NOT NULL, "+
+                    " amount INTEGER NOT NULL);";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
-                    "CREATE TABLE IF NOT EXISTS defaulttext "+
-                    "(accountid INTEGER, text TEXT);";
+                    "CREATE TABLE IF NOT EXISTS defaulttext " +
+                    "(accountid INTEGER NOT NULL," +
+                    " text TEXT NOT NULL);";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS defaultbooking " +
-                    "(accountid INTEGER, monthmask INTEGER, day INTEGER, text TEXT, amount INTEGER);";
+                    "(accountid INTEGER NOT NULL," +
+                    " monthmask INTEGER NOT NULL," + 
+                    " day INTEGER NOT NULL," +
+                    " text TEXT NOT NULL," +
+                    " amount INTEGER NOT NULL);";
                 cmd.ExecuteNonQuery();
             }
         }

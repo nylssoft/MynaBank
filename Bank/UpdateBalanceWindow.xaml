@@ -1,0 +1,32 @@
+﻿<Window x:Class="Bank.UpdateBalanceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Bank"
+        xmlns:props="clr-namespace:Bank.Properties"
+        mc:Ignorable="d"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+        Icon="Images/logo.png"
+        Height="150" Width="400">
+    <Grid>
+        <Grid Margin="5,5,5,5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="5,0,0,0" x:Name="textBlockInfo" Grid.Row="0" Grid.ColumnSpan="2" Text="Geben Sie den Kontostand vor dem 1.1.2017 an." />
+            <Label Grid.Row="1" Grid.Column="0" Content="Kontostand:" />
+            <TextBox x:Name="textBoxFirst" Margin="0,3,0,0" Grid.Row="1" Height="23" VerticalAlignment="Top" Grid.Column="1" Width="100" MaxLength="10" HorizontalAlignment="Left"/>
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="buttonOK" IsDefault="True" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
+                <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
