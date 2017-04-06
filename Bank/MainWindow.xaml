@@ -21,6 +21,8 @@
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="self:CustomCommands.CreateAccount" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.ImportAccount" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.RenameAccount" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.DeleteAccount" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.DeleteSheet" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.UpdateBalance" CanExecute="Command_CanExecute" Executed="Command_Executed" />
@@ -44,6 +46,8 @@
                                 <Image Source="Images/16x16/document-new-6.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                             </MenuItem.Icon>
                         </MenuItem>
+                        <MenuItem Command="self:CustomCommands.ImportAccount" />
+                        <MenuItem Command="self:CustomCommands.RenameAccount" />
                         <MenuItem Command="self:CustomCommands.DeleteAccount" />
                         <Separator />
                         <MenuItem Command="self:CustomCommands.DeleteSheet" />

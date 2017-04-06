@@ -129,6 +129,9 @@
   <data name="CMD_ADD" xml:space="preserve">
     <value>Buchung _hinzufügen...</value>
   </data>
+  <data name="CMD_CLOSE" xml:space="preserve">
+    <value>S_chließen</value>
+  </data>
   <data name="CMD_CREATE_ACCOUNT" xml:space="preserve">
     <value>_Neues Konto anlegen...</value>
   </data>
@@ -146,6 +149,12 @@
   </data>
   <data name="CMD_EXIT" xml:space="preserve">
     <value>B_eenden</value>
+  </data>
+  <data name="CMD_IMPORT_ACCOUNT" xml:space="preserve">
+    <value>Konto importieren...</value>
+  </data>
+  <data name="CMD_RENAME_ACCOUNT" xml:space="preserve">
+    <value>Konto _umbenennen...</value>
   </data>
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
     <value>_Kontostand anpassen...</value>
@@ -226,6 +235,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TEXT_ENTER_ACCOUNT_BALANCE_0" xml:space="preserve">
     <value>Geben Sie den Kontostand am Monatsanfang für {0} ein.</value>
   </data>
+  <data name="TEXT_SELECT_IMPORT_DIRECTORY" xml:space="preserve">
+    <value>Wählen Sie das Importverzeichnis mit den alten Kontodaten aus.</value>
+  </data>
   <data name="TITLE_ADD" xml:space="preserve">
     <value>Buchung hinzufügen</value>
   </data>
@@ -237,6 +249,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   </data>
   <data name="TITLE_NEW" xml:space="preserve">
     <value>Neues Konto anlegen</value>
+  </data>
+  <data name="TITLE_RENAME_ACCOUNT" xml:space="preserve">
+    <value>Konto umbenennen...</value>
   </data>
   <data name="TITLE_UPDATE_BALANCE" xml:space="preserve">
     <value>Kontostand anpassen</value>

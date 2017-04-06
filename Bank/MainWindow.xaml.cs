@@ -87,6 +87,7 @@ namespace Bank
             switch (r.Name)
             {
                 case "CreateAccount":
+                case "ImportAccount":
                 case "About":
                 case "Exit":
                     e.CanExecute = true;
@@ -96,6 +97,7 @@ namespace Bank
                     break;
                 case "Add":
                 case "DeleteAccount":
+                case "RenameAccount":
                     e.CanExecute = account != null;
                     break;
                 case "DeleteSheet":
@@ -124,6 +126,12 @@ namespace Bank
                 case "CreateAccount":
                     CreateAccount();
                     break;
+                case "ImportAccount":
+                    ImportAccount();
+                    break;
+                case "RenameAccount":
+                    RenameAccount();
+                    break;
                 case "DeleteAccount":
                     DeleteAccount();
                     break;
@@ -143,7 +151,7 @@ namespace Bank
                     DeleteBooking();
                     break;
                 case "About":
-                    //About();
+                    About();
                     break;
                 default:
                     break;
@@ -262,12 +270,54 @@ namespace Bank
         {
             try
             {
-                var wnd = new PrepareWindow(this, Properties.Resources.TITLE_NEW);
+                var wnd = new PrepareWindow(this, Properties.Resources.TITLE_NEW, null);
                 if (wnd.ShowDialog() == true)
                 {
                     var account = database.CreateAccount(wnd.AccountName);
                     accounts.Add(account);
                     comboBox.SelectedItem = account;
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void ImportAccount()
+        {
+            try
+            {
+                var dlg = new System.Windows.Forms.FolderBrowserDialog()
+                {
+                    Description = Properties.Resources.TEXT_SELECT_IMPORT_DIRECTORY,
+                };
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var account = database.Migrate(dlg.SelectedPath);
+                    accounts.Add(account);
+                    comboBox.SelectedItem = account;
+                    UpdateStatus();
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void RenameAccount()
+        {
+            try
+            {
+                var account = comboBox.SelectedItem as Account;
+                if (account == null) return;
+                var wnd = new PrepareWindow(this, Properties.Resources.TITLE_RENAME_ACCOUNT, account.Name);
+                if (wnd.ShowDialog() == true)
+                {
+                    account.Name = wnd.AccountName;
+                    database.UpdateAccount(account);
+                    UpdateStatus();
                 }
             }
             catch (Exception ex)
@@ -487,6 +537,20 @@ namespace Bank
                 HandleError(ex);
             }
         }
+
+        private void About()
+        {
+            try
+            {
+                var dlg = new AboutWindow(this);
+                dlg.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
         private void UpdateStatus()
         {
             int selected = listView.SelectedItems.Count;

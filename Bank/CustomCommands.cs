@@ -15,6 +15,18 @@ namespace Bank
             "CreateAccount",
             typeof(CustomCommands));
 
+        public static readonly RoutedUICommand RenameAccount =
+            new RoutedUICommand(
+            Properties.Resources.CMD_RENAME_ACCOUNT,
+            "RenameAccount",
+            typeof(CustomCommands));
+
+        public static readonly RoutedUICommand ImportAccount =
+            new RoutedUICommand(
+            Properties.Resources.CMD_IMPORT_ACCOUNT,
+            "ImportAccount",
+            typeof(CustomCommands));
+
         public static readonly RoutedUICommand DeleteAccount =
             new RoutedUICommand(
             Properties.Resources.CMD_DELETE_ACCOUNT,

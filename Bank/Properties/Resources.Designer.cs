@@ -97,6 +97,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Close ähnelt.
+        /// </summary>
+        public static string CMD_CLOSE {
+            get {
+                return ResourceManager.GetString("CMD_CLOSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Create _new account... ähnelt.
         /// </summary>
         public static string CMD_CREATE_ACCOUNT {
@@ -147,6 +156,24 @@ namespace Bank.Properties {
         public static string CMD_EXIT {
             get {
                 return ResourceManager.GetString("CMD_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Import account... ähnelt.
+        /// </summary>
+        public static string CMD_IMPORT_ACCOUNT {
+            get {
+                return ResourceManager.GetString("CMD_IMPORT_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Rename account... ähnelt.
+        /// </summary>
+        public static string CMD_RENAME_ACCOUNT {
+            get {
+                return ResourceManager.GetString("CMD_RENAME_ACCOUNT", resourceCulture);
             }
         }
         
@@ -380,6 +407,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the import directory with the account data in the old format. ähnelt.
+        /// </summary>
+        public static string TEXT_SELECT_IMPORT_DIRECTORY {
+            get {
+                return ResourceManager.GetString("TEXT_SELECT_IMPORT_DIRECTORY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Add booking ähnelt.
         /// </summary>
         public static string TITLE_ADD {
@@ -412,6 +448,15 @@ namespace Bank.Properties {
         public static string TITLE_NEW {
             get {
                 return ResourceManager.GetString("TITLE_NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rename account ähnelt.
+        /// </summary>
+        public static string TITLE_RENAME_ACCOUNT {
+            get {
+                return ResourceManager.GetString("TITLE_RENAME_ACCOUNT", resourceCulture);
             }
         }
         

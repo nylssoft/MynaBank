@@ -519,21 +519,15 @@ namespace Bank
             return ret;
         }
 
-        public void Migrate(string directory)
+        public Account Migrate(string directory)
         {
+            Account ret = null;
             DirectoryInfo dirinfo = new DirectoryInfo(directory);
+            var bhgs = Directory.GetFiles(directory, "*.bhg");
+            var txts = Directory.GetFiles(directory, "*.txt");
+            var dfts = Directory.GetFiles(directory, "*.dft");
+            if (dfts.Length == 0 || txts.Length == 0 || bhgs.Length == 0) throw new ArgumentException("Invalid directory.");
             string accountname = dirinfo.Name;
-            using (var cmd = new SQLiteCommand(con))
-            {
-                cmd.CommandText = "SELECT COUNT(*) FROM account WHERE name=@p1";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", accountname));
-                var obj = cmd.ExecuteScalar();
-                if (obj is long && ((long)obj) > 0)
-                {
-                    return;
-                }
-            }
-            string guid = Guid.NewGuid().ToString();
             long accountid = 0;
             using (var cmd = new SQLiteCommand(con))
             {
@@ -541,6 +535,7 @@ namespace Bank
                 cmd.Parameters.Add(new SQLiteParameter("@p1", accountname));
                 cmd.ExecuteNonQuery();
                 accountid = con.LastInsertRowId;
+                ret = new Account() { Id = accountid, Name = accountname };
             }
             foreach (var direntry in Directory.EnumerateFiles(directory))
             {
@@ -560,6 +555,7 @@ namespace Bank
                     MigrateBooking(accountid, di.FullName, year, month);
                 }
             }
+            return ret;
         }
 
         private void MigrateDefaultText(long accountid, string txtfile)

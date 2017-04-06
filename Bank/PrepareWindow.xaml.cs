@@ -25,11 +25,15 @@ namespace Bank
     {
         public string AccountName { get; private set; }
 
-        public PrepareWindow(Window owner, string title)
+        public PrepareWindow(Window owner, string title, string accountName)
         {
             Owner = owner;
             Title = title;
             InitializeComponent();
+            if (!string.IsNullOrEmpty(accountName))
+            {
+                textBoxName.Text = accountName;
+            }
             textBoxName.Focus();
             UpdateControls();
         }

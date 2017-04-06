@@ -129,6 +129,9 @@
   <data name="CMD_ADD" xml:space="preserve">
     <value>_Add booking...</value>
   </data>
+  <data name="CMD_CLOSE" xml:space="preserve">
+    <value>_Close</value>
+  </data>
   <data name="CMD_CREATE_ACCOUNT" xml:space="preserve">
     <value>Create _new account...</value>
   </data>
@@ -146,6 +149,12 @@
   </data>
   <data name="CMD_EXIT" xml:space="preserve">
     <value>E_xit</value>
+  </data>
+  <data name="CMD_IMPORT_ACCOUNT" xml:space="preserve">
+    <value>_Import account...</value>
+  </data>
+  <data name="CMD_RENAME_ACCOUNT" xml:space="preserve">
+    <value>_Rename account...</value>
   </data>
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
     <value>_Update account sheet...</value>
@@ -226,6 +235,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TEXT_ENTER_ACCOUNT_BALANCE_0" xml:space="preserve">
     <value>Enter the account balance for the first of {0}.</value>
   </data>
+  <data name="TEXT_SELECT_IMPORT_DIRECTORY" xml:space="preserve">
+    <value>Choose the import directory with the account data in the old format.</value>
+  </data>
   <data name="TITLE_ADD" xml:space="preserve">
     <value>Add booking</value>
   </data>
@@ -237,6 +249,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   </data>
   <data name="TITLE_NEW" xml:space="preserve">
     <value>Create new account</value>
+  </data>
+  <data name="TITLE_RENAME_ACCOUNT" xml:space="preserve">
+    <value>Rename account</value>
   </data>
   <data name="TITLE_UPDATE_BALANCE" xml:space="preserve">
     <value>Update account sheet</value>
