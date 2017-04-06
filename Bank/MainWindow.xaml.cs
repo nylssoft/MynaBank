@@ -169,14 +169,11 @@ namespace Bank
         {
             try
             {
-                ShowAccount(null);
-                /*
-                listView.Focus();
-                if (bookings.Count > 0)
+                if (comboBox.SelectedIndex >= 0)
                 {
-                    listView.SelectedIndex = 0;
+                    Properties.Settings.Default.LastUsedAccount = comboBox.SelectedIndex;
                 }
-                */
+                ShowAccount(null);
             }
             catch (Exception ex)
             {
@@ -218,9 +215,16 @@ namespace Bank
             {
                 accounts.Add(account);
             }
-            var view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("Day", ListSortDirection.Ascending));
-            view.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
+            var viewcombo = (CollectionView)CollectionViewSource.GetDefaultView(comboBox.ItemsSource);
+            viewcombo.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            viewlist.SortDescriptions.Add(new SortDescription("Day", ListSortDirection.Ascending));
+            viewlist.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
+            if (accounts.Count > 0)
+            {
+                Properties.Settings.Default.LastUsedAccount = Math.Min(Properties.Settings.Default.LastUsedAccount, accounts.Count - 1);
+                comboBox.SelectedIndex = Properties.Settings.Default.LastUsedAccount;
+            }
         }
 
         private Balance CurrentBalance
@@ -276,6 +280,7 @@ namespace Bank
         {
             try
             {
+                Properties.Settings.Default.LastUsedAccount = comboBox.SelectedIndex;
                 var account = comboBox.SelectedItem as Account;
                 if (account == null) return;
                 if (MessageBox.Show(
@@ -286,6 +291,11 @@ namespace Bank
                 {
                     database.DeleteAccount(account);
                     accounts.Remove(account);
+                    if (accounts.Count > 0)
+                    {
+                        Properties.Settings.Default.LastUsedAccount = Math.Min(Properties.Settings.Default.LastUsedAccount, accounts.Count - 1);
+                        comboBox.SelectedIndex = Properties.Settings.Default.LastUsedAccount;
+                    }
                     ShowAccount(null);
                 }
             }
@@ -386,6 +396,7 @@ namespace Bank
                 slider.Maximum = balances.Count - 1;
                 slider.TickFrequency = 1;
                 slider.IsSnapToTickEnabled = true;
+                slider.TickPlacement = System.Windows.Controls.Primitives.TickPlacement.BottomRight;
                 slider.Visibility = Visibility.Visible;
                 slider.Width = 100;
             }
@@ -397,8 +408,8 @@ namespace Bank
                 textBlockCurrent.Text = "";
                 textBlockCurrent.Width = 0;
             }
-            CurrentBalance = null;
-            if (balances.Count > 0)
+            CurrentBalance = current;
+            if (current == null && balances.Count > 0)
             {
                 textBlockCurrent.Width = 100;
                 CurrentBalance = balances[balances.Count - 1];

@@ -23,5 +23,8 @@
     <Setting Name="DatabaseFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">%MyDocuments%\MynaBank\Bank.bdb</Value>
     </Setting>
+    <Setting Name="LastUsedAccount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

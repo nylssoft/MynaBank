@@ -106,5 +106,17 @@ namespace Bank.Properties {
                 this["DatabaseFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int LastUsedAccount {
+            get {
+                return ((int)(this["LastUsedAccount"]));
+            }
+            set {
+                this["LastUsedAccount"] = value;
+            }
+        }
     }
 }
