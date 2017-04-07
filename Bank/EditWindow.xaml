@@ -22,21 +22,22 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Content="{x:Static props:Resources.LABEL_MONTH}" Target="{Binding ElementName=textBoxMonth}"/>
+        <Label Grid.Row="0" Content="{x:Static props:Resources.LABEL_MONTH}" Target="{Binding ElementName=comboBoxMonth}"/>
         <Grid Grid.Row="0" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="textBoxMonth" Grid.Column="0" Width="40" Height="23" HorizontalAlignment="Left" MaxLength="2" TextChanged="TextBox_Changed"/>
+            <ComboBox x:Name="comboBoxMonth" Grid.Column="0" Height="23" SelectionChanged="ComboBoxMonth_SelectionChanged"/>
             <Label Grid.Column="1" Content="{x:Static props:Resources.LABEL_YEAR}" Target="{Binding ElementName=textBoxYear}" />
             <TextBox x:Name="textBoxYear" Grid.Column="2" Width="60" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_Changed"/>
         </Grid>
         <Label Grid.Row="2" Grid.Column="0" Content="{x:Static props:Resources.LABEL_DAY}" Target="{Binding ElementName=textBoxDay}"/>
         <TextBox x:Name="textBoxDay" Grid.Row="2" Grid.Column="1" Width="40" Height="23" HorizontalAlignment="Left" MaxLength="2" TextChanged="TextBox_Changed"/>
-        <Label Grid.Row="3" Grid.Column="0" Content="{x:Static props:Resources.LABEL_TEXT}" Target="{Binding ElementName=textBoxText}"/>
-        <TextBox x:Name="textBoxText" Grid.Row="3" Grid.Column="1" Height="23" MaxLength="200" Margin="0,0,5,0" TextChanged="TextBox_Changed"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="{x:Static props:Resources.LABEL_TEXT}" Target="{Binding ElementName=comboBoxText}"/>
+        <ComboBox x:Name="comboBoxText" Grid.Row="3" Grid.Column="1"  IsEditable="True" Height="23" Margin="0,0,5,0">
+        </ComboBox>
         <Label Grid.Row="4" Grid.Column="0" Content="{x:Static props:Resources.LABEL_AMOUNT}" Target="{Binding ElementName=textBoxAmount}"/>
         <TextBox x:Name="textBoxAmount" Grid.Row="4" Grid.Column="1" Width="100" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_Changed"/>
         <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">

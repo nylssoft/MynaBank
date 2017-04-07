@@ -81,6 +81,8 @@ namespace Bank
             }
         }
 
+        #region Account
+
         public List<Account> GetAccounts()
         {
             var ret = new List<Account>();
@@ -155,6 +157,10 @@ namespace Bank
                 }
             }
         }
+
+        #endregion
+
+        #region Balance
 
         public Balance GetBalance(Account account, int month, int year, bool create)
         {
@@ -331,6 +337,10 @@ namespace Bank
             }
         }
 
+        #endregion
+
+        #region Booking
+        
         public Booking CreateBooking(Balance balance, int day, string text, long amount)
         {
             using (var trans = con.BeginTransaction())
@@ -453,6 +463,10 @@ namespace Bank
             return ret;
         }
 
+        #endregion
+
+        #region DefaultBooking
+
         public void InsertDefaultBooking(DefaultBooking defaultBooking)
         {
             using (var cmd = new SQLiteCommand(con))
@@ -518,6 +532,35 @@ namespace Bank
             }
             return ret;
         }
+
+        #endregion
+
+        #region DefaultText
+
+        public List<string> GetDefaultTexts(Account account)
+        {
+            var ret = new List<string>();
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "SELECT text FROM defaulttext WHERE accountid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            ret.Add(reader.GetString(0));
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
+        #endregion
+
+        #region Migrate
 
         public Account Migrate(string directory)
         {
@@ -701,5 +744,8 @@ namespace Bank
             rest = line;
             return "";
         }
+
+        #endregion
+
     }
 }

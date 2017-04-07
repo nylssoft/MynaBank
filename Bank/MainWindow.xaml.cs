@@ -416,7 +416,8 @@ namespace Bank
                 {
                     dt = new DateTime(current.Year, current.Month, 1);
                 }
-                var wnd = new EditWindow(this, Properties.Resources.TITLE_ADD, dt, null);
+                var defaultTexts = database.GetDefaultTexts(account);
+                var wnd = new EditWindow(this, Properties.Resources.TITLE_ADD, dt, defaultTexts, null);
                 if (wnd.ShowDialog() == true)
                 {
                     var balance = database.GetBalance(account, wnd.Month, wnd.Year, true /* create */);
@@ -495,7 +496,8 @@ namespace Bank
             {
                 if (booking == null) return;
                 var current = CurrentBalance;
-                var wnd = new EditWindow(this, Properties.Resources.TITLE_EDIT, new DateTime(current.Year, current.Month, 1), booking);
+                var defaultTexts = database.GetDefaultTexts(current.Account);
+                var wnd = new EditWindow(this, Properties.Resources.TITLE_EDIT, new DateTime(current.Year, current.Month, 1), defaultTexts, booking);
                 if (wnd.ShowDialog() == true)
                 {
                     booking.Day = wnd.Day;

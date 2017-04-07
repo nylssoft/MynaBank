@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -29,23 +31,42 @@ namespace Bank
         public string Text { get; private set; }
         public long Amount { get; private set; }
 
-        public EditWindow(Window owner, string title, DateTime dt, Booking booking)
+        public EditWindow(Window owner, string title, DateTime dt, List<string> defaultTexts, Booking booking)
         {
             Owner = owner;
             Title = title;
             InitializeComponent();
-            textBoxMonth.Text = Convert.ToString(dt.Month);
+            var monthnames = new List<string>();
+            foreach (var m in DateTimeFormatInfo.CurrentInfo.MonthNames)
+            {
+                if (!string.IsNullOrEmpty(m))
+                {
+                    monthnames.Add(m);
+                }
+            }
+            comboBoxMonth.ItemsSource = monthnames;
+            comboBoxMonth.SelectedIndex = dt.Month - 1;
             textBoxYear.Text = Convert.ToString(dt.Year);
+            comboBoxText.ItemsSource = defaultTexts;
             if (booking != null)
             {
-                textBoxMonth.IsEnabled = false;
+                comboBoxMonth.IsEnabled = false;
                 textBoxYear.IsEnabled = false;
                 textBoxDay.Text = Convert.ToString(booking.Day);
-                textBoxText.Text = booking.Text;
+                comboBoxText.Text = booking.Text;
                 textBoxAmount.Text = CurrencyConverter.ConvertToInputString(booking.Amount);
             }
             textBoxDay.Focus();
             UpdateControls();
+            // set max length of editable combobox
+            comboBoxText.Loaded += delegate
+            {
+                TextBox textBox = comboBoxText.Template.FindName("PART_EditableTextBox", comboBoxText) as TextBox;
+                if (textBox != null)
+                {
+                    textBox.MaxLength = 100;
+                }
+            };
         }
 
         private void UpdateControls()
@@ -54,12 +75,12 @@ namespace Bank
             try
             {
                 if (!string.IsNullOrEmpty(textBoxYear.Text) &&
-                    !string.IsNullOrEmpty(textBoxMonth.Text) &&
                     !string.IsNullOrEmpty(textBoxDay.Text) &&
-                    !string.IsNullOrEmpty(textBoxText.Text) &&
+                    !string.IsNullOrEmpty(comboBoxText.Text) &&
                     !string.IsNullOrEmpty(textBoxAmount.Text))
                 {
-                    new DateTime(Convert.ToInt32(textBoxYear.Text), Convert.ToInt32(textBoxMonth.Text), Convert.ToInt32(textBoxDay.Text));
+                    var month = comboBoxMonth.SelectedIndex + 1;
+                    new DateTime(Convert.ToInt32(textBoxYear.Text), month, Convert.ToInt32(textBoxDay.Text));
                     CurrencyConverter.ParseCurrency(textBoxAmount.Text);
                     ok = true;
                 }
@@ -75,15 +96,19 @@ namespace Bank
         {
             UpdateControls();
         }
+        private void ComboBoxMonth_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateControls();
+        }
 
         private void ButtonOK_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 Year = Convert.ToInt32(textBoxYear.Text);
-                Month = Convert.ToInt32(textBoxMonth.Text);
+                Month = Convert.ToInt32(comboBoxMonth.SelectedIndex + 1);
                 Day = Convert.ToInt32(textBoxDay.Text);
-                Text = textBoxText.Text;
+                Text = comboBoxText.Text;
                 Amount = CurrencyConverter.ParseCurrency(textBoxAmount.Text);
                 new DateTime(Year, Month, Day); // test valid date
                 DialogResult = true;
@@ -94,6 +119,5 @@ namespace Bank
                 MessageBox.Show(string.Format(Properties.Resources.ERROR_OCCURRED_0, ex.Message), Title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
     }
 }
