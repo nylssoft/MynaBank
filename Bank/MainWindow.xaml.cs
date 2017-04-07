@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -233,6 +234,7 @@ namespace Bank
                 Properties.Settings.Default.LastUsedAccount = Math.Min(Properties.Settings.Default.LastUsedAccount, accounts.Count - 1);
                 comboBox.SelectedIndex = Properties.Settings.Default.LastUsedAccount;
             }
+            UpdateStatus();
         }
 
         private Balance CurrentBalance
@@ -555,6 +557,21 @@ namespace Bank
 
         private void UpdateStatus()
         {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(Properties.Resources.TITLE_BANK);
+            var account = comboBox.SelectedItem as Account;
+            if (account != null)
+            {
+                sb.Append(" - " + account.Name);
+                var balance = CurrentBalance;
+                if (balance != null)
+                {
+                    sb.Append(" - ");
+                    DateTime dt = new DateTime(balance.Year, balance.Month, 1);
+                    sb.Append($"{dt:y}");
+                }
+            }
+            Title = sb.ToString();        
             int selected = listView.SelectedItems.Count;
             int total = listView.Items.Count;
             string status = string.Empty;
