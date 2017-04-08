@@ -68,12 +68,18 @@
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Account.cs" />
+    <Compile Include="EditDefaultTextWindow.xaml.cs">
+      <DependentUpon>EditDefaultTextWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Balance.cs" />
     <Compile Include="Booking.cs" />
     <Compile Include="CurrencyConverter.cs" />
     <Compile Include="CustomCommands.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="DefaultBooking.cs" />
+    <Compile Include="ConfigureDefaultTextWindow.xaml.cs">
+      <DependentUpon>ConfigureDefaultTextWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
@@ -90,6 +96,14 @@
       <DependentUpon>UpdateBalanceWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditDefaultTextWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConfigureDefaultTextWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -61,6 +61,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die A_dd ähnelt.
+        /// </summary>
+        public static string BUTTON_ADD {
+            get {
+                return ResourceManager.GetString("BUTTON_ADD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Cancel ähnelt.
         /// </summary>
         public static string BUTTON_CANCEL {
@@ -70,11 +79,29 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Edit... ähnelt.
+        /// </summary>
+        public static string BUTTON_EDIT {
+            get {
+                return ResourceManager.GetString("BUTTON_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _OK ähnelt.
         /// </summary>
         public static string BUTTON_OK {
             get {
                 return ResourceManager.GetString("BUTTON_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Remove ähnelt.
+        /// </summary>
+        public static string BUTTON_REMOVE {
+            get {
+                return ResourceManager.GetString("BUTTON_REMOVE", resourceCulture);
             }
         }
         
@@ -102,6 +129,15 @@ namespace Bank.Properties {
         public static string CMD_CLOSE {
             get {
                 return ResourceManager.GetString("CMD_CLOSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Configure default text... ähnelt.
+        /// </summary>
+        public static string CMD_CONFIGURE_DEFAULT_TEXT {
+            get {
+                return ResourceManager.GetString("CMD_CONFIGURE_DEFAULT_TEXT", resourceCulture);
             }
         }
         
@@ -277,6 +313,24 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Add default text: ähnelt.
+        /// </summary>
+        public static string LABEL_DEFAULT_TEXT {
+            get {
+                return ResourceManager.GetString("LABEL_DEFAULT_TEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Default texts: ähnelt.
+        /// </summary>
+        public static string LABEL_DEFAULT_TEXTS {
+            get {
+                return ResourceManager.GetString("LABEL_DEFAULT_TEXTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Month: ähnelt.
         /// </summary>
         public static string LABEL_MONTH {
@@ -434,11 +488,29 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Configure default text ähnelt.
+        /// </summary>
+        public static string TITLE_CONFIGURE_DEFAULT_TEXT {
+            get {
+                return ResourceManager.GetString("TITLE_CONFIGURE_DEFAULT_TEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Edit booking ähnelt.
         /// </summary>
         public static string TITLE_EDIT {
             get {
                 return ResourceManager.GetString("TITLE_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit default text ähnelt.
+        /// </summary>
+        public static string TITLE_EDIT_DEFAULT_TEXT {
+            get {
+                return ResourceManager.GetString("TITLE_EDIT_DEFAULT_TEXT", resourceCulture);
             }
         }
         

@@ -15,35 +15,42 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Bank
 {
-    public partial class AboutWindow : Window
+    public partial class EditDefaultTextWindow : Window
     {
-        public AboutWindow(Window owner)
+        public string DefaultText { get; private set; }
+
+        public EditDefaultTextWindow(Window owner, string title, string defaultText)
         {
             Owner = owner;
+            Title = title;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            var assembly = Assembly.GetExecutingAssembly();
-            var productAttribute = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), true);
-            var versionAttribute = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyFileVersionAttribute), true);
-            if (productAttribute.Length > 0 && versionAttribute.Length > 0)
-            {
-                var p = productAttribute[0] as AssemblyProductAttribute;
-                var v = versionAttribute[0] as AssemblyFileVersionAttribute;
-                if (p != null && v != null)
-                {
-                    Title = $"{p.Product} Version {v.Version}";
-                }
-            }
             InitializeComponent();
+            textBoxDefaultText.Text = defaultText;
+            textBoxDefaultText.Focus();
+            buttonOK.IsEnabled = false;
         }
 
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        private void UpdateControls()
         {
+            bool enabled = !string.IsNullOrEmpty(textBoxDefaultText.Text);
+            buttonOK.IsEnabled = enabled;
+        }
+
+        private void ButtonOK_Click(object sender, RoutedEventArgs e)
+        {
+            DefaultText = textBoxDefaultText.Text;
+            DialogResult = true;
             Close();
+        }
+
+        private void TextBoxDefaultText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateControls();
         }
     }
 }

@@ -31,6 +31,7 @@
         <CommandBinding Command="self:CustomCommands.Edit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Remove" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.About" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.ConfigureDefaultText" CanExecute="Command_CanExecute" Executed="Command_Executed" />
     </Window.CommandBindings>
     <Grid>
         <DockPanel LastChildFill="True">
@@ -53,6 +54,8 @@
                         <MenuItem Command="self:CustomCommands.DeleteSheet" />
                         <Separator />
                         <MenuItem Command="self:CustomCommands.UpdateBalance" />
+                        <Separator />
+                        <MenuItem Command="self:CustomCommands.ConfigureDefaultText" />
                         <Separator />
                         <MenuItem Command="self:CustomCommands.Exit">
                             <MenuItem.Icon>

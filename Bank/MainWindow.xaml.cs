@@ -99,6 +99,7 @@ namespace Bank
                 case "Add":
                 case "DeleteAccount":
                 case "RenameAccount":
+                case "ConfigureDefaultText":
                     e.CanExecute = account != null;
                     break;
                 case "DeleteSheet":
@@ -153,6 +154,9 @@ namespace Bank
                     break;
                 case "About":
                     About();
+                    break;
+                case "ConfigureDefaultText":
+                    ConfigureDefaultText();
                     break;
                 default:
                     break;
@@ -548,6 +552,25 @@ namespace Bank
             {
                 var dlg = new AboutWindow(this);
                 dlg.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void ConfigureDefaultText()
+        {
+            try
+            {
+                var account = comboBox.SelectedItem as Account;
+                if (account == null) return;
+                List<string> defaultTexts = database.GetDefaultTexts(account);
+                var dlg = new ConfigureDefaultTextWindow(this, Properties.Resources.TITLE_CONFIGURE_DEFAULT_TEXT, defaultTexts);
+                if (dlg.ShowDialog() == true)
+                {
+                    database.SetDefaultTexts(account, defaultTexts);
+                }
             }
             catch (Exception ex)
             {

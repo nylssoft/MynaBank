@@ -233,8 +233,11 @@ namespace Bank
                     };
                     foreach (var defaultbooking in defaultbookings)
                     {
-                        // @TODO: month mask...
-                        CreateBooking(ret, defaultbooking.Day, defaultbooking.Text, defaultbooking.Amount);
+                        var m = 1 << (month - 1);
+                        if ((defaultbooking.Monthmask & m) == m)
+                        {
+                            CreateBooking(ret, defaultbooking.Day, defaultbooking.Text, defaultbooking.Amount);
+                        }
                     }
                 }
                 trans.Commit();
@@ -558,6 +561,28 @@ namespace Bank
             return ret;
         }
 
+        public void SetDefaultTexts(Account account, List<string> defaultTexts)
+        {
+            using (var trans = con.BeginTransaction())
+            {
+                using (var cmd = new SQLiteCommand(con))
+                {
+                    cmd.CommandText = "DELETE FROM defaulttext WHERE accountid=@p1";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "INSERT INTO defaulttext VALUES(@p1,@p2)";
+                    foreach (var txt in defaultTexts)
+                    {
+                        cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                        cmd.Parameters.Add(new SQLiteParameter("@p2", txt));
+                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+                    }
+                }
+                trans.Commit();
+            }
+        }
         #endregion
 
         #region Migrate

@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BUTTON_ADD" xml:space="preserve">
+    <value>A_dd</value>
+  </data>
   <data name="BUTTON_CANCEL" xml:space="preserve">
     <value>_Cancel</value>
   </data>
+  <data name="BUTTON_EDIT" xml:space="preserve">
+    <value>_Edit...</value>
+  </data>
   <data name="BUTTON_OK" xml:space="preserve">
     <value>_OK</value>
+  </data>
+  <data name="BUTTON_REMOVE" xml:space="preserve">
+    <value>_Remove</value>
   </data>
   <data name="CMD_ABOUT" xml:space="preserve">
     <value>_About...</value>
@@ -131,6 +140,9 @@
   </data>
   <data name="CMD_CLOSE" xml:space="preserve">
     <value>_Close</value>
+  </data>
+  <data name="CMD_CONFIGURE_DEFAULT_TEXT" xml:space="preserve">
+    <value>_Configure default text...</value>
   </data>
   <data name="CMD_CREATE_ACCOUNT" xml:space="preserve">
     <value>Create _new account...</value>
@@ -189,6 +201,12 @@
   <data name="LABEL_DAY" xml:space="preserve">
     <value>_Day:</value>
   </data>
+  <data name="LABEL_DEFAULT_TEXT" xml:space="preserve">
+    <value>_Add default text:</value>
+  </data>
+  <data name="LABEL_DEFAULT_TEXTS" xml:space="preserve">
+    <value>_Default texts:</value>
+  </data>
   <data name="LABEL_MONTH" xml:space="preserve">
     <value>_Month:</value>
   </data>
@@ -244,8 +262,14 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TITLE_BANK" xml:space="preserve">
     <value>Bank Account Manager</value>
   </data>
+  <data name="TITLE_CONFIGURE_DEFAULT_TEXT" xml:space="preserve">
+    <value>Configure default text</value>
+  </data>
   <data name="TITLE_EDIT" xml:space="preserve">
     <value>Edit booking</value>
+  </data>
+  <data name="TITLE_EDIT_DEFAULT_TEXT" xml:space="preserve">
+    <value>Edit default text</value>
   </data>
   <data name="TITLE_NEW" xml:space="preserve">
     <value>Create new account</value>

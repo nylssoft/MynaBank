@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BUTTON_ADD" xml:space="preserve">
+    <value>_Hinzufügen</value>
+  </data>
   <data name="BUTTON_CANCEL" xml:space="preserve">
     <value>_Abbrechen</value>
   </data>
+  <data name="BUTTON_EDIT" xml:space="preserve">
+    <value>_Bearbeiten</value>
+  </data>
   <data name="BUTTON_OK" xml:space="preserve">
     <value>_OK</value>
+  </data>
+  <data name="BUTTON_REMOVE" xml:space="preserve">
+    <value>_Entfernen</value>
   </data>
   <data name="CMD_ABOUT" xml:space="preserve">
     <value>Ü_ber...</value>
@@ -131,6 +140,9 @@
   </data>
   <data name="CMD_CLOSE" xml:space="preserve">
     <value>S_chließen</value>
+  </data>
+  <data name="CMD_CONFIGURE_DEFAULT_TEXT" xml:space="preserve">
+    <value>_Vorgabetexte konfigurieren...</value>
   </data>
   <data name="CMD_CREATE_ACCOUNT" xml:space="preserve">
     <value>_Neues Konto anlegen...</value>
@@ -189,6 +201,12 @@
   <data name="LABEL_DAY" xml:space="preserve">
     <value>_Tag:</value>
   </data>
+  <data name="LABEL_DEFAULT_TEXT" xml:space="preserve">
+    <value>_Vorgabetext:</value>
+  </data>
+  <data name="LABEL_DEFAULT_TEXTS" xml:space="preserve">
+    <value>Vor_gabetexte:</value>
+  </data>
   <data name="LABEL_MONTH" xml:space="preserve">
     <value>_Monat:</value>
   </data>
@@ -244,8 +262,14 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TITLE_BANK" xml:space="preserve">
     <value>Kontoverwaltung</value>
   </data>
+  <data name="TITLE_CONFIGURE_DEFAULT_TEXT" xml:space="preserve">
+    <value>Vorgabetexte konfigurieren</value>
+  </data>
   <data name="TITLE_EDIT" xml:space="preserve">
     <value>Buchung bearbeiten</value>
+  </data>
+  <data name="TITLE_EDIT_DEFAULT_TEXT" xml:space="preserve">
+    <value>Vorgabetext ändern</value>
   </data>
   <data name="TITLE_NEW" xml:space="preserve">
     <value>Neues Konto anlegen</value>

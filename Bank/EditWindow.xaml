@@ -7,7 +7,7 @@
         xmlns:props="clr-namespace:Bank.Properties"
         mc:Ignorable="d"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-        Height="250" Width="450" ResizeMode="NoResize" Icon="Images/logo.png">
+        Height="250" Width="400" ResizeMode="NoResize" Icon="Images/logo.png">
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
