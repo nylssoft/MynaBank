@@ -489,6 +489,7 @@ namespace Bank
                     bookings.Add(booking);
                 }
             }
+            UpdateStatus();
         }
 
         private void UpdateBooking()
