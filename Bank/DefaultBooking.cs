@@ -15,20 +15,74 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+using System.ComponentModel;
+
 namespace Bank
 {
-    public class DefaultBooking
+    public class DefaultBooking : INotifyPropertyChanged
     {
+        private int day;
+        private string text;
+        private long amount;
+        private int monthmask;
+
         public long Id { get; set; }
 
         public Account Account { get; set; }
 
-        public int Monthmask { get; set; }
+        public int Monthmask
+        {
+            get
+            {
+                return monthmask;
+            }
+            set
+            {
+                monthmask = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Monthmask"));
+            }
+        }
 
-        public int Day { get; set; }
+        public int Day
+        {
+            get
+            {
+                return day;
+            }
+            set
+            {
+                day = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Day"));
+            }
+        }
 
-        public string Text { get; set; }
+        public string Text
+        {
+            get
+            {
+                return text;
+            }
+            set
+            {
+                text = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
+            }
+        }
 
-        public long Amount { get; set; }
+        public long Amount
+        {
+            get
+            {
+                return amount;
+            }
+            set
+            {
+                amount = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Amount"));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }

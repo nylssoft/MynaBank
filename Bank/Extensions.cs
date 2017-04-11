@@ -70,7 +70,15 @@ namespace Bank
             return selectedItem != null ? ((ListViewItem)selectedItem) : null;
         }
 
-        // TODO: FocusItem(this ListView listView, int idx)
+        public static bool FocusItem(this ListView listView, int idx)
+        {
+            if (listView.ItemContainerGenerator.ContainerFromIndex(idx) is ListViewItem lvi)
+            {
+                return lvi.Focus();
+            }
+            return false;
+        }
+
         #endregion
 
         #region SecureString extensions

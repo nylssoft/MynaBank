@@ -61,7 +61,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die A_dd ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die A_dd... ähnelt.
         /// </summary>
         public static string BUTTON_ADD {
             get {

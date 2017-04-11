@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace Bank
         private CheckBox[] checkBoxes;
         private bool changed = false;
 
+        public DefaultBooking DefaultBooking { get; private set; }
+
         public EditDefaultBookingWindow(Window owner, string title, DefaultBooking defaultBooking)
         {
             Owner = owner;
@@ -29,6 +32,10 @@ namespace Bank
                 checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6,
                 checkBox7, checkBox8, checkBox9, checkBox10, checkBox11, checkBox12,
             };
+            for (int idx = 0; idx < checkBoxes.Length; idx++)
+            {
+                checkBoxes[idx].Content = DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(idx+1);
+            }
             if (defaultBooking != null)
             {
                 textBoxDay.Text = Convert.ToString(defaultBooking.Day);
@@ -79,6 +86,19 @@ namespace Bank
             }
         }
 
+        private int GetMonthMask()
+        {
+            int mask = 0;
+            for (int idx=0; idx < checkBoxes.Length; idx++)
+            {
+                if (checkBoxes[idx].IsChecked == true)
+                {
+                    mask = mask | (1 << idx);
+                }
+            }
+            return mask;
+        }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             changed = true;
@@ -89,6 +109,19 @@ namespace Bank
         {
             changed = true;
             UpdateControls();
+        }
+
+        private void ButtonOK_Click(object sender, RoutedEventArgs e)
+        {
+            DefaultBooking = new DefaultBooking()
+            {
+                Day = Convert.ToInt32(textBoxDay.Text),
+                Text = textBoxText.Text,
+                Amount = CurrencyConverter.ParseCurrency(textBoxAmount.Text),
+                Monthmask = GetMonthMask()                
+            };
+            DialogResult = true;
+            Close();
         }
     }
 }

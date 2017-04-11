@@ -30,21 +30,21 @@
             <TextBox x:Name="textBoxAmount" Grid.Row="2" Grid.Column="1" Width="100" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_TextChanged"/>
             <Label Grid.Row="3" Grid.Column="0" Content="{x:Static props:Resources.LABEL_MONTH}" Target="{Binding ElementName=checkBox1}"/>
             <StackPanel Margin="0,5,0,0" Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" >
-                <CheckBox x:Name="checkBox1" Content="Jan" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox2" Content="Feb" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox3" Content="Mrz" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox4" Content="Apr" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox5" Content="Mai" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox6" Content="Jun" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox7" Content="Jul" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox8" Content="Aug" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox9" Content="Sep" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox10" Content="Okt" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox11" Content="Nov" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
-                <CheckBox x:Name="checkBox12" Content="Dez" />
+                <CheckBox x:Name="checkBox1" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox2" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox3" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox4" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox5" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox6" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox7" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox8" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox9" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox10" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox11" Margin="0,0,5,0" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox x:Name="checkBox12" />
             </StackPanel>
             <StackPanel Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="buttonOK" IsDefault="True" IsEnabled="False" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0"/>
+                <Button x:Name="buttonOK" IsDefault="True" IsEnabled="False" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
                 <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
             </StackPanel>
         </Grid>

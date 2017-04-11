@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,21 +22,26 @@ namespace Bank
         private ObservableCollection<DefaultBooking> defaultBookings = new ObservableCollection<DefaultBooking>();
         private CheckBox[] checkBoxes;
         private bool changed = false;
+        private Account account;
 
-        public ConfigureDefaultBookingWindow(Window owner, string title, List<DefaultBooking> defaultBookings)
+        public List<DefaultBooking> DefaultBookings { get; private set; }
+
+        public ConfigureDefaultBookingWindow(Window owner, string title, Account account, List<DefaultBooking> defaultBookings)
         {
             Owner = owner;
             Title = title;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            this.account = account;
             InitializeComponent();
             checkBoxes = new CheckBox[] {
                 checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6,
                 checkBox7, checkBox8, checkBox9, checkBox10, checkBox11, checkBox12,
             };
-            foreach (var c in checkBoxes)
+            for (int idx = 0; idx < checkBoxes.Length; idx++)
             {
-                c.IsEnabled = false;
-                c.Visibility = Visibility.Hidden;
+                checkBoxes[idx].IsEnabled = false;
+                checkBoxes[idx].Visibility = Visibility.Hidden;
+                checkBoxes[idx].Content = DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(idx + 1);
             }
             foreach (var item in defaultBookings)
             {
@@ -97,14 +103,21 @@ namespace Bank
             var wnd = new EditDefaultBookingWindow(this, Properties.Resources.TITLE_CONFIGURE_DEFAULT_BOOKING, null);
             if (wnd.ShowDialog() == true)
             {
+                defaultBookings.Add(wnd.DefaultBooking);
                 changed = true;
                 UpdateControls();
+                UpdateMonthMask(wnd.DefaultBooking.Monthmask);
+                listView.SelectedItem = wnd.DefaultBooking;
             }
         }
 
         private void ButtonEdit_Click(object sender, RoutedEventArgs e)
         {
-            var item = listView.SelectedItem as DefaultBooking;
+            Edit(listView.SelectedItem as DefaultBooking);
+        }
+
+        private void Edit(DefaultBooking item)
+        {
             if (item == null)
             {
                 return;
@@ -112,8 +125,17 @@ namespace Bank
             var wnd = new EditDefaultBookingWindow(this, Properties.Resources.TITLE_CONFIGURE_DEFAULT_BOOKING, item);
             if (wnd.ShowDialog() == true)
             {
+                item.Day = wnd.DefaultBooking.Day;
+                item.Text = wnd.DefaultBooking.Text;
+                item.Amount = wnd.DefaultBooking.Amount;
+                item.Monthmask = wnd.DefaultBooking.Monthmask;
                 changed = true;
                 UpdateControls();
+                var selitem = listView.SelectedItem as DefaultBooking;
+                if (selitem != null)
+                {
+                    UpdateMonthMask(selitem.Monthmask);
+                }
             }
         }
 
@@ -137,11 +159,7 @@ namespace Bank
             if (idx > 0)
             {
                 listView.SelectedIndex = idx;
-                var lvi = listView.ItemContainerGenerator.ContainerFromIndex(idx) as ListViewItem;
-                if (lvi != null)
-                {
-                    lvi.Focus();
-                }
+                listView.FocusItem(idx);
             }
             changed = true;
             UpdateControls();
@@ -153,15 +171,7 @@ namespace Bank
             var lvitem = listView.GetItemAt(mousePosition);
             if (lvitem != null)
             {
-                var wnd = new EditDefaultBookingWindow(
-                    this,
-                    Properties.Resources.TITLE_CONFIGURE_DEFAULT_BOOKING,
-                    lvitem.Content as DefaultBooking);
-                if (wnd.ShowDialog() == true)
-                {
-                    changed = true;
-                    UpdateControls();
-                }
+                Edit(lvitem.Content as DefaultBooking);
             }
         }
 
@@ -177,6 +187,18 @@ namespace Bank
                 ButtonEdit_Click(null, null);
                 e.Handled = true;
             }
+        }
+
+        private void ButtonOK_Click(object sender, RoutedEventArgs e)
+        {
+            DefaultBookings = new List<DefaultBooking>();
+            foreach (var item in defaultBookings)
+            {
+                item.Account = account;
+                DefaultBookings.Add(item);
+            }
+            DialogResult = true;
+            Close();
         }
     }
 }

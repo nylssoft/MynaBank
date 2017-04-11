@@ -30,7 +30,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <ListView x:Name="listView" Grid.Row="0" Grid.Column="1" TextSearch.TextPath="Text" SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick" KeyDown="ListView_KeyDown">
+        <ListView x:Name="listView" Grid.Row="0" Grid.Column="1" VirtualizingPanel.IsVirtualizing="False" TextSearch.TextPath="Text" SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick" KeyDown="ListView_KeyDown">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -61,21 +61,21 @@
             <Button x:Name="buttonRemove" Grid.Row="2" Content="{x:Static props:Resources.BUTTON_REMOVE}" Height="23" Width="80" Click="ButtonRemove_Click"/>
         </Grid>
         <StackPanel Margin="0,5,0,0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" >
-            <CheckBox x:Name="checkBox1" Content="Jan" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox2" Content="Feb" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox3" Content="Mrz" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox4" Content="Apr" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox5" Content="Mai" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox6" Content="Jun" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox7" Content="Jul" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox8" Content="Aug" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox9" Content="Sep" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox10" Content="Okt" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox11" Content="Nov" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox12" Content="Dez" />
+            <CheckBox x:Name="checkBox1" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox2" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox3" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox4" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox5" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox6" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox7" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox8" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox9" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox10" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox11" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox12" />
         </StackPanel>
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="buttonOK" IsDefault="True" IsEnabled="False" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0"/>
+            <Button x:Name="buttonOK" IsDefault="True" IsEnabled="False" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
             <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
         </StackPanel>
     </Grid>

@@ -590,10 +590,14 @@ namespace Bank
                 var account = comboBox.SelectedItem as Account;
                 if (account == null) return;
                 var defaultBookings = database.GetDefaultBookings(account);
-                var dlg = new ConfigureDefaultBookingWindow(this, Properties.Resources.TITLE_CONFIGURE_DEFAULT_BOOKING, defaultBookings);
+                var dlg = new ConfigureDefaultBookingWindow(
+                    this,
+                    Properties.Resources.TITLE_CONFIGURE_DEFAULT_BOOKING,
+                    account,
+                    defaultBookings);
                 if (dlg.ShowDialog() == true)
                 {
-                    database.SetDefaultBookings(account, defaultBookings);
+                    database.SetDefaultBookings(account, dlg.DefaultBookings);
                 }
             }
             catch (Exception ex)
