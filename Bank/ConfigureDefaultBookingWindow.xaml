@@ -7,7 +7,7 @@
         xmlns:props="clr-namespace:Bank.Properties"
         mc:Ignorable="d"
         Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
-        Height="300" Width="700" MinHeight="100" MinWidth="100" Icon="Images/logo.png">
+        Height="500" Width="700" MinHeight="100" MinWidth="100" Icon="Images/logo.png">
     <Window.Resources>
         <self:CurrencyConverter x:Key="CurrencyConverter" />
         <Style x:Key="ImageEnabled" TargetType="Image">

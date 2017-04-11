@@ -61,7 +61,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die A_dd... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Add... ähnelt.
         /// </summary>
         public static string BUTTON_ADD {
             get {
@@ -133,7 +133,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Configure default bookings... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die C_onfigure regular bookings... ähnelt.
         /// </summary>
         public static string CMD_CONFIGURE_DEFAULT_BOOKING {
             get {
@@ -142,7 +142,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Configure default text... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Configure default texts... ähnelt.
         /// </summary>
         public static string CMD_CONFIGURE_DEFAULT_TEXT {
             get {
@@ -178,7 +178,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Delete account _sheet... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete _sheet... ähnelt.
         /// </summary>
         public static string CMD_DELETE_SHEET {
             get {
@@ -259,7 +259,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Update account sheet... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Update balance... ähnelt.
         /// </summary>
         public static string CMD_UPDATE_BALANCE {
             get {
@@ -340,7 +340,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Account balance: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Balance: ähnelt.
         /// </summary>
         public static string LABEL_BALANCE {
             get {
@@ -358,20 +358,11 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Add default text: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Default text: ähnelt.
         /// </summary>
         public static string LABEL_DEFAULT_TEXT {
             get {
                 return ResourceManager.GetString("LABEL_DEFAULT_TEXT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Default texts: ähnelt.
-        /// </summary>
-        public static string LABEL_DEFAULT_TEXTS {
-            get {
-                return ResourceManager.GetString("LABEL_DEFAULT_TEXTS", resourceCulture);
             }
         }
         
@@ -457,7 +448,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to delete the account sheet for {0}? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to delete the sheet for {0}? ähnelt.
         /// </summary>
         public static string QUESTION_DELETE_SHEET_0 {
             get {
@@ -497,7 +488,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the account balance for the first of {0}. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the balance for the first of {0}. ähnelt.
         /// </summary>
         public static string TEXT_ENTER_ACCOUNT_BALANCE_0 {
             get {
@@ -524,6 +515,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add regular booking ähnelt.
+        /// </summary>
+        public static string TITLE_ADD_DEFAULT_BOOKING {
+            get {
+                return ResourceManager.GetString("TITLE_ADD_DEFAULT_BOOKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bank Account Manager ähnelt.
         /// </summary>
         public static string TITLE_BANK {
@@ -533,7 +533,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Configure default bookings ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Configure regular bookings ähnelt.
         /// </summary>
         public static string TITLE_CONFIGURE_DEFAULT_BOOKING {
             get {
@@ -542,7 +542,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Configure default text ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Configure default texts ähnelt.
         /// </summary>
         public static string TITLE_CONFIGURE_DEFAULT_TEXT {
             get {
@@ -556,6 +556,15 @@ namespace Bank.Properties {
         public static string TITLE_EDIT {
             get {
                 return ResourceManager.GetString("TITLE_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit regular booking ähnelt.
+        /// </summary>
+        public static string TITLE_EDIT_DEFAULT_BOOKING {
+            get {
+                return ResourceManager.GetString("TITLE_EDIT_DEFAULT_BOOKING", resourceCulture);
             }
         }
         
@@ -587,7 +596,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Update account sheet ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Update sheet ähnelt.
         /// </summary>
         public static string TITLE_UPDATE_BALANCE {
             get {
@@ -619,6 +628,42 @@ namespace Bank.Properties {
         public static string TOOLTIP_EDIT {
             get {
                 return ResourceManager.GetString("TOOLTIP_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die First month ähnelt.
+        /// </summary>
+        public static string TOOLTIP_FIRST {
+            get {
+                return ResourceManager.GetString("TOOLTIP_FIRST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Last month ähnelt.
+        /// </summary>
+        public static string TOOLTIP_LAST {
+            get {
+                return ResourceManager.GetString("TOOLTIP_LAST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Next month ähnelt.
+        /// </summary>
+        public static string TOOLTIP_NEXT {
+            get {
+                return ResourceManager.GetString("TOOLTIP_NEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Previous month ähnelt.
+        /// </summary>
+        public static string TOOLTIP_PREVIOUS {
+            get {
+                return ResourceManager.GetString("TOOLTIP_PREVIOUS", resourceCulture);
             }
         }
         

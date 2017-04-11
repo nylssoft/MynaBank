@@ -17,6 +17,7 @@
 */
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,13 +26,14 @@ namespace Bank
 {
     public partial class ConfigureDefaultTextWindow : Window
     {
-        private List<string> defaultTexts;
+        private bool changed = false;
+
+        public List<string> DefaultTexts { get; private set; }
 
         public ConfigureDefaultTextWindow(Window owner, string title, List<string> defaultTexts)
         {
             Owner = owner;
             Title = title;
-            this.defaultTexts = defaultTexts;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             InitializeComponent();
             foreach (string txt in defaultTexts)
@@ -39,26 +41,13 @@ namespace Bank
                 listBoxDefaultText.Items.Add(txt);
             }
             textBoxDefaultText.Focus();
+            changed = false;
             UpdateControls();
         }
 
         private void UpdateControls()
         {
-            bool enabled = false;
-            bool listDiffers = listBoxDefaultText.Items.Count != defaultTexts.Count;
-            if (!listDiffers)
-            {
-                for (int idx = 0; idx < listBoxDefaultText.Items.Count; idx++)
-                {
-                    if (!string.Equals(listBoxDefaultText.Items.GetItemAt(idx) as string, defaultTexts[idx]))
-                    {
-                        listDiffers = true;
-                        break;
-                    }
-                }
-            }
-            enabled = listDiffers;
-            buttonOK.IsEnabled = enabled;
+            buttonOK.IsEnabled = changed;
             buttonAddDefaultText.IsEnabled = textBoxDefaultText.Text.Length > 0;
             buttonRemoveDefaultText.IsEnabled = listBoxDefaultText.SelectedItems.Count > 0;
             buttonEditDefaultText.IsEnabled = listBoxDefaultText.SelectedItems.Count == 1;
@@ -66,10 +55,10 @@ namespace Bank
 
         private void ButtonOK_Click(object sender, RoutedEventArgs e)
         {
-            defaultTexts.Clear();
+            DefaultTexts = new List<string>();
             foreach (string txt in listBoxDefaultText.Items)
             {
-                defaultTexts.Add(txt);
+                DefaultTexts.Add(txt);
             }
             DialogResult = true;
             Close();
@@ -82,6 +71,7 @@ namespace Bank
 
         private void TextBoxDefaultText_TextChanged(object sender, TextChangedEventArgs e)
         {
+            changed = true;
             UpdateControls();
         }
 
@@ -92,6 +82,7 @@ namespace Bank
             listBoxDefaultText.ScrollIntoView(txt);
             textBoxDefaultText.Text = "";
             textBoxDefaultText.Focus();
+            changed = true;
             UpdateControls();
         }
 
@@ -106,7 +97,7 @@ namespace Bank
                 int selidx = listBoxDefaultText.SelectedIndex;
                 listBoxDefaultText.Items[selidx] = w.DefaultText;
                 listBoxDefaultText.SelectedIndex = selidx;
-                buttonOK.IsEnabled = true;
+                changed = true;
                 UpdateControls();
             }
         }
@@ -130,6 +121,7 @@ namespace Bank
                 {
                     listBoxDefaultText.SelectedIndex = idx;
                 }
+                changed = true;
                 UpdateControls();
             }
         }

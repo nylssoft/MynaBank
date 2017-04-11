@@ -63,6 +63,12 @@ namespace Bank
             viewlist.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
             changed = false;
             UpdateControls();
+            if (defaultBookings.Count > 0)
+            {
+                listView.Focus();
+                listView.SelectedIndex = 0;
+                listView.FocusItem(0);
+            }
         }
 
         private void UpdateControls()
@@ -110,7 +116,7 @@ namespace Bank
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            var wnd = new EditDefaultBookingWindow(this, Properties.Resources.TITLE_CONFIGURE_DEFAULT_BOOKING, null);
+            var wnd = new EditDefaultBookingWindow(this, Properties.Resources.TITLE_ADD_DEFAULT_BOOKING, null);
             if (wnd.ShowDialog() == true)
             {
                 defaultBookings.Add(wnd.DefaultBooking);
@@ -132,7 +138,7 @@ namespace Bank
             {
                 return;
             }
-            var wnd = new EditDefaultBookingWindow(this, Properties.Resources.TITLE_CONFIGURE_DEFAULT_BOOKING, item);
+            var wnd = new EditDefaultBookingWindow(this, Properties.Resources.TITLE_EDIT_DEFAULT_BOOKING, item);
             if (wnd.ShowDialog() == true)
             {
                 item.Day = wnd.DefaultBooking.Day;
@@ -166,7 +172,7 @@ namespace Bank
                 defaultBookings.Remove(d);
             }
             idx = Math.Min(idx, defaultBookings.Count - 1);
-            if (idx > 0)
+            if (idx >= 0)
             {
                 listView.SelectedIndex = idx;
                 listView.FocusItem(idx);

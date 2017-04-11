@@ -376,7 +376,8 @@ namespace Bank
                     string.Format(Properties.Resources.QUESTION_DELETE_ACCOUNT_0, account.Name),
                     Title,
                     MessageBoxButton.YesNo,
-                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    MessageBoxImage.Question,
+                    MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     database.DeleteAccount(account);
                     accounts.Remove(account);
@@ -405,7 +406,8 @@ namespace Bank
                     string.Format(Properties.Resources.QUESTION_DELETE_SHEET_0, $"{dt:y}"),
                     Title,
                     MessageBoxButton.YesNo,
-                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    MessageBoxImage.Question,
+                    MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     database.DeleteBalance(current);
                     ShowAccount(null);
@@ -556,7 +558,8 @@ namespace Bank
                 if (MessageBox.Show(
                     Properties.Resources.QUESTION_DELETE_ITEMS,
                     Title, MessageBoxButton.YesNo,
-                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    MessageBoxImage.Question,
+                    MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     var del = new List<Booking>();
                     foreach (Booking booking in listView.SelectedItems)
@@ -599,7 +602,7 @@ namespace Bank
                 var dlg = new ConfigureDefaultTextWindow(this, Properties.Resources.TITLE_CONFIGURE_DEFAULT_TEXT, defaultTexts);
                 if (dlg.ShowDialog() == true)
                 {
-                    database.SetDefaultTexts(account, defaultTexts);
+                    database.SetDefaultTexts(account, dlg.DefaultTexts);
                 }
             }
             catch (Exception ex)
@@ -685,6 +688,7 @@ namespace Bank
 
         private void UpdateStatus()
         {
+            /*
             StringBuilder sb = new StringBuilder();
             sb.Append(Properties.Resources.TITLE_BANK);
             if (comboBox.SelectedItem is Account account)
@@ -699,6 +703,7 @@ namespace Bank
                 }
             }
             Title = sb.ToString();        
+            */
             int selected = listView.SelectedItems.Count;
             int total = listView.Items.Count;
             string status = string.Empty;

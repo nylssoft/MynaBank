@@ -46,7 +46,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Menu Grid.Row="0" KeyboardNavigation.TabIndex="0">
+                <Menu Grid.Row="0" KeyboardNavigation.TabIndex="1">
                     <MenuItem Header="{x:Static props:Resources.MENUITEM_FILE}">
                         <MenuItem Command="self:CustomCommands.CreateAccount">
                             <MenuItem.Icon>
@@ -95,7 +95,7 @@
                         </MenuItem>
                     </MenuItem>
                 </Menu>
-                <ToolBarTray Grid.Row="1" KeyboardNavigation.TabIndex="1">
+                <ToolBarTray Grid.Row="1" KeyboardNavigation.TabIndex="2">
                     <ToolBar KeyboardNavigation.TabNavigation="Continue">
                         <Label Margin="0,5,0,5" Content="{x:Static props:Resources.LABEL_ACCOUNT}" Target="{Binding ElementName=comboBox}"/>
                         <ComboBox x:Name="comboBox" MinWidth="100" Margin="0,3,0,3" HorizontalAlignment="Left" SelectionChanged="ComboBoxAccounts_SelectionChanged">
@@ -119,7 +119,7 @@
                     </ToolBar>
                 </ToolBarTray>
             </Grid>
-            <Grid DockPanel.Dock="Bottom">
+            <Grid DockPanel.Dock="Bottom" KeyboardNavigation.TabIndex="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
@@ -127,17 +127,17 @@
                 </Grid.RowDefinitions>
                 <Slider x:Name="slider" Grid.Row="0" Visibility="Visible" Minimum="0" Maximum="100" ValueChanged="SliderValue_Changed" />
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Command="self:CustomCommands.First" Margin="5,0,5,0" Height="23" Width="23">
+                    <Button Command="self:CustomCommands.First" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_FIRST}">
                         <Image Source="Images/16x16/arrow-left-double-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>
-                    <Button Command="self:CustomCommands.Previous" Margin="5,0,5,0" Height="23" Width="23">
+                    <Button Command="self:CustomCommands.Previous" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_PREVIOUS}">
                         <Image Source="Images/16x16/arrow-left-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>
                     <TextBlock x:Name="textBlockCurrent" Margin="10,5,10,0" Text="January 2017" Width="200" TextAlignment="Center"/>
-                    <Button Command="self:CustomCommands.Next" Margin="5,0,5,0" Height="23" Width="23">
+                    <Button Command="self:CustomCommands.Next" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_NEXT}">
                         <Image Source="Images/16x16/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>
-                    <Button Command="self:CustomCommands.Last" Margin="5,0,5,0" Height="23" Width="23">
+                    <Button Command="self:CustomCommands.Last" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_LAST}">
                         <Image Source="Images/16x16/arrow-right-double-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>
                 </StackPanel>
@@ -147,7 +147,7 @@
                     </StatusBarItem>
                 </StatusBar>
             </Grid>
-            <ListView x:Name="listView" KeyboardNavigation.TabIndex="2" TextSearch.TextPath="Text" SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick">
+            <ListView x:Name="listView" KeyboardNavigation.TabIndex="3" TextSearch.TextPath="Text" SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

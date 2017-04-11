@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BUTTON_ADD" xml:space="preserve">
-    <value>A_dd...</value>
+    <value>_Add...</value>
   </data>
   <data name="BUTTON_CANCEL" xml:space="preserve">
     <value>_Cancel</value>
@@ -142,10 +142,10 @@
     <value>_Close</value>
   </data>
   <data name="CMD_CONFIGURE_DEFAULT_BOOKING" xml:space="preserve">
-    <value>_Configure default bookings...</value>
+    <value>C_onfigure regular bookings...</value>
   </data>
   <data name="CMD_CONFIGURE_DEFAULT_TEXT" xml:space="preserve">
-    <value>_Configure default text...</value>
+    <value>_Configure default texts...</value>
   </data>
   <data name="CMD_CREATE_ACCOUNT" xml:space="preserve">
     <value>Create _new account...</value>
@@ -157,7 +157,7 @@
     <value>D_elete account...</value>
   </data>
   <data name="CMD_DELETE_SHEET" xml:space="preserve">
-    <value>Delete account _sheet...</value>
+    <value>Delete _sheet...</value>
   </data>
   <data name="CMD_EDIT" xml:space="preserve">
     <value>_Edit booking...</value>
@@ -184,7 +184,7 @@
     <value>_Rename account...</value>
   </data>
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
-    <value>_Update account sheet...</value>
+    <value>_Update balance...</value>
   </data>
   <data name="COLUMN_AMOUNT" xml:space="preserve">
     <value>Amount</value>
@@ -211,16 +211,13 @@
     <value>_Amount:</value>
   </data>
   <data name="LABEL_BALANCE" xml:space="preserve">
-    <value>_Account balance:</value>
+    <value>_Balance:</value>
   </data>
   <data name="LABEL_DAY" xml:space="preserve">
     <value>_Day:</value>
   </data>
   <data name="LABEL_DEFAULT_TEXT" xml:space="preserve">
-    <value>_Add default text:</value>
-  </data>
-  <data name="LABEL_DEFAULT_TEXTS" xml:space="preserve">
-    <value>_Default texts:</value>
+    <value>_Default text:</value>
   </data>
   <data name="LABEL_MONTH" xml:space="preserve">
     <value>_Month:</value>
@@ -250,7 +247,7 @@
     <value>Do you want to delete the selected bookings?</value>
   </data>
   <data name="QUESTION_DELETE_SHEET_0" xml:space="preserve">
-    <value>Do you want to delete the account sheet for {0}?</value>
+    <value>Do you want to delete the sheet for {0}?</value>
   </data>
   <data name="SELECTED_0_OF_1" xml:space="preserve">
     <value>{0} of {1} booking selected.</value>
@@ -266,7 +263,7 @@ This program is free software: you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</value>
   </data>
   <data name="TEXT_ENTER_ACCOUNT_BALANCE_0" xml:space="preserve">
-    <value>Enter the account balance for the first of {0}.</value>
+    <value>Enter the balance for the first of {0}.</value>
   </data>
   <data name="TEXT_SELECT_IMPORT_DIRECTORY" xml:space="preserve">
     <value>Choose the import directory with the account data in the old format.</value>
@@ -274,17 +271,23 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TITLE_ADD" xml:space="preserve">
     <value>Add booking</value>
   </data>
+  <data name="TITLE_ADD_DEFAULT_BOOKING" xml:space="preserve">
+    <value>Add regular booking</value>
+  </data>
   <data name="TITLE_BANK" xml:space="preserve">
     <value>Bank Account Manager</value>
   </data>
   <data name="TITLE_CONFIGURE_DEFAULT_BOOKING" xml:space="preserve">
-    <value>Configure default bookings</value>
+    <value>Configure regular bookings</value>
   </data>
   <data name="TITLE_CONFIGURE_DEFAULT_TEXT" xml:space="preserve">
-    <value>Configure default text</value>
+    <value>Configure default texts</value>
   </data>
   <data name="TITLE_EDIT" xml:space="preserve">
     <value>Edit booking</value>
+  </data>
+  <data name="TITLE_EDIT_DEFAULT_BOOKING" xml:space="preserve">
+    <value>Edit regular booking</value>
   </data>
   <data name="TITLE_EDIT_DEFAULT_TEXT" xml:space="preserve">
     <value>Edit default text</value>
@@ -296,7 +299,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Rename account</value>
   </data>
   <data name="TITLE_UPDATE_BALANCE" xml:space="preserve">
-    <value>Update account sheet</value>
+    <value>Update sheet</value>
   </data>
   <data name="TOOLTIP_ADD" xml:space="preserve">
     <value>Add booking</value>
@@ -306,6 +309,18 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   </data>
   <data name="TOOLTIP_EDIT" xml:space="preserve">
     <value>Edit booking</value>
+  </data>
+  <data name="TOOLTIP_FIRST" xml:space="preserve">
+    <value>First month</value>
+  </data>
+  <data name="TOOLTIP_LAST" xml:space="preserve">
+    <value>Last month</value>
+  </data>
+  <data name="TOOLTIP_NEXT" xml:space="preserve">
+    <value>Next month</value>
+  </data>
+  <data name="TOOLTIP_PREVIOUS" xml:space="preserve">
+    <value>Previous month</value>
   </data>
   <data name="TOTAL_0" xml:space="preserve">
     <value>{0} bookings.</value>
