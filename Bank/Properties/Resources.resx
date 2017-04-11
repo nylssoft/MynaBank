@@ -165,8 +165,20 @@
   <data name="CMD_EXIT" xml:space="preserve">
     <value>E_xit</value>
   </data>
+  <data name="CMD_FIRST" xml:space="preserve">
+    <value>_First</value>
+  </data>
   <data name="CMD_IMPORT_ACCOUNT" xml:space="preserve">
     <value>_Import account...</value>
+  </data>
+  <data name="CMD_LAST" xml:space="preserve">
+    <value>_Last</value>
+  </data>
+  <data name="CMD_NEXT" xml:space="preserve">
+    <value>_Next</value>
+  </data>
+  <data name="CMD_PREVIOUS" xml:space="preserve">
+    <value>_Previous</value>
   </data>
   <data name="CMD_RENAME_ACCOUNT" xml:space="preserve">
     <value>_Rename account...</value>

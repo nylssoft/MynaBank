@@ -165,8 +165,20 @@
   <data name="CMD_EXIT" xml:space="preserve">
     <value>B_eenden</value>
   </data>
+  <data name="CMD_FIRST" xml:space="preserve">
+    <value>_Erster</value>
+  </data>
   <data name="CMD_IMPORT_ACCOUNT" xml:space="preserve">
     <value>Konto importieren...</value>
+  </data>
+  <data name="CMD_LAST" xml:space="preserve">
+    <value>_Letzter</value>
+  </data>
+  <data name="CMD_NEXT" xml:space="preserve">
+    <value>_Nächster</value>
+  </data>
+  <data name="CMD_PREVIOUS" xml:space="preserve">
+    <value>_Vorheriger</value>
   </data>
   <data name="CMD_RENAME_ACCOUNT" xml:space="preserve">
     <value>Konto _umbenennen...</value>

@@ -81,9 +81,18 @@ namespace Bank
             Account account = comboBox?.SelectedItem as Account;
             int selcount = (listView != null ? listView.SelectedItems.Count : 0);
             bool updatebalance = false;
+            bool next = false;
+            bool prev = false;
             if (account != null && balances.Count > 0)
             {
-                updatebalance = (int)slider.Value == (int)slider.Maximum;
+                int sv = (int)slider.Value;
+                int sm = (int)slider.Maximum;
+                updatebalance = sv == sm;
+                if (balances.Count > 1)
+                {
+                    next = sv < sm;
+                    prev = sv > 0;
+                }
             }
             switch (r.Name)
             {
@@ -111,6 +120,14 @@ namespace Bank
                     break;
                 case "Remove":
                     e.CanExecute = selcount >= 1;
+                    break;
+                case "Next":
+                case "Last":
+                    e.CanExecute = next;
+                    break;
+                case "Previous":
+                case "First":
+                    e.CanExecute = prev;
                     break;
                 default:
                     break;
@@ -161,6 +178,18 @@ namespace Bank
                     break;
                 case "ConfigureDefaultBooking":
                     ConfigureDefaultBooking();
+                    break;
+                case "Next":
+                    Next();
+                    break;
+                case "Previous":
+                    Previous();
+                    break;
+                case "First":
+                    First();
+                    break;
+                case "Last":
+                    Last();
                     break;
                 default:
                     break;
@@ -459,20 +488,16 @@ namespace Bank
                 slider.IsSnapToTickEnabled = true;
                 slider.TickPlacement = System.Windows.Controls.Primitives.TickPlacement.BottomRight;
                 slider.Visibility = Visibility.Visible;
-                slider.Width = 100;
             }
             else
             {
                 slider.Maximum = 0;
                 slider.Visibility = Visibility.Hidden;
-                slider.Width = 0;
                 textBlockCurrent.Text = "";
-                textBlockCurrent.Width = 0;
             }
             CurrentBalance = current;
             if (current == null && balances.Count > 0)
             {
-                textBlockCurrent.Width = 100;
                 CurrentBalance = balances[balances.Count - 1];
             }
             ShowBalance(CurrentBalance);
@@ -606,12 +631,63 @@ namespace Bank
             }
         }
 
+        private void Next()
+        {
+            try
+            {
+                slider.Value += 1;
+                ShowBalance(CurrentBalance);
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void Previous()
+        {
+            try
+            {
+                slider.Value -= 1;
+                ShowBalance(CurrentBalance);
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void First()
+        {
+            try
+            {
+                slider.Value = 0;
+                ShowBalance(CurrentBalance);
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void Last()
+        {
+            try
+            {
+                slider.Value = slider.Maximum;
+                ShowBalance(CurrentBalance);
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
         private void UpdateStatus()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(Properties.Resources.TITLE_BANK);
-            var account = comboBox.SelectedItem as Account;
-            if (account != null)
+            if (comboBox.SelectedItem is Account account)
             {
                 sb.Append(" - " + account.Name);
                 var balance = CurrentBalance;

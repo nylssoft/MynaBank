@@ -61,8 +61,7 @@ namespace Bank
             // set max length of editable combobox
             comboBoxText.Loaded += delegate
             {
-                TextBox textBox = comboBoxText.Template.FindName("PART_EditableTextBox", comboBoxText) as TextBox;
-                if (textBox != null)
+                if (comboBoxText.Template.FindName("PART_EditableTextBox", comboBoxText) is TextBox textBox)
                 {
                     textBox.MaxLength = 100;
                 }

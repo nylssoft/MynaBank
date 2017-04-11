@@ -8,6 +8,7 @@
         Icon="Images/logo.png"
         xmlns:self="clr-namespace:Bank"        
         xmlns:props="clr-namespace:Bank.Properties"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
         Height="400" Width="600" MinWidth="200" MinHeight="300" >
     <Window.Resources>
         <self:CurrencyConverter x:Key="CurrencyConverter" />
@@ -33,6 +34,10 @@
         <CommandBinding Command="self:CustomCommands.About" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.ConfigureDefaultText" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.ConfigureDefaultBooking" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Next" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Previous" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.First" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Last" CanExecute="Command_CanExecute" Executed="Command_Executed" />
     </Window.CommandBindings>
     <Grid>
         <DockPanel LastChildFill="True">
@@ -100,20 +105,6 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <Button>
-                            <Image Source="Images/32x32/arrow-left-double-2.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
-                        </Button>
-                        <Button>
-                            <Image Source="Images/32x32/arrow-left-2.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
-                        </Button>
-                        <TextBlock x:Name="textBlockCurrent" Margin="10,10,0,4" Width="0"/>
-                        <Button>
-                            <Image Source="Images/32x32/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
-                        </Button>
-                        <Button>
-                            <Image Source="Images/32x32/arrow-right-double-2.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
-                        </Button>
-                        <Slider x:Name="slider" Margin="10,9,0,0" Visibility="Hidden" Width="0" Minimum="0" Maximum="100" ValueChanged="SliderValue_Changed" />
                     </ToolBar>
                     <ToolBar KeyboardNavigation.TabNavigation="Continue">
                         <Button Command="self:CustomCommands.Add" ToolTip="{x:Static props:Resources.TOOLTIP_ADD}">
@@ -128,11 +119,34 @@
                     </ToolBar>
                 </ToolBarTray>
             </Grid>
-            <StatusBar DockPanel.Dock="Bottom">
-                <StatusBarItem>
-                    <TextBlock x:Name="textBlockStatus" TextTrimming="CharacterEllipsis" />
-                </StatusBarItem>
-            </StatusBar>
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Slider x:Name="slider" Grid.Row="0" Visibility="Visible" Minimum="0" Maximum="100" ValueChanged="SliderValue_Changed" />
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Command="self:CustomCommands.First" Margin="5,0,5,0" Height="23" Width="23">
+                        <Image Source="Images/16x16/arrow-left-double-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                    </Button>
+                    <Button Command="self:CustomCommands.Previous" Margin="5,0,5,0" Height="23" Width="23">
+                        <Image Source="Images/16x16/arrow-left-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                    </Button>
+                    <TextBlock x:Name="textBlockCurrent" Margin="10,5,10,0" Text="January 2017" Width="200" TextAlignment="Center"/>
+                    <Button Command="self:CustomCommands.Next" Margin="5,0,5,0" Height="23" Width="23">
+                        <Image Source="Images/16x16/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                    </Button>
+                    <Button Command="self:CustomCommands.Last" Margin="5,0,5,0" Height="23" Width="23">
+                        <Image Source="Images/16x16/arrow-right-double-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                    </Button>
+                </StackPanel>
+                <StatusBar Grid.Row="2">
+                    <StatusBarItem>
+                        <TextBlock x:Name="textBlockStatus" TextTrimming="CharacterEllipsis"/>
+                    </StatusBarItem>
+                </StatusBar>
+            </Grid>
             <ListView x:Name="listView" KeyboardNavigation.TabIndex="2" TextSearch.TextPath="Text" SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">

@@ -205,11 +205,47 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _First ähnelt.
+        /// </summary>
+        public static string CMD_FIRST {
+            get {
+                return ResourceManager.GetString("CMD_FIRST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Import account... ähnelt.
         /// </summary>
         public static string CMD_IMPORT_ACCOUNT {
             get {
                 return ResourceManager.GetString("CMD_IMPORT_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Last ähnelt.
+        /// </summary>
+        public static string CMD_LAST {
+            get {
+                return ResourceManager.GetString("CMD_LAST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Next ähnelt.
+        /// </summary>
+        public static string CMD_NEXT {
+            get {
+                return ResourceManager.GetString("CMD_NEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Previous ähnelt.
+        /// </summary>
+        public static string CMD_PREVIOUS {
+            get {
+                return ResourceManager.GetString("CMD_PREVIOUS", resourceCulture);
             }
         }
         

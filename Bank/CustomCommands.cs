@@ -103,5 +103,29 @@ namespace Bank
             "ConfigureDefaultBooking",
             typeof(CustomCommands));
 
+        public static readonly RoutedUICommand Next =
+            new RoutedUICommand(
+            Properties.Resources.CMD_NEXT,
+            "Next",
+            typeof(CustomCommands));
+
+        public static readonly RoutedUICommand Previous =
+            new RoutedUICommand(
+            Properties.Resources.CMD_PREVIOUS,
+            "Previous",
+            typeof(CustomCommands));
+
+        public static readonly RoutedUICommand Last =
+            new RoutedUICommand(
+            Properties.Resources.CMD_LAST,
+            "Last",
+            typeof(CustomCommands));
+
+        public static readonly RoutedUICommand First =
+            new RoutedUICommand(
+            Properties.Resources.CMD_FIRST,
+            "First",
+            typeof(CustomCommands));
+
     }
 }
