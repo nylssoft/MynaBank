@@ -48,7 +48,7 @@ Temporary Items
 /.vs
 /Bank/.vs
 /Bank/obj
-/Bank/.vs
-/Bank/obj
+/BankSetup/obj
+/BankSetup/.vs
 /bin/Debug
 /bin/Release
