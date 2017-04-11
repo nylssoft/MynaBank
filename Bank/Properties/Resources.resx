@@ -141,6 +141,9 @@
   <data name="CMD_CLOSE" xml:space="preserve">
     <value>_Close</value>
   </data>
+  <data name="CMD_CONFIGURE_DEFAULT_BOOKING" xml:space="preserve">
+    <value>_Configure default bookings...</value>
+  </data>
   <data name="CMD_CONFIGURE_DEFAULT_TEXT" xml:space="preserve">
     <value>_Configure default text...</value>
   </data>
@@ -261,6 +264,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   </data>
   <data name="TITLE_BANK" xml:space="preserve">
     <value>Bank Account Manager</value>
+  </data>
+  <data name="TITLE_CONFIGURE_DEFAULT_BOOKING" xml:space="preserve">
+    <value>Configure default bookings</value>
   </data>
   <data name="TITLE_CONFIGURE_DEFAULT_TEXT" xml:space="preserve">
     <value>Configure default text</value>

@@ -97,5 +97,11 @@ namespace Bank
             "ConfigureDefaultText",
             typeof(CustomCommands));
 
+        public static readonly RoutedUICommand ConfigureDefaultBooking =
+            new RoutedUICommand(
+            Properties.Resources.CMD_CONFIGURE_DEFAULT_BOOKING,
+            "ConfigureDefaultBooking",
+            typeof(CustomCommands));
+
     }
 }

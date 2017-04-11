@@ -70,6 +70,7 @@ namespace Bank
             return selectedItem != null ? ((ListViewItem)selectedItem) : null;
         }
 
+        // TODO: FocusItem(this ListView listView, int idx)
         #endregion
 
         #region SecureString extensions

@@ -470,45 +470,6 @@ namespace Bank
 
         #region DefaultBooking
 
-        public void InsertDefaultBooking(DefaultBooking defaultBooking)
-        {
-            using (var cmd = new SQLiteCommand(con))
-            {
-                cmd.CommandText = "INSERT INTO defaultbooking VALUES(@p1,@p2,@p3,@p4,@p5)";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", defaultBooking.Account.Id));
-                cmd.Parameters.Add(new SQLiteParameter("@p2", defaultBooking.Monthmask));
-                cmd.Parameters.Add(new SQLiteParameter("@p3", defaultBooking.Day));
-                cmd.Parameters.Add(new SQLiteParameter("@p4", defaultBooking.Text));
-                cmd.Parameters.Add(new SQLiteParameter("@p5", defaultBooking.Amount));
-                cmd.ExecuteNonQuery();
-                defaultBooking.Id = con.LastInsertRowId;
-            }
-        }
-
-        public void UpdateDefaultBooking(DefaultBooking defaultBooking)
-        {
-            using (var cmd = new SQLiteCommand(con))
-            {
-                cmd.CommandText = "UPDATE defaultbooking SET monthmask=@p2,day=@p3,text=@p4,amount=@p5 WHERE rowid=@p1";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", defaultBooking.Id));
-                cmd.Parameters.Add(new SQLiteParameter("@p2", defaultBooking.Monthmask));
-                cmd.Parameters.Add(new SQLiteParameter("@p3", defaultBooking.Day));
-                cmd.Parameters.Add(new SQLiteParameter("@p4", defaultBooking.Text));
-                cmd.Parameters.Add(new SQLiteParameter("@p5", defaultBooking.Amount));
-                cmd.ExecuteNonQuery();
-            }
-        }
-
-        public void DeleteDefaultBooking(DefaultBooking defaultBooking)
-        {
-            using (var cmd = new SQLiteCommand(con))
-            {
-                cmd.CommandText = "DELETE FROM defaultbooking WHERE rowid=@p1";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", defaultBooking.Id));
-                cmd.ExecuteNonQuery();
-            }
-        }
-
         public List<DefaultBooking> GetDefaultBookings(Account account)
         {
             var ret = new List<DefaultBooking>();
@@ -534,6 +495,32 @@ namespace Bank
                 }
             }
             return ret;
+        }
+
+        public void SetDefaultBookings(Account account, List<DefaultBooking> defaultBookings)
+        {
+            using (var trans = con.BeginTransaction())
+            {
+                using (var cmd = new SQLiteCommand(con))
+                {
+                    cmd.CommandText = "DELETE FROM defaultbooking WHERE accountid=@p1";
+                    cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "INSERT INTO defaultbooking VALUES(@p1,@p2,@p3,@p4,@p5)";
+                    foreach (var defaultBooking in defaultBookings)
+                    {
+                        cmd.Parameters.Add(new SQLiteParameter("@p1", defaultBooking.Account.Id));
+                        cmd.Parameters.Add(new SQLiteParameter("@p2", defaultBooking.Monthmask));
+                        cmd.Parameters.Add(new SQLiteParameter("@p3", defaultBooking.Day));
+                        cmd.Parameters.Add(new SQLiteParameter("@p4", defaultBooking.Text));
+                        cmd.Parameters.Add(new SQLiteParameter("@p5", defaultBooking.Amount));
+                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+                    }
+                }
+                trans.Commit();
+            }
         }
 
         #endregion
@@ -583,6 +570,7 @@ namespace Bank
                 trans.Commit();
             }
         }
+
         #endregion
 
         #region Migrate

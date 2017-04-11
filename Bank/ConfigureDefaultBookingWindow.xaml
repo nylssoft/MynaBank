@@ -7,7 +7,7 @@
         xmlns:props="clr-namespace:Bank.Properties"
         mc:Ignorable="d"
         Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
-        Height="300" Width="600" ResizeMode="NoResize" Icon="Images/logo.png">
+        Height="300" Width="700" MinHeight="100" MinWidth="100" Icon="Images/logo.png">
     <Window.Resources>
         <self:CurrencyConverter x:Key="CurrencyConverter" />
         <Style x:Key="ImageEnabled" TargetType="Image">
@@ -21,6 +21,7 @@
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
@@ -29,7 +30,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <ListView x:Name="listView" Grid.Row="0" Grid.Column="1" TextSearch.TextPath="Text">
+        <ListView x:Name="listView" Grid.Row="0" Grid.Column="1" TextSearch.TextPath="Text" SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick" KeyDown="ListView_KeyDown">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -38,7 +39,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{x:Static props:Resources.COLUMN_DAY}" Width="50" DisplayMemberBinding="{Binding Day}"/>
-                    <GridViewColumn Header="{x:Static props:Resources.COLUMN_TEXT}" Width="200" DisplayMemberBinding="{Binding Text}"/>
+                    <GridViewColumn Header="{x:Static props:Resources.COLUMN_TEXT}" Width="400" DisplayMemberBinding="{Binding Text}"/>
                     <GridViewColumn Header="{x:Static props:Resources.COLUMN_AMOUNT}" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -46,27 +47,34 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{x:Static props:Resources.COLUMN_BALANCE}" Width="100">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding CurrentBalance, Converter={StaticResource CurrencyConverter}}" TextAlignment="Right" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Grid Grid.Row="0" Grid.Column="2">
+        <Grid Grid.Row="0" Grid.Column="2" Margin="5,0,5,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="30" />
             </Grid.RowDefinitions>
-            <Button x:Name="buttonAddDefaultText" Grid.Row="0" Content="{x:Static props:Resources.BUTTON_ADD}" Height="23" Width="80"/>
-            <Button x:Name="buttonEditDefaultText" Grid.Row="1" Content="{x:Static props:Resources.BUTTON_EDIT}" Height="23" Width="80"/>
-            <Button x:Name="buttonRemoveDefaultText" Grid.Row="2" Content="{x:Static props:Resources.BUTTON_REMOVE}" Height="23" Width="80"/>
+            <Button x:Name="buttonAdd" Grid.Row="0" Content="{x:Static props:Resources.BUTTON_ADD}" Height="23" Width="80" Click="ButtonAdd_Click"/>
+            <Button x:Name="buttonEdit" Grid.Row="1" Content="{x:Static props:Resources.BUTTON_EDIT}" Height="23" Width="80" Click="ButtonEdit_Click"/>
+            <Button x:Name="buttonRemove" Grid.Row="2" Content="{x:Static props:Resources.BUTTON_REMOVE}" Height="23" Width="80" Click="ButtonRemove_Click"/>
         </Grid>
-        <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Margin="0,5,0,0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" >
+            <CheckBox x:Name="checkBox1" Content="Jan" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox2" Content="Feb" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox3" Content="Mrz" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox4" Content="Apr" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox5" Content="Mai" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox6" Content="Jun" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox7" Content="Jul" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox8" Content="Aug" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox9" Content="Sep" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox10" Content="Okt" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox11" Content="Nov" Margin="0,0,10,0"/>
+            <CheckBox x:Name="checkBox12" Content="Dez" />
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="buttonOK" IsDefault="True" IsEnabled="False" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0"/>
             <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
         </StackPanel>

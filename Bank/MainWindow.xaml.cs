@@ -100,6 +100,7 @@ namespace Bank
                 case "DeleteAccount":
                 case "RenameAccount":
                 case "ConfigureDefaultText":
+                case "ConfigureDefaultBooking":
                     e.CanExecute = account != null;
                     break;
                 case "DeleteSheet":
@@ -157,6 +158,9 @@ namespace Bank
                     break;
                 case "ConfigureDefaultText":
                     ConfigureDefaultText();
+                    break;
+                case "ConfigureDefaultBooking":
+                    ConfigureDefaultBooking();
                     break;
                 default:
                     break;
@@ -566,11 +570,30 @@ namespace Bank
             {
                 var account = comboBox.SelectedItem as Account;
                 if (account == null) return;
-                List<string> defaultTexts = database.GetDefaultTexts(account);
+                var defaultTexts = database.GetDefaultTexts(account);
                 var dlg = new ConfigureDefaultTextWindow(this, Properties.Resources.TITLE_CONFIGURE_DEFAULT_TEXT, defaultTexts);
                 if (dlg.ShowDialog() == true)
                 {
                     database.SetDefaultTexts(account, defaultTexts);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void ConfigureDefaultBooking()
+        {
+            try
+            {
+                var account = comboBox.SelectedItem as Account;
+                if (account == null) return;
+                var defaultBookings = database.GetDefaultBookings(account);
+                var dlg = new ConfigureDefaultBookingWindow(this, Properties.Resources.TITLE_CONFIGURE_DEFAULT_BOOKING, defaultBookings);
+                if (dlg.ShowDialog() == true)
+                {
+                    database.SetDefaultBookings(account, defaultBookings);
                 }
             }
             catch (Exception ex)

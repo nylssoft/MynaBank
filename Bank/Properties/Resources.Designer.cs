@@ -133,6 +133,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Configure default bookings... ähnelt.
+        /// </summary>
+        public static string CMD_CONFIGURE_DEFAULT_BOOKING {
+            get {
+                return ResourceManager.GetString("CMD_CONFIGURE_DEFAULT_BOOKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Configure default text... ähnelt.
         /// </summary>
         public static string CMD_CONFIGURE_DEFAULT_TEXT {
@@ -484,6 +493,15 @@ namespace Bank.Properties {
         public static string TITLE_BANK {
             get {
                 return ResourceManager.GetString("TITLE_BANK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Configure default bookings ähnelt.
+        /// </summary>
+        public static string TITLE_CONFIGURE_DEFAULT_BOOKING {
+            get {
+                return ResourceManager.GetString("TITLE_CONFIGURE_DEFAULT_BOOKING", resourceCulture);
             }
         }
         
