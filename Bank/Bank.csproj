@@ -228,5 +228,20 @@
   <ItemGroup>
     <Resource Include="Images\16x16\edit-copy-7.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\128x128\go-home-10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\16x16\arrow-left-2.png" />
+    <Resource Include="Images\16x16\arrow-left-double-2.png" />
+    <Resource Include="Images\16x16\arrow-right-2.png" />
+    <Resource Include="Images\16x16\arrow-right-double-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\32x32\arrow-left-2.png" />
+    <Resource Include="Images\32x32\arrow-left-double-2.png" />
+    <Resource Include="Images\32x32\arrow-right-2.png" />
+    <Resource Include="Images\32x32\arrow-right-double-2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -100,7 +100,19 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+                        <Button>
+                            <Image Source="Images/32x32/arrow-left-double-2.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
+                        </Button>
+                        <Button>
+                            <Image Source="Images/32x32/arrow-left-2.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
+                        </Button>
                         <TextBlock x:Name="textBlockCurrent" Margin="10,10,0,4" Width="0"/>
+                        <Button>
+                            <Image Source="Images/32x32/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
+                        </Button>
+                        <Button>
+                            <Image Source="Images/32x32/arrow-right-double-2.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
+                        </Button>
                         <Slider x:Name="slider" Margin="10,9,0,0" Visibility="Hidden" Width="0" Minimum="0" Maximum="100" ValueChanged="SliderValue_Changed" />
                     </ToolBar>
                     <ToolBar KeyboardNavigation.TabNavigation="Continue">
