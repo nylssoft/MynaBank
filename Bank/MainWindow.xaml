@@ -125,7 +125,7 @@
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
-                <Slider x:Name="slider" Grid.Row="0" Visibility="Visible" Minimum="0" Maximum="100" ValueChanged="SliderValue_Changed" />
+                <Slider x:Name="slider" Grid.Row="0" Visibility="Hidden" Minimum="0" Maximum="100" ValueChanged="SliderValue_Changed" />
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Command="self:CustomCommands.First" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_FIRST}">
                         <Image Source="Images/16x16/arrow-left-double-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
@@ -133,7 +133,7 @@
                     <Button Command="self:CustomCommands.Previous" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_PREVIOUS}">
                         <Image Source="Images/16x16/arrow-left-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>
-                    <TextBlock x:Name="textBlockCurrent" Margin="10,5,10,0" Text="January 2017" Width="200" TextAlignment="Center"/>
+                    <TextBlock x:Name="textBlockCurrent" Margin="10,5,10,0" Width="200" TextAlignment="Center"/>
                     <Button Command="self:CustomCommands.Next" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_NEXT}">
                         <Image Source="Images/16x16/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>

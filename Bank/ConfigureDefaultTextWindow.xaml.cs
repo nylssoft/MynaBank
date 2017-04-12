@@ -48,7 +48,7 @@ namespace Bank
         private void UpdateControls()
         {
             buttonOK.IsEnabled = changed;
-            buttonAddDefaultText.IsEnabled = textBoxDefaultText.Text.Length > 0;
+            buttonAddDefaultText.IsEnabled = textBoxDefaultText.Text.Trim().Length > 0;
             buttonRemoveDefaultText.IsEnabled = listBoxDefaultText.SelectedItems.Count > 0;
             buttonEditDefaultText.IsEnabled = listBoxDefaultText.SelectedItems.Count == 1;
         }
@@ -78,12 +78,15 @@ namespace Bank
         private void ButtonAddDefaultText_Click(object sender, RoutedEventArgs e)
         {
             string txt = textBoxDefaultText.Text.Trim();
-            listBoxDefaultText.Items.Add(txt);
-            listBoxDefaultText.ScrollIntoView(txt);
-            textBoxDefaultText.Text = "";
-            textBoxDefaultText.Focus();
-            changed = true;
-            UpdateControls();
+            if (txt.Length > 0)
+            {
+                listBoxDefaultText.Items.Add(txt);
+                listBoxDefaultText.ScrollIntoView(txt);
+                textBoxDefaultText.Text = "";
+                textBoxDefaultText.Focus();
+                changed = true;
+                UpdateControls();
+            }
         }
 
         private void ButtonEditDefaultText_Click(object sender, RoutedEventArgs e)
@@ -120,6 +123,7 @@ namespace Bank
                 if (idx >= 0)
                 {
                     listBoxDefaultText.SelectedIndex = idx;
+                    listBoxDefaultText.FocusItem(idx);
                 }
                 changed = true;
                 UpdateControls();
@@ -138,6 +142,20 @@ namespace Bank
         private void ListBoxDefaultText_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ButtonEditDefaultText_Click(sender, null);
+        }
+
+        private void ListBoxDefaultText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                ButtonRemoveDefaultText_Click(sender, null);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Return)
+            {
+                ButtonEditDefaultText_Click(sender, null);
+                e.Handled = true;
+            }
         }
     }
 }

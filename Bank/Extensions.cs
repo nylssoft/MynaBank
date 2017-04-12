@@ -53,6 +53,19 @@ namespace Bank
 
         #endregion
 
+        #region ListBox extensions
+
+        public static bool FocusItem(this ListBox listBox, int idx)
+        {
+            if (listBox.ItemContainerGenerator.ContainerFromIndex(idx) is ListBoxItem lbi)
+            {
+                return lbi.Focus();
+            }
+            return false;
+        }
+
+        #endregion
+
         #region ListViewItem extensions
 
         public static ListViewItem GetItemAt(this ListView listView, Point clientRelativePosition)
