@@ -147,7 +147,9 @@
                     </StatusBarItem>
                 </StatusBar>
             </Grid>
-            <ListView x:Name="listView" KeyboardNavigation.TabIndex="3" TextSearch.TextPath="Text" SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick">
+            <ListView x:Name="listView" KeyboardNavigation.TabIndex="3" TextSearch.TextPath="Text"
+                      VirtualizingPanel.IsVirtualizing="False"
+                      SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

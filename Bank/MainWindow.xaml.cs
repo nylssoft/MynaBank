@@ -462,13 +462,31 @@ namespace Bank
                 if (wnd.ShowDialog() == true)
                 {
                     var balance = database.GetBalance(account, wnd.Month, wnd.Year, true /* create */);
-                    database.CreateBooking(balance, wnd.Day, wnd.Text, wnd.Amount);
+                    var newbooking = database.CreateBooking(balance, wnd.Day, wnd.Text, wnd.Amount);
                     ShowAccount(balance);
+                    SelectBooking(newbooking);
                 }
             }
             catch (Exception ex)
             {
                 HandleError(ex);
+            }
+        }
+
+        private void SelectBooking(Booking booking)
+        {
+            for (int idx = 0; idx < listView.Items.Count; idx++)
+            {
+                if (listView.Items[idx] is Booking b)
+                {
+                    if (b.Id == booking.Id)
+                    {
+                        listView.ScrollIntoView(b);
+                        listView.SelectedIndex = idx;
+                        listView.FocusItem(idx);
+                        break;
+                    }
+                }
             }
         }
 
@@ -543,6 +561,7 @@ namespace Bank
                     booking.Amount = wnd.Amount;
                     database.UpdateBooking(booking);
                     ShowAccount(current);
+                    SelectBooking(booking);
                 }
             }
             catch (Exception ex)
@@ -561,6 +580,7 @@ namespace Bank
                     MessageBoxImage.Question,
                     MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
+                    var idx = listView.SelectedIndex;
                     var del = new List<Booking>();
                     foreach (Booking booking in listView.SelectedItems)
                     {
@@ -571,6 +591,12 @@ namespace Bank
                         database.DeleteBooking(d);
                     }
                     ShowAccount(CurrentBalance);
+                    idx = Math.Min(idx, listView.Items.Count - 1);
+                    if (idx >= 0)
+                    {
+                        listView.SelectedIndex = idx;
+                        listView.FocusItem(idx);
+                    }
                 }
             }
             catch (Exception ex)
@@ -688,22 +714,6 @@ namespace Bank
 
         private void UpdateStatus()
         {
-            /*
-            StringBuilder sb = new StringBuilder();
-            sb.Append(Properties.Resources.TITLE_BANK);
-            if (comboBox.SelectedItem is Account account)
-            {
-                sb.Append(" - " + account.Name);
-                var balance = CurrentBalance;
-                if (balance != null)
-                {
-                    sb.Append(" - ");
-                    DateTime dt = new DateTime(balance.Year, balance.Month, 1);
-                    sb.Append($"{dt:y}");
-                }
-            }
-            Title = sb.ToString();        
-            */
             int selected = listView.SelectedItems.Count;
             int total = listView.Items.Count;
             string status = string.Empty;

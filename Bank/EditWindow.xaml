@@ -31,15 +31,15 @@
             </Grid.ColumnDefinitions>
             <ComboBox x:Name="comboBoxMonth" Grid.Column="0" Height="23" SelectionChanged="ComboBoxMonth_SelectionChanged"/>
             <Label Grid.Column="1" Content="{x:Static props:Resources.LABEL_YEAR}" Target="{Binding ElementName=textBoxYear}" />
-            <TextBox x:Name="textBoxYear" Grid.Column="2" Width="60" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_Changed"/>
+            <TextBox x:Name="textBoxYear" Grid.Column="2" Width="60" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_Changed" GotFocus="TextBox_GotFocus"/>
         </Grid>
         <Label Grid.Row="2" Grid.Column="0" Content="{x:Static props:Resources.LABEL_DAY}" Target="{Binding ElementName=textBoxDay}"/>
-        <TextBox x:Name="textBoxDay" Grid.Row="2" Grid.Column="1" Width="40" Height="23" HorizontalAlignment="Left" MaxLength="2" TextChanged="TextBox_Changed"/>
+        <TextBox x:Name="textBoxDay" Grid.Row="2" Grid.Column="1" Width="40" Height="23" HorizontalAlignment="Left" MaxLength="2" TextChanged="TextBox_Changed" GotFocus="TextBox_GotFocus"/>
         <Label Grid.Row="3" Grid.Column="0" Content="{x:Static props:Resources.LABEL_TEXT}" Target="{Binding ElementName=comboBoxText}"/>
         <ComboBox x:Name="comboBoxText" Grid.Row="3" Grid.Column="1"  IsEditable="True" Height="23" Margin="0,0,5,0">
         </ComboBox>
         <Label Grid.Row="4" Grid.Column="0" Content="{x:Static props:Resources.LABEL_AMOUNT}" Target="{Binding ElementName=textBoxAmount}"/>
-        <TextBox x:Name="textBoxAmount" Grid.Row="4" Grid.Column="1" Width="100" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_Changed"/>
+        <TextBox x:Name="textBoxAmount" Grid.Row="4" Grid.Column="1" Width="100" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_Changed" GotFocus="TextBox_GotFocus"/>
         <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="buttonOK" IsDefault="True" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
             <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
