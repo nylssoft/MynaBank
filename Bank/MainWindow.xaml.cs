@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -665,7 +666,6 @@ namespace Bank
             try
             {
                 slider.Value += 1;
-                ShowBalance(CurrentBalance);
             }
             catch (Exception ex)
             {
@@ -678,7 +678,6 @@ namespace Bank
             try
             {
                 slider.Value -= 1;
-                ShowBalance(CurrentBalance);
             }
             catch (Exception ex)
             {
@@ -691,7 +690,6 @@ namespace Bank
             try
             {
                 slider.Value = 0;
-                ShowBalance(CurrentBalance);
             }
             catch (Exception ex)
             {
@@ -704,7 +702,6 @@ namespace Bank
             try
             {
                 slider.Value = slider.Maximum;
-                ShowBalance(CurrentBalance);
             }
             catch (Exception ex)
             {
@@ -769,6 +766,5 @@ namespace Bank
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
         }
-
     }
 }
