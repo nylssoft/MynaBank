@@ -59,11 +59,19 @@ namespace Bank
                     " last INTEGER NOT NULL);";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
+                    "CREATE INDEX IF NOT EXISTS balance_index ON balance " +
+                    "(accountid);";
+                cmd.ExecuteNonQuery();
+                cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS booking " +
                     "(balanceid INTEGER NOT NULL," +
                     " day INTEGER NOT NULL," +
                     " text TEXT NOT NULL, "+
                     " amount INTEGER NOT NULL);";
+                cmd.ExecuteNonQuery();
+                cmd.CommandText =
+                    "CREATE INDEX IF NOT EXISTS booking_index ON booking " +
+                    "(balanceid);";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
                     "CREATE TABLE IF NOT EXISTS defaulttext " +
@@ -692,6 +700,11 @@ namespace Bank
                 {
                     long first = (long)(Double.Parse(allines[0], ci.NumberFormat) * 100.0);
                     long last = (long)(Double.Parse(allines[1], ci.NumberFormat) * 100.0);
+                    if (year <= 2001)
+                    {
+                        first = MigrateEuro(first);
+                        last = MigrateEuro(last);
+                    }
                     cmd.CommandText = "INSERT INTO balance VALUES(@p1,@p2,@p3,@p4,@p5)";
                     cmd.Parameters.Add(new SQLiteParameter("@p1", accountid));
                     cmd.Parameters.Add(new SQLiteParameter("@p2", month));
@@ -730,8 +743,7 @@ namespace Bank
                         }
                         if (year <= 2001)
                         {
-                            double am = Math.Round((amount / 100.0) * 0.511292 * 100.0);
-                            amount = Convert.ToInt64(am);
+                            amount = MigrateEuro(amount);
                         }
                         cmd.Parameters.Add(new SQLiteParameter("@p1", balanceid));
                         cmd.Parameters.Add(new SQLiteParameter("@p2", day));
@@ -743,6 +755,12 @@ namespace Bank
                     transaction.Commit();
                 }
             }
+        }
+
+        private long MigrateEuro(long amount)
+        {
+            double am = Math.Round((amount / 100.0) * 0.511292 * 100.0);
+            return Convert.ToInt64(am);
         }
 
         private string ExtractString(string line, out string rest)
