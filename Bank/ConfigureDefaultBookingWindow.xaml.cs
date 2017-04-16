@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -77,6 +78,34 @@ namespace Bank
             buttonEdit.IsEnabled = selcnt == 1;
             buttonRemove.IsEnabled = selcnt > 0;
             buttonOK.IsEnabled = changed;
+            long sum = 0;
+            long[] permonth = new long[12];
+            for (int idx=0; idx<12; idx++)
+            {
+                permonth[idx] = 0;
+                int val = 1 << idx;
+                foreach (DefaultBooking b in listView.Items)
+                {
+                    if ((val & b.Monthmask) == val)
+                    {
+                        sum += b.Amount;
+                        permonth[idx] += b.Amount;
+                    }
+                }
+            }
+            var sb = new StringBuilder();
+            for (int idx=0; idx < 12; idx++)
+            {
+                if (idx > 0)
+                {
+                    sb.Append("    ");
+                }
+                sb.Append($"{idx+1}:{permonth[idx]/100}");
+            }
+            textBlockStatus1.Text = string.Format(
+                Properties.Resources.STATUS_AVERAGE_PER_MONTH_0,
+                CurrencyConverter.ConvertToCurrencyString(sum / 12));
+            textBlockStatus2.Text = sb.ToString();
         }
 
         private void UpdateMonthMask(int mask)

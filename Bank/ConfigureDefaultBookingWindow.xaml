@@ -7,7 +7,7 @@
         xmlns:props="clr-namespace:Bank.Properties"
         mc:Ignorable="d"
         Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
-        Height="500" Width="700" MinHeight="230" MinWidth="500" Icon="Images/logo.png">
+        Height="500" Width="700" MinHeight="300" MinWidth="500" Icon="Images/logo.png">
     <Window.Resources>
         <self:CurrencyConverter x:Key="CurrencyConverter" />
         <Style x:Key="ImageEnabled" TargetType="Image">
@@ -22,6 +22,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -73,7 +75,9 @@
             <CheckBox x:Name="checkBox11" Margin="0,5,10,0"/>
             <CheckBox x:Name="checkBox12" Margin="0,5,0,0"/>
         </WrapPanel>
-        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
+        <TextBlock x:Name="textBlockStatus1" TextWrapping="Wrap" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock x:Name="textBlockStatus2" TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="buttonOK" IsDefault="True" IsEnabled="False" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
             <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
         </StackPanel>

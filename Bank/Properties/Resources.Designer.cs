@@ -484,6 +484,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Average balance per month: {0}. ähnelt.
+        /// </summary>
+        public static string STATUS_AVERAGE_PER_MONTH_0 {
+            get {
+                return ResourceManager.GetString("STATUS_AVERAGE_PER_MONTH_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Copyright 2017 Niels Stockfleth
         ///
         ///This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.

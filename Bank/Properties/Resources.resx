@@ -258,6 +258,9 @@
   <data name="STATUS_AMOUNT_0_1" xml:space="preserve">
     <value>Total: {0}. Average per booking: {1}.</value>
   </data>
+  <data name="STATUS_AVERAGE_PER_MONTH_0" xml:space="preserve">
+    <value>Average balance per month: {0}.</value>
+  </data>
   <data name="TEXT_COPYRIGHT" xml:space="preserve">
     <value>Copyright 2017 Niels Stockfleth
 

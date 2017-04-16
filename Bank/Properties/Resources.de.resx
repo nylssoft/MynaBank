@@ -258,6 +258,9 @@
   <data name="STATUS_AMOUNT_0_1" xml:space="preserve">
     <value>Insgesamt: {0}. Pro Buchung im Durchschnitt: {1}.</value>
   </data>
+  <data name="STATUS_AVERAGE_PER_MONTH_0" xml:space="preserve">
+    <value>Monatliche Durchschnittsbelastung: {0}</value>
+  </data>
   <data name="TEXT_COPYRIGHT" xml:space="preserve">
     <value>Copyright 2017 Niels Stockfleth
 
