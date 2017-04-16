@@ -7,7 +7,7 @@
         xmlns:props="clr-namespace:Bank.Properties"
         mc:Ignorable="d"
         Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
-        Height="500" Width="700" MinHeight="100" MinWidth="100" Icon="Images/logo.png">
+        Height="500" Width="700" MinHeight="230" MinWidth="500" Icon="Images/logo.png">
     <Window.Resources>
         <self:CurrencyConverter x:Key="CurrencyConverter" />
         <Style x:Key="ImageEnabled" TargetType="Image">
@@ -21,8 +21,7 @@
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -60,21 +59,21 @@
             <Button x:Name="buttonEdit" Grid.Row="1" Content="{x:Static props:Resources.BUTTON_EDIT}" Height="23" Width="80" Click="ButtonEdit_Click"/>
             <Button x:Name="buttonRemove" Grid.Row="2" Content="{x:Static props:Resources.BUTTON_REMOVE}" Height="23" Width="80" Click="ButtonRemove_Click"/>
         </Grid>
-        <StackPanel Margin="0,5,0,0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" >
-            <CheckBox x:Name="checkBox1" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox2" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox3" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox4" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox5" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox6" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox7" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox8" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox9" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox10" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox11" Margin="0,0,10,0"/>
-            <CheckBox x:Name="checkBox12" />
-        </StackPanel>
-        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
+        <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" >
+            <CheckBox x:Name="checkBox1" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox2" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox3" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox4" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox5" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox6" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox7" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox8" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox9" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox10" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox11" Margin="0,5,10,0"/>
+            <CheckBox x:Name="checkBox12" Margin="0,5,0,0"/>
+        </WrapPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="buttonOK" IsDefault="True" IsEnabled="False" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
             <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
         </StackPanel>
