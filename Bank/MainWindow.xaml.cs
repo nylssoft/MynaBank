@@ -723,6 +723,19 @@ namespace Bank
                 else
                 {
                     status = string.Format(Properties.Resources.SELECTED_0_OF_1, selected, total);
+                    if (selected > 1)
+                    {
+                        long sum = 0;
+                        foreach (Booking b in listView.SelectedItems)
+                        {
+                            sum += b.Amount;
+                        }
+                        long avg = sum / listView.SelectedItems.Count;
+                        status += " ";
+                        status += string.Format(Properties.Resources.STATUS_AMOUNT_0_1,
+                            CurrencyConverter.ConvertToCurrencyString(sum),
+                            CurrencyConverter.ConvertToCurrencyString(avg));
+                    }
                 }
             }
             else if (total > 0)

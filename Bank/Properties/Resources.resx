@@ -255,6 +255,9 @@
   <data name="SELECTED_ONE" xml:space="preserve">
     <value>1 booking selected.</value>
   </data>
+  <data name="STATUS_AMOUNT_0_1" xml:space="preserve">
+    <value>Total: {0}. Average per booking: {1}.</value>
+  </data>
   <data name="TEXT_COPYRIGHT" xml:space="preserve">
     <value>Copyright 2017 Niels Stockfleth
 
