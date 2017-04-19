@@ -39,8 +39,8 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="welcome.png" />
-    <Content Include="topbanner.png" />
+    <Content Include="topbanner.bmp" />
+    <Content Include="welcome.bmp" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" Exists('$(WixTargetsPath)') " />
   <Target Name="EnsureWixToolsetInstalled" Condition=" !Exists('$(WixTargetsPath)') ">

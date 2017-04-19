@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="8A5C2310-0EB2-4717-8228-29226536F465"
+
+  <?define VersionNumber="!(bind.FileVersion.BankFile)" ?>
+  
+  <Product Id="*"
            Name="Myna Bank"
            Language="1033"
-           Version="0.5.1.1"
+           Version="$(var.VersionNumber)"
            Manufacturer="Niels Stockfleth"
            UpgradeCode="A6325DB7-FD9E-4C3B-BFDD-889E03585809">
-    <Package InstallerVersion="200" Compressed="yes"/>
-    
+    <Package Id="*" InstallerVersion="400" Compressed="yes"/>
+
     <Media Id="1" Cabinet="MynaBank.cab" EmbedCab="yes" />
     
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -66,13 +69,13 @@
       <ComponentRef Id="ResourcesBank.DE" />
       <ComponentRef Id="BankShortcut" />
     </Feature>
+
+    <Icon Id="Icon.exe" SourceFile="$(var.Bank.ProjectDir)\Images\icon.ico"/>
+
+    <Property Id="ARPPRODUCTICON" Value="Icon.exe" />
     
-    <Icon Id="icon.ico" SourceFile="$(var.Bank.ProjectDir)\Images\icon.ico"/>
-    
-    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
-    
-    <WixVariable Id="WixUIBannerBmp" Value="topbanner.png" />
-    <WixVariable Id="WixUIDialogBmp" Value="welcome.png" />
+    <WixVariable Id="WixUIBannerBmp" Value="topbanner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="welcome.bmp" />
     
     <UI Id="WixUI_Minimal">
             
