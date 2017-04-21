@@ -3,13 +3,13 @@
 
   <?define VersionNumber="!(bind.FileVersion.BankFile)" ?>
   
-  <Product Id="*"
+  <Product Id="2225BB62-76BA-477D-8C1A-D6FCC7C59CC9"
            Name="Myna Bank"
            Language="1033"
            Version="$(var.VersionNumber)"
            Manufacturer="Niels Stockfleth"
            UpgradeCode="A6325DB7-FD9E-4C3B-BFDD-889E03585809">
-    <Package Id="*" InstallerVersion="400" Compressed="yes"/>
+    <Package InstallerVersion="400" Compressed="yes"/>
 
     <Media Id="1" Cabinet="MynaBank.cab" EmbedCab="yes" />
     
