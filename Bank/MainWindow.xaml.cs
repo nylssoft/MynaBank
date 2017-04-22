@@ -19,9 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -88,7 +86,7 @@ namespace Bank
             {
                 int sv = (int)slider.Value;
                 int sm = (int)slider.Maximum;
-                updatebalance = sv == sm;
+                updatebalance = true;
                 if (balances.Count > 1)
                 {
                     next = sv < sm;
