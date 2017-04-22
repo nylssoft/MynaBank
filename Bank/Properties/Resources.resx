@@ -240,6 +240,9 @@
   <data name="MENUITEM_HELP" xml:space="preserve">
     <value>_Help</value>
   </data>
+  <data name="MONTH_BALANCE_0" xml:space="preserve">
+    <value>Monthly balance: {0}</value>
+  </data>
   <data name="QUESTION_DELETE_ACCOUNT_0" xml:space="preserve">
     <value>Do you want to delete the account '{0}'?</value>
   </data>

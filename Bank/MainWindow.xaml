@@ -39,10 +39,11 @@
         <CommandBinding Command="self:CustomCommands.First" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Last" CanExecute="Command_CanExecute" Executed="Command_Executed" />
     </Window.CommandBindings>
-    <Grid>
+    <Grid Margin="5,5,5,5">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -95,10 +96,10 @@
                         </MenuItem>
                     </MenuItem>
                 </Menu>
-                <ToolBarTray Grid.Row="1" KeyboardNavigation.TabIndex="2">
+                <ToolBarTray Grid.Row="1">
                     <ToolBar KeyboardNavigation.TabNavigation="Continue">
                         <Label Margin="0,5,0,5" Content="{x:Static props:Resources.LABEL_ACCOUNT}" Target="{Binding ElementName=comboBox}"/>
-                        <ComboBox x:Name="comboBox" MinWidth="100" Margin="0,3,0,3" HorizontalAlignment="Left" SelectionChanged="ComboBoxAccounts_SelectionChanged">
+                        <ComboBox x:Name="comboBox" MinWidth="100" Margin="0,3,0,3" HorizontalAlignment="Left" SelectionChanged="ComboBoxAccounts_SelectionChanged" KeyboardNavigation.TabIndex="2">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}" />
@@ -107,47 +108,52 @@
                         </ComboBox>
                     </ToolBar>
                     <ToolBar KeyboardNavigation.TabNavigation="Continue">
-                        <Button Command="self:CustomCommands.Add" ToolTip="{x:Static props:Resources.TOOLTIP_ADD}">
+                        <Button Command="self:CustomCommands.Add" ToolTip="{x:Static props:Resources.TOOLTIP_ADD}" KeyboardNavigation.TabIndex="3">
                             <Image Source="Images/32x32/list-add-4.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
                         </Button>
-                        <Button Command="self:CustomCommands.Remove" ToolTip="{x:Static props:Resources.TOOLTIP_DELETE}">
+                        <Button Command="self:CustomCommands.Remove" ToolTip="{x:Static props:Resources.TOOLTIP_DELETE}" KeyboardNavigation.TabIndex="4">
                             <Image Source="Images/32x32/list-remove-4.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
                         </Button>
-                        <Button Command="self:CustomCommands.Edit" ToolTip="{x:Static props:Resources.TOOLTIP_EDIT}">
+                        <Button Command="self:CustomCommands.Edit" ToolTip="{x:Static props:Resources.TOOLTIP_EDIT}" KeyboardNavigation.TabIndex="5">
                             <Image Source="Images/32x32/edit.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
                         </Button>
                     </ToolBar>
                 </ToolBarTray>
+                <TextBlock Grid.Row="2" x:Name="textBlockCurrent" HorizontalAlignment="Center" FontSize="24"/>
             </Grid>
-            <Grid DockPanel.Dock="Bottom" KeyboardNavigation.TabIndex="4">
+            <Grid DockPanel.Dock="Bottom">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
-                <Slider x:Name="slider" Grid.Row="0" Visibility="Hidden" Minimum="0" Maximum="100" ValueChanged="SliderValue_Changed" />
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Command="self:CustomCommands.First" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_FIRST}">
-                        <Image Source="Images/16x16/arrow-left-double-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
-                    </Button>
-                    <Button Command="self:CustomCommands.Previous" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_PREVIOUS}">
-                        <Image Source="Images/16x16/arrow-left-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
-                    </Button>
-                    <TextBlock x:Name="textBlockCurrent" Margin="10,5,10,0" Width="200" TextAlignment="Center"/>
-                    <Button Command="self:CustomCommands.Next" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_NEXT}">
-                        <Image Source="Images/16x16/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
-                    </Button>
-                    <Button Command="self:CustomCommands.Last" Margin="5,0,5,0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_LAST}">
-                        <Image Source="Images/16x16/arrow-right-double-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
-                    </Button>
-                </StackPanel>
-                <StatusBar Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="30" />
+                </Grid.ColumnDefinitions>
+                <Button Command="self:CustomCommands.First" Grid.Row="0" Grid.Column="0" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_LAST}" KeyboardNavigation.TabIndex="7">
+                    <Image Source="Images/16x16/arrow-left-double-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                </Button>
+                <Button Command="self:CustomCommands.Previous" Grid.Row="0" Grid.Column="1" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_NEXT}" KeyboardNavigation.TabIndex="8">
+                    <Image Source="Images/16x16/arrow-left-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                </Button>
+                <Slider x:Name="slider" Grid.Row="0" Grid.Column="2" Visibility="Hidden" Minimum="0" Maximum="100" ValueChanged="SliderValue_Changed" TickPlacement="TopLeft" TickFrequency="1" Foreground="Black" IsSnapToTickEnabled="True" KeyboardNavigation.TabIndex="9">
+                </Slider>
+                <Button Command="self:CustomCommands.Next" Grid.Row="0" Grid.Column="3" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_PREVIOUS}" KeyboardNavigation.TabIndex="10">
+                    <Image Source="Images/16x16/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                </Button>
+                <Button Command="self:CustomCommands.Last" Grid.Row="0" Grid.Column="4" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_FIRST}" KeyboardNavigation.TabIndex="11">
+                    <Image Source="Images/16x16/arrow-right-double-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                </Button>
+                <StatusBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
                     <StatusBarItem>
                         <TextBlock x:Name="textBlockStatus" TextTrimming="CharacterEllipsis"/>
                     </StatusBarItem>
                 </StatusBar>
             </Grid>
-            <ListView x:Name="listView" KeyboardNavigation.TabIndex="3" TextSearch.TextPath="Text"
+            <ListView x:Name="listView" TextSearch.TextPath="Text" KeyboardNavigation.TabIndex="6"
                       VirtualizingPanel.IsVirtualizing="False"
                       SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick">
                 <ListView.ItemContainerStyle>

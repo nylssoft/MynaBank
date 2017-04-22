@@ -503,9 +503,6 @@ namespace Bank
             {
                 slider.Minimum = 0;
                 slider.Maximum = balances.Count - 1;
-                slider.TickFrequency = 1;
-                slider.IsSnapToTickEnabled = true;
-                slider.TickPlacement = System.Windows.Controls.Primitives.TickPlacement.BottomRight;
                 slider.Visibility = Visibility.Visible;
             }
             else
@@ -745,6 +742,12 @@ namespace Bank
                 else
                 {
                     status = string.Format(Properties.Resources.TOTAL_0, total);
+                }
+                var cur = CurrentBalance;
+                if (cur != null)
+                {
+                    status += " ";
+                    status += string.Format(Properties.Resources.MONTH_BALANCE_0, CurrencyConverter.ConvertToCurrencyString(cur.Last - cur.First));
                 }
             }
             textBlockStatus.Text = status;

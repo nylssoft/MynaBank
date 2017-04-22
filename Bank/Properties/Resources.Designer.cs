@@ -430,6 +430,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Monthly balance: {0} ähnelt.
+        /// </summary>
+        public static string MONTH_BALANCE_0 {
+            get {
+                return ResourceManager.GetString("MONTH_BALANCE_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to delete the account &apos;{0}&apos;? ähnelt.
         /// </summary>
         public static string QUESTION_DELETE_ACCOUNT_0 {

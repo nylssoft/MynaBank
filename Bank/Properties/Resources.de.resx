@@ -240,6 +240,9 @@
   <data name="MENUITEM_HELP" xml:space="preserve">
     <value>_Hilfe</value>
   </data>
+  <data name="MONTH_BALANCE_0" xml:space="preserve">
+    <value>Monatsbilanz: {0}</value>
+  </data>
   <data name="QUESTION_DELETE_ACCOUNT_0" xml:space="preserve">
     <value>Wollen Sie das Konto '{0}' löschen?</value>
   </data>
@@ -320,7 +323,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Erster Monat</value>
   </data>
   <data name="TOOLTIP_LAST" xml:space="preserve">
-    <value>Letzter Monat</value>
+    <value>Aktueller Monat</value>
   </data>
   <data name="TOOLTIP_NEXT" xml:space="preserve">
     <value>Nächster Monat</value>
