@@ -273,6 +273,93 @@ namespace Bank
             UpdateStatus();
         }
 
+        private void UpdateStatus()
+        {
+            int selected = listView.SelectedItems.Count;
+            int total = listView.Items.Count;
+            string status = string.Empty;
+            if (selected > 1)
+            {
+                status = string.Format(Properties.Resources.SELECTED_0_OF_1, selected, total);
+                long sum = 0;
+                foreach (Booking b in listView.SelectedItems)
+                {
+                    sum += b.Amount;
+                }
+                long avg = sum / listView.SelectedItems.Count;
+                status += " ";
+                status += string.Format(Properties.Resources.STATUS_AMOUNT_0_1,
+                    CurrencyConverter.ConvertToCurrencyString(sum),
+                    CurrencyConverter.ConvertToCurrencyString(avg));
+            }
+            else if (total > 0)
+            {
+                if (total == 1)
+                {
+                    status = Properties.Resources.TOTAL_ONE;
+                }
+                else
+                {
+                    status = string.Format(Properties.Resources.TOTAL_0, total);
+                }
+                var cur = CurrentBalance;
+                if (cur != null)
+                {
+                    status += " ";
+                    status += string.Format(Properties.Resources.MONTH_BALANCE_0, CurrencyConverter.ConvertToCurrencyString(cur.Last - cur.First));
+                }
+            }
+            textBlockStatus.Text = status;
+        }
+
+        private void ShowAccount(Balance current)
+        {
+            balances.Clear();
+            if (comboBox.SelectedItem is Account account)
+            {
+                foreach (var balance in database.GetBalances(account))
+                {
+                    balances.Add(balance);
+                }
+            }
+            if (balances.Count > 1)
+            {
+                slider.Minimum = 0;
+                slider.Maximum = balances.Count - 1;
+                slider.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                slider.Maximum = 0;
+                slider.Visibility = Visibility.Hidden;
+                textBlockCurrent.Text = "";
+            }
+            CurrentBalance = current;
+            if (current == null && balances.Count > 0)
+            {
+                CurrentBalance = balances[balances.Count - 1];
+            }
+            ShowBalance(CurrentBalance);
+        }
+
+        private void ShowBalance(Balance balance)
+        {
+            bookings.Clear();
+            if (balance != null)
+            {
+                DateTime dt = new DateTime(balance.Year, balance.Month, 1);
+                textBlockCurrent.Text = $"{dt:y}";
+                long currentBalance = balance.First;
+                foreach (var booking in database.GetBookings(balance))
+                {
+                    currentBalance += booking.Amount;
+                    booking.CurrentBalance = currentBalance;
+                    bookings.Add(booking);
+                }
+            }
+            UpdateStatus();
+        }
+
         private Balance CurrentBalance
         {
             get
@@ -489,54 +576,6 @@ namespace Bank
             }
         }
 
-        private void ShowAccount(Balance current)
-        {
-            balances.Clear();
-            if (comboBox.SelectedItem is Account account)
-            {
-                foreach (var balance in database.GetBalances(account))
-                {
-                    balances.Add(balance);
-                }
-            }
-            if (balances.Count > 1)
-            {
-                slider.Minimum = 0;
-                slider.Maximum = balances.Count - 1;
-                slider.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                slider.Maximum = 0;
-                slider.Visibility = Visibility.Hidden;
-                textBlockCurrent.Text = "";
-            }
-            CurrentBalance = current;
-            if (current == null && balances.Count > 0)
-            {
-                CurrentBalance = balances[balances.Count - 1];
-            }
-            ShowBalance(CurrentBalance);
-        }
-
-        private void ShowBalance(Balance balance)
-        {
-            bookings.Clear();
-            if (balance != null)
-            {
-                DateTime dt = new DateTime(balance.Year, balance.Month, 1);
-                textBlockCurrent.Text = $"{dt:y}";
-                long currentBalance = balance.First;
-                foreach (var booking in database.GetBookings(balance))
-                {
-                    currentBalance += booking.Amount;
-                    booking.CurrentBalance = currentBalance;
-                    bookings.Add(booking);
-                }
-            }
-            UpdateStatus();
-        }
-
         private void UpdateBooking()
         {
             UpdateBooking(listView.SelectedItem as Booking);
@@ -702,55 +741,6 @@ namespace Bank
             {
                 HandleError(ex);
             }
-        }
-
-        private void UpdateStatus()
-        {
-            int selected = listView.SelectedItems.Count;
-            int total = listView.Items.Count;
-            string status = string.Empty;
-            if (selected > 0)
-            {
-                if (total == 1)
-                {
-                    status = Properties.Resources.SELECTED_ONE;
-                }
-                else
-                {
-                    status = string.Format(Properties.Resources.SELECTED_0_OF_1, selected, total);
-                    if (selected > 1)
-                    {
-                        long sum = 0;
-                        foreach (Booking b in listView.SelectedItems)
-                        {
-                            sum += b.Amount;
-                        }
-                        long avg = sum / listView.SelectedItems.Count;
-                        status += " ";
-                        status += string.Format(Properties.Resources.STATUS_AMOUNT_0_1,
-                            CurrencyConverter.ConvertToCurrencyString(sum),
-                            CurrencyConverter.ConvertToCurrencyString(avg));
-                    }
-                }
-            }
-            else if (total > 0)
-            {
-                if (total == 1)
-                {
-                    status = Properties.Resources.TOTAL_ONE;
-                }
-                else
-                {
-                    status = string.Format(Properties.Resources.TOTAL_0, total);
-                }
-                var cur = CurrentBalance;
-                if (cur != null)
-                {
-                    status += " ";
-                    status += string.Format(Properties.Resources.MONTH_BALANCE_0, CurrencyConverter.ConvertToCurrencyString(cur.Last - cur.First));
-                }
-            }
-            textBlockStatus.Text = status;
         }
 
         private void PrepareDirectory(string path)
