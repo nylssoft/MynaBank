@@ -243,6 +243,9 @@
   <data name="MONTH_BALANCE_0" xml:space="preserve">
     <value>Monthly balance: {0}</value>
   </data>
+  <data name="QUESTION_CREATE_SHEET_0" xml:space="preserve">
+    <value>Do you want to create the sheet for {0}?</value>
+  </data>
   <data name="QUESTION_DELETE_ACCOUNT_0" xml:space="preserve">
     <value>Do you want to delete the account '{0}'?</value>
   </data>

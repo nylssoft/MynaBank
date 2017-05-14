@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Bank
 {
@@ -219,6 +220,11 @@ namespace Bank
                     Properties.Settings.Default.LastUsedAccount = comboBox.SelectedIndex;
                 }
                 ShowAccount(null);
+                if (CurrentBalance != null)
+                {
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                        new Action(() => { CreateBalance(); }));
+                }
             }
             catch (Exception ex)
             {
@@ -340,6 +346,33 @@ namespace Bank
                 CurrentBalance = balances[balances.Count - 1];
             }
             ShowBalance(CurrentBalance);
+        }
+
+        private void CreateBalance()
+        {
+            try
+            {
+                if (comboBox.SelectedItem is Account account && CurrentBalance != null)
+                {
+                    DateTime now = DateTime.Now;
+                    if (CurrentBalance.Year == now.Year && CurrentBalance.Month == now.Month - 1 ||
+                        CurrentBalance.Year == now.Year + 1 && CurrentBalance.Month == 12 && now.Month == 1)
+                    {
+                        if (MessageBox.Show(
+                            this,
+                            string.Format(Properties.Resources.QUESTION_CREATE_SHEET_0, $"{now:y}"),
+                            Title, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        {
+                            var balance = database.GetBalance(account, now.Month, now.Year, true /* create */);
+                            ShowAccount(balance);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
         }
 
         private void ShowBalance(Balance balance)

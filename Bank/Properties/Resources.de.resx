@@ -243,6 +243,9 @@
   <data name="MONTH_BALANCE_0" xml:space="preserve">
     <value>Monatsbilanz: {0}</value>
   </data>
+  <data name="QUESTION_CREATE_SHEET_0" xml:space="preserve">
+    <value>Wollen Sie den Kontoauszug für {0} anlegen?</value>
+  </data>
   <data name="QUESTION_DELETE_ACCOUNT_0" xml:space="preserve">
     <value>Wollen Sie das Konto '{0}' löschen?</value>
   </data>

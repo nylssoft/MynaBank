@@ -439,6 +439,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to create the sheet for {0}? ähnelt.
+        /// </summary>
+        public static string QUESTION_CREATE_SHEET_0 {
+            get {
+                return ResourceManager.GetString("QUESTION_CREATE_SHEET_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Do you want to delete the account &apos;{0}&apos;? ähnelt.
         /// </summary>
         public static string QUESTION_DELETE_ACCOUNT_0 {
