@@ -184,7 +184,7 @@
     <value>Konto _umbenennen...</value>
   </data>
   <data name="CMD_SET_PASSWORD" xml:space="preserve">
-    <value>Setze _Passwort...</value>
+    <value>_Passwort setzen...</value>
   </data>
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
     <value>_Kontostand anpassen...</value>
@@ -329,7 +329,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Vorgabetext ändern</value>
   </data>
   <data name="TITLE_ENTER_PASSWORD" xml:space="preserve">
-    <value>Überprüfe Passwort</value>
+    <value>Passwort überprüfen</value>
   </data>
   <data name="TITLE_NEW" xml:space="preserve">
     <value>Neues Konto anlegen</value>
@@ -338,7 +338,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Konto umbenennen</value>
   </data>
   <data name="TITLE_SET_PASSWORD" xml:space="preserve">
-    <value>Setze Passwort</value>
+    <value>Passwort setzen</value>
   </data>
   <data name="TITLE_UPDATE_BALANCE" xml:space="preserve">
     <value>Kontostand anpassen</value>
