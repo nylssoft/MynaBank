@@ -183,6 +183,9 @@
   <data name="CMD_RENAME_ACCOUNT" xml:space="preserve">
     <value>_Rename account...</value>
   </data>
+  <data name="CMD_SET_PASSWORD" xml:space="preserve">
+    <value>Set _password...</value>
+  </data>
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
     <value>_Update balance...</value>
   </data>
@@ -204,6 +207,15 @@
   <data name="ERROR_OCCURRED_0" xml:space="preserve">
     <value>An error occurred. {0}</value>
   </data>
+  <data name="ERROR_PASSWORD_DOES_NOT_MATCH" xml:space="preserve">
+    <value>The password does not match.</value>
+  </data>
+  <data name="ERROR_PASSWORD_MIN_CHARS" xml:space="preserve">
+    <value>The password must contain at least 4 characters.</value>
+  </data>
+  <data name="ERROR_WRONG_PASSWORD" xml:space="preserve">
+    <value>The password is wrong.</value>
+  </data>
   <data name="LABEL_ACCOUNT" xml:space="preserve">
     <value>_Account:</value>
   </data>
@@ -212,6 +224,9 @@
   </data>
   <data name="LABEL_BALANCE" xml:space="preserve">
     <value>_Balance:</value>
+  </data>
+  <data name="LABEL_CONFIRM_NEW_PASSWORD" xml:space="preserve">
+    <value>C_onfirm new password:</value>
   </data>
   <data name="LABEL_DAY" xml:space="preserve">
     <value>_Day:</value>
@@ -224,6 +239,15 @@
   </data>
   <data name="LABEL_NAME" xml:space="preserve">
     <value>_Name:</value>
+  </data>
+  <data name="LABEL_NEW_PASSWORD" xml:space="preserve">
+    <value>_New password:</value>
+  </data>
+  <data name="LABEL_OLD_PASSWORD" xml:space="preserve">
+    <value>C_urrent password:</value>
+  </data>
+  <data name="LABEL_PASSWORD" xml:space="preserve">
+    <value>_Password:</value>
   </data>
   <data name="LABEL_TEXT" xml:space="preserve">
     <value>_Text:</value>
@@ -304,11 +328,17 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TITLE_EDIT_DEFAULT_TEXT" xml:space="preserve">
     <value>Edit default text</value>
   </data>
+  <data name="TITLE_ENTER_PASSWORD" xml:space="preserve">
+    <value>Verify password</value>
+  </data>
   <data name="TITLE_NEW" xml:space="preserve">
     <value>Create new account</value>
   </data>
   <data name="TITLE_RENAME_ACCOUNT" xml:space="preserve">
     <value>Rename account</value>
+  </data>
+  <data name="TITLE_SET_PASSWORD" xml:space="preserve">
+    <value>Set password</value>
   </data>
   <data name="TITLE_UPDATE_BALANCE" xml:space="preserve">
     <value>Update sheet</value>

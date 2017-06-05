@@ -34,6 +34,7 @@
         <CommandBinding Command="self:CustomCommands.About" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.ConfigureDefaultText" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.ConfigureDefaultBooking" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.SetPassword" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Next" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Previous" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.First" CanExecute="Command_CanExecute" Executed="Command_Executed" />
@@ -64,6 +65,8 @@
                         <Separator />
                         <MenuItem Command="self:CustomCommands.ConfigureDefaultText" />
                         <MenuItem Command="self:CustomCommands.ConfigureDefaultBooking" />
+                        <Separator />
+                        <MenuItem Command="self:CustomCommands.SetPassword" />
                         <Separator />
                         <MenuItem Command="self:CustomCommands.Exit">
                             <MenuItem.Icon>

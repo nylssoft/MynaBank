@@ -259,6 +259,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set _password... ähnelt.
+        /// </summary>
+        public static string CMD_SET_PASSWORD {
+            get {
+                return ResourceManager.GetString("CMD_SET_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Update balance... ähnelt.
         /// </summary>
         public static string CMD_UPDATE_BALANCE {
@@ -322,6 +331,33 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The password does not match. ähnelt.
+        /// </summary>
+        public static string ERROR_PASSWORD_DOES_NOT_MATCH {
+            get {
+                return ResourceManager.GetString("ERROR_PASSWORD_DOES_NOT_MATCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The password must contain at least 4 characters. ähnelt.
+        /// </summary>
+        public static string ERROR_PASSWORD_MIN_CHARS {
+            get {
+                return ResourceManager.GetString("ERROR_PASSWORD_MIN_CHARS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The password is wrong. ähnelt.
+        /// </summary>
+        public static string ERROR_WRONG_PASSWORD {
+            get {
+                return ResourceManager.GetString("ERROR_WRONG_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Account: ähnelt.
         /// </summary>
         public static string LABEL_ACCOUNT {
@@ -345,6 +381,15 @@ namespace Bank.Properties {
         public static string LABEL_BALANCE {
             get {
                 return ResourceManager.GetString("LABEL_BALANCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die C_onfirm new password: ähnelt.
+        /// </summary>
+        public static string LABEL_CONFIRM_NEW_PASSWORD {
+            get {
+                return ResourceManager.GetString("LABEL_CONFIRM_NEW_PASSWORD", resourceCulture);
             }
         }
         
@@ -381,6 +426,33 @@ namespace Bank.Properties {
         public static string LABEL_NAME {
             get {
                 return ResourceManager.GetString("LABEL_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _New password: ähnelt.
+        /// </summary>
+        public static string LABEL_NEW_PASSWORD {
+            get {
+                return ResourceManager.GetString("LABEL_NEW_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die C_urrent password: ähnelt.
+        /// </summary>
+        public static string LABEL_OLD_PASSWORD {
+            get {
+                return ResourceManager.GetString("LABEL_OLD_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Password: ähnelt.
+        /// </summary>
+        public static string LABEL_PASSWORD {
+            get {
+                return ResourceManager.GetString("LABEL_PASSWORD", resourceCulture);
             }
         }
         
@@ -614,6 +686,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Verify password ähnelt.
+        /// </summary>
+        public static string TITLE_ENTER_PASSWORD {
+            get {
+                return ResourceManager.GetString("TITLE_ENTER_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Create new account ähnelt.
         /// </summary>
         public static string TITLE_NEW {
@@ -628,6 +709,15 @@ namespace Bank.Properties {
         public static string TITLE_RENAME_ACCOUNT {
             get {
                 return ResourceManager.GetString("TITLE_RENAME_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set password ähnelt.
+        /// </summary>
+        public static string TITLE_SET_PASSWORD {
+            get {
+                return ResourceManager.GetString("TITLE_SET_PASSWORD", resourceCulture);
             }
         }
         

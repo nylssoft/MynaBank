@@ -103,6 +103,12 @@ namespace Bank
             "ConfigureDefaultBooking",
             typeof(CustomCommands));
 
+        public static readonly RoutedUICommand SetPassword =
+            new RoutedUICommand(
+                Properties.Resources.CMD_SET_PASSWORD,
+                "SetPassword",
+                typeof(CustomCommands));
+
         public static readonly RoutedUICommand Next =
             new RoutedUICommand(
             Properties.Resources.CMD_NEXT,

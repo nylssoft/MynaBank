@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -34,6 +35,7 @@ namespace Bank
         private ObservableCollection<Account> accounts = new ObservableCollection<Account>();
         private List<Balance> balances = new List<Balance>();
         private ObservableCollection<Booking> bookings = new ObservableCollection<Booking>();
+        private SecureString Password;
 
         public MainWindow()
         {
@@ -110,6 +112,7 @@ namespace Bank
                 case "RenameAccount":
                 case "ConfigureDefaultText":
                 case "ConfigureDefaultBooking":
+                case "SetPassword":
                     e.CanExecute = account != null;
                     break;
                 case "DeleteSheet":
@@ -178,6 +181,9 @@ namespace Bank
                     break;
                 case "ConfigureDefaultBooking":
                     ConfigureDefaultBooking();
+                    break;
+                case "SetPassword":
+                    SetPassword();
                     break;
                 case "Next":
                     Next();
@@ -260,7 +266,30 @@ namespace Bank
             {
                 PrepareDirectory(fi.Directory.FullName);
             }
-            database.Open(filename);
+            bool enterpwd = Properties.Settings.Default.HasPassword;
+            if (!enterpwd)
+            {
+                try
+                {
+                    database.Open(filename, null);
+                    Password = null;
+                }
+                catch
+                {
+                    enterpwd = true;
+                }
+            }
+            if (enterpwd)
+            {
+                EnterPasswordWindow w = new EnterPasswordWindow(this, Properties.Resources.TITLE_ENTER_PASSWORD, database, filename);
+                if (w.ShowDialog() == false)
+                {
+                    Close();
+                    return;
+                }
+                Password = w.Password;
+                Properties.Settings.Default.HasPassword = Password != null;
+            }
             accounts.Clear();
             foreach (var account in database.GetAccounts())
             {
@@ -720,6 +749,23 @@ namespace Bank
                 if (dlg.ShowDialog() == true)
                 {
                     database.SetDefaultBookings(account, dlg.DefaultBookings);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void SetPassword()
+        {
+            try
+            {
+                var wnd = new SetPasswordWindow(this, Properties.Resources.TITLE_SET_PASSWORD, database, Password);
+                if (wnd.ShowDialog() == true)
+                {
+                    Password = wnd.Password;
+                    Properties.Settings.Default.HasPassword = Password != null;
                 }
             }
             catch (Exception ex)

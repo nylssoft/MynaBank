@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
+using System.Security;
 using System.Text;
 
 namespace Bank
@@ -34,12 +35,21 @@ namespace Bank
             con?.Dispose();
         }
 
-        public void Open(string filename)
+        public void Open(string filename, SecureString pwd)
         {
             var sb = new SQLiteConnectionStringBuilder() { DataSource = filename };
             con = new SQLiteConnection(sb.ToString());
+            if (pwd != null && pwd.Length > 0)
+            {
+                con.SetPassword(pwd.GetAsString());
+            }
             con.Open();
             Init(con);
+        }
+
+        public void ChangePassword(SecureString pwd)
+        {
+            con.ChangePassword(pwd.GetAsString());
         }
 
         private void Init(SQLiteConnection con)

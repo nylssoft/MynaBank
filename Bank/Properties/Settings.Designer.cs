@@ -118,5 +118,17 @@ namespace Bank.Properties {
                 this["LastUsedAccount"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HasPassword {
+            get {
+                return ((bool)(this["HasPassword"]));
+            }
+            set {
+                this["HasPassword"] = value;
+            }
+        }
     }
 }

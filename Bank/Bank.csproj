@@ -89,6 +89,9 @@
     <Compile Include="EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EnterPasswordWindow.xaml.cs">
+      <DependentUpon>EnterPasswordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions.cs" />
     <Compile Include="PrepareWindow.xaml.cs">
       <DependentUpon>PrepareWindow.xaml</DependentUpon>
@@ -97,6 +100,9 @@
       <DependentUpon>Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SetPasswordWindow.xaml.cs">
+      <DependentUpon>SetPasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UpdateBalanceWindow.xaml.cs">
       <DependentUpon>UpdateBalanceWindow.xaml</DependentUpon>
@@ -125,6 +131,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EnterPasswordWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -140,6 +150,10 @@
     <Page Include="PrepareWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetPasswordWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UpdateBalanceWindow.xaml">
       <SubType>Designer</SubType>
