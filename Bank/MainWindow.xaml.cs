@@ -49,6 +49,9 @@ namespace Bank
             try
             {
                 Init();
+                // @TODO: use command to show window, translation missing, work in progress
+                var stwin = new StatisticsWindow("Kontenverlauf", database);
+                stwin.Show();
             }
             catch (Exception ex)
             {
@@ -261,10 +264,10 @@ namespace Bank
                 Properties.Settings.Default.Width,
                 Properties.Settings.Default.Height);
             string filename = Properties.Settings.Default.DatabaseFile.ReplaceSpecialFolder();
-            FileInfo fi = new FileInfo(filename);
-            if (!fi.Directory.Exists)
+            var di = new FileInfo(filename).Directory;
+            if (!di.Exists)
             {
-                PrepareDirectory(fi.Directory.FullName);
+                Directory.CreateDirectory(di.FullName);
             }
             bool enterpwd = Properties.Settings.Default.HasPassword;
             if (!enterpwd)
@@ -815,24 +818,6 @@ namespace Bank
             try
             {
                 slider.Value = slider.Maximum;
-            }
-            catch (Exception ex)
-            {
-                HandleError(ex);
-            }
-        }
-
-        private void PrepareDirectory(string path)
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(path))
-                {
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                }
             }
             catch (Exception ex)
             {
