@@ -37,11 +37,13 @@ namespace Bank
 
         private Brush [] brushes = new[] { Brushes.Red, Brushes.Green, Brushes.Blue, Brushes.Black, Brushes.DarkBlue, Brushes.DarkGray, Brushes.DarkGreen };
 
-        public StatisticsWindow(string title, Database database)
+        public StatisticsWindow(Window owner, string title, Database database)
         {
             init = true;
             InitializeComponent();
+            Owner = owner;
             Title = title;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
             Init(database);
             init = false;
         }
@@ -69,7 +71,7 @@ namespace Bank
                 }
                 cb.Tag = account.Name;
                 cb.IsChecked = true;
-                cb.Margin = new Thickness(10);
+                cb.Margin = new Thickness(10,5,10,5);
                 cb.Checked += CheckBox_Changed;
                 cb.Unchecked += CheckBox_Changed;
                 stackPanelAccounts.Children.Add(cb);
@@ -136,11 +138,11 @@ namespace Bank
             if (init) return;
             if (e.HeightChanged)
             {
-                canGraph.Height = Math.Max(e.NewSize.Height - 100, 100);
+                canGraph.Height = Math.Max(e.NewSize.Height - 160, 160);
             }
             if (e.WidthChanged)
             {
-                canGraph.Width = Math.Max(e.NewSize.Width - 100, 100);
+                canGraph.Width = Math.Max(e.NewSize.Width - 20, 20);
             }
             DrawGraph();
         }
@@ -245,5 +247,10 @@ namespace Bank
             DrawGraph();
         }
 
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+            Close();
+        }
     }
 }

@@ -41,7 +41,6 @@ namespace Bank
         {
             Owner = owner;
             Title = title;
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
             this.account = account;
             InitializeComponent();
             checkBoxes = new CheckBox[] {

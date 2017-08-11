@@ -133,5 +133,10 @@ namespace Bank
             "First",
             typeof(CustomCommands));
 
+        public static readonly RoutedUICommand ShowGraph =
+            new RoutedUICommand(
+                Properties.Resources.CMD_SHOW_GRAPH,
+                "ShowGraph",
+                typeof(CustomCommands));
     }
 }

@@ -39,6 +39,7 @@
         <CommandBinding Command="self:CustomCommands.Previous" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.First" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Last" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.ShowGraph" CanExecute="Command_CanExecute" Executed="Command_Executed"/>
     </Window.CommandBindings>
     <Grid Margin="5,5,5,5">
         <DockPanel LastChildFill="True">
@@ -65,6 +66,8 @@
                         <Separator />
                         <MenuItem Command="self:CustomCommands.ConfigureDefaultText" />
                         <MenuItem Command="self:CustomCommands.ConfigureDefaultBooking" />
+                        <Separator />
+                        <MenuItem Command="self:CustomCommands.ShowGraph" />
                         <Separator />
                         <MenuItem Command="self:CustomCommands.SetPassword" />
                         <Separator />

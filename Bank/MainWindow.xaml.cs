@@ -49,9 +49,6 @@ namespace Bank
             try
             {
                 Init();
-                // @TODO: use command to show window, translation missing, work in progress
-                var stwin = new StatisticsWindow("Kontenverlauf", database);
-                stwin.Show();
             }
             catch (Exception ex)
             {
@@ -116,6 +113,7 @@ namespace Bank
                 case "ConfigureDefaultText":
                 case "ConfigureDefaultBooking":
                 case "SetPassword":
+                case "ShowGraph":
                     e.CanExecute = account != null;
                     break;
                 case "DeleteSheet":
@@ -199,6 +197,9 @@ namespace Bank
                     break;
                 case "Last":
                     Last();
+                    break;
+                case "ShowGraph":
+                    ShowGraph();
                     break;
                 default:
                     break;
@@ -818,6 +819,19 @@ namespace Bank
             try
             {
                 slider.Value = slider.Maximum;
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void ShowGraph()
+        {
+            try
+            {
+                var dlg = new StatisticsWindow(this, Properties.Resources.TITLE_SHOW_GRAPH, database);
+                dlg.ShowDialog();
             }
             catch (Exception ex)
             {

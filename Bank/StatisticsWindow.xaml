@@ -4,27 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bank"
+        xmlns:props="clr-namespace:Bank.Properties"
         mc:Ignorable="d"
         Title="StatisticsWindow" Height="600" Width="800" SizeChanged="Window_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Label Content="Von:" />
+            <Label Content="{x:Static props:Resources.LABEL_FROM}" Target="{Binding ElementName=datePickerFrom}"/>
             <DatePicker x:Name="datePickerFrom" SelectedDateChanged="DatePickerFrom_SelectedDateChanged"/>
-            <Label Content="Bis:" />
+            <Label Content="{x:Static props:Resources.LABEL_TO}" Target="{Binding ElementName=datePickerTo}"/>
             <DatePicker x:Name="datePickerTo" SelectedDateChanged="DatePickerTo_SelectedDateChanged"/>
-            <Label Content="Y Mininum (Euro):" />
+            <Label Content="{x:Static props:Resources.LABEL_Y_MIN}" Target="{Binding ElementName=textBoxYMin}"/>
             <TextBox x:Name="textBoxYMin" Width="60" Text="0" Height="21" Margin="0,0,5,0" TextChanged="TextBoxYMin_TextChanged"/>
-            <Label Content="Y Maximum (Euro):" />
+            <Label Content="{x:Static props:Resources.LABEL_Y_MAX}" Target="{Binding ElementName=textBoxYMax}"/>
             <TextBox x:Name="textBoxYMax" Width="60" Text="40000" Height="21" Margin="0,0,5,0" TextChanged="TextBoxYMax_TextChanged"/>
         </StackPanel>
-        <StackPanel x:Name="stackPanelAccounts" Grid.Row="1" Orientation="Horizontal">
+        <StackPanel x:Name="stackPanelAccounts" Grid.Row="1" Orientation="Horizontal" Background="LightGreen">
         </StackPanel>
-        <Canvas Grid.Row="2" Name="canGraph" Background="White" Width="700" Height="500" VerticalAlignment="Center" HorizontalAlignment="Center">
-        </Canvas>
+        <Border Grid.Row="2" BorderThickness="1" BorderBrush="Black">
+            <Canvas Name="canGraph" Background="White" Width="780" Height="420" VerticalAlignment="Top" HorizontalAlignment="Left">
+            </Canvas>
+        </Border>
+        <Button Grid.Row="3" HorizontalAlignment="Right" x:Name="buttonClose" Content="{x:Static props:Resources.CMD_CLOSE}" Height="23" Width="80" Margin="10" Click="ButtonClose_Click"/>
     </Grid>
 </Window>

@@ -186,6 +186,9 @@
   <data name="CMD_SET_PASSWORD" xml:space="preserve">
     <value>Set _password...</value>
   </data>
+  <data name="CMD_SHOW_GRAPH" xml:space="preserve">
+    <value>Show account de_velopment...</value>
+  </data>
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
     <value>_Update balance...</value>
   </data>
@@ -234,6 +237,9 @@
   <data name="LABEL_DEFAULT_TEXT" xml:space="preserve">
     <value>_Default text:</value>
   </data>
+  <data name="LABEL_FROM" xml:space="preserve">
+    <value>_From:</value>
+  </data>
   <data name="LABEL_MONTH" xml:space="preserve">
     <value>_Month:</value>
   </data>
@@ -252,8 +258,17 @@
   <data name="LABEL_TEXT" xml:space="preserve">
     <value>_Text:</value>
   </data>
+  <data name="LABEL_TO" xml:space="preserve">
+    <value>_To:</value>
+  </data>
   <data name="LABEL_YEAR" xml:space="preserve">
     <value>_Year:</value>
+  </data>
+  <data name="LABEL_Y_MAX" xml:space="preserve">
+    <value>Y m_ax.:</value>
+  </data>
+  <data name="LABEL_Y_MIN" xml:space="preserve">
+    <value>Y m_in.:</value>
   </data>
   <data name="MENUITEM_EDIT" xml:space="preserve">
     <value>_Edit</value>
@@ -339,6 +354,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   </data>
   <data name="TITLE_SET_PASSWORD" xml:space="preserve">
     <value>Set password</value>
+  </data>
+  <data name="TITLE_SHOW_GRAPH" xml:space="preserve">
+    <value>Account development</value>
   </data>
   <data name="TITLE_UPDATE_BALANCE" xml:space="preserve">
     <value>Update sheet</value>
