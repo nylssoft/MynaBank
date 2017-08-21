@@ -32,8 +32,8 @@ namespace Bank
         private bool init = false;
 
         private Dictionary<string, List<Point>> dataDict = new Dictionary<string, List<Point>>();
-        private Dictionary<string, Point> minDict = new Dictionary<string, Point>();
-        private Dictionary<string, Point> maxDict = new Dictionary<string, Point>();
+        private long totalMinY = long.MaxValue;
+        private long totalMaxY = long.MinValue;
 
         private Brush [] brushes = new[] { Brushes.Red, Brushes.Green, Brushes.Blue, Brushes.Black, Brushes.DarkBlue, Brushes.DarkGray, Brushes.DarkGreen };
 
@@ -51,11 +51,13 @@ namespace Bank
         private void Init(Database database)
         {
             var now = DateTime.Now;
-            var totalMinY = Double.MaxValue;
-            var totalMaxY = Double.MinValue;
-            var totalMinX = Double.MaxValue;
-            var totalMaxX = Double.MinValue;
+            var last = new DateTime(now.Year - 1, 1, 1);
+            var lastdays = (int)(now - last).TotalDays;
+            datePickerFrom.SelectedDate = now;
+            datePickerTo.SelectedDate = last;
             int brushidx = 0;
+            long allMinY = long.MaxValue;
+            long allMaxY = long.MinValue;
             foreach (var account in database.GetAccounts())
             {
                 var cb = new CheckBox();
@@ -70,15 +72,13 @@ namespace Bank
                     brushidx = 0;
                 }
                 cb.Tag = account.Name;
-                cb.IsChecked = true;
+                cb.IsChecked = false;
                 cb.Margin = new Thickness(10,5,10,5);
                 cb.Checked += CheckBox_Changed;
                 cb.Unchecked += CheckBox_Changed;
                 stackPanelAccounts.Children.Add(cb);
-                var minY = Double.MaxValue;
-                var maxY = Double.MinValue;
-                var minX = Double.MaxValue;
-                var maxX = Double.MinValue;
+                long minY = long.MaxValue;
+                long maxY = long.MinValue;
                 var points = new List<Point>();
                 foreach (var balance in database.GetBalances(account))
                 {
@@ -86,27 +86,29 @@ namespace Bank
                     foreach (var booking in database.GetBookings(balance))
                     {
                         y += booking.Amount;
+                        var dt = new DateTime(balance.Year, balance.Month, booking.Day);
                         var x = (now - new DateTime(balance.Year, balance.Month, booking.Day)).TotalDays;
+                        if (x <= lastdays)
+                        {
+                            if (cb.IsChecked == false)
+                            {
+                                cb.IsChecked = true;
+                            }
+                            minY = Math.Min(y, minY);
+                            maxY = Math.Max(y, maxY);
+                        }
+                        totalMinY = Math.Min(y, totalMinY);
+                        totalMaxY = Math.Max(y, totalMaxY);
                         points.Add(new Point(x, y));
-                        maxX = Math.Max(x, maxX);
-                        maxY = Math.Max(y, maxY);
-                        minX = Math.Min(x, minX);
-                        minY = Math.Min(y, minY);
                     }
                 }
                 points.Reverse();
                 dataDict[account.Name] = points;
-                minDict[account.Name] = new Point(minX, minY);
-                maxDict[account.Name] = new Point(maxX, maxY);
-                totalMaxX = Math.Max(totalMaxX, maxX);
-                totalMaxY = Math.Max(totalMaxY, maxY);
-                totalMinX = Math.Min(totalMinX, minX);
-                totalMinY = Math.Min(totalMinY, minY);
+                allMinY = Math.Min(allMinY, minY);
+                allMaxY = Math.Max(allMaxY, maxY);
             }
-            datePickerFrom.SelectedDate = now.Subtract(new TimeSpan((int)totalMinX, 0, 0, 0));
-            datePickerTo.SelectedDate = new DateTime(datePickerFrom.SelectedDate.Value.Year - 1, 1, 1);
-            textBoxYMin.Text = CurrencyConverter.ConvertToInputString((long)totalMinY);
-            textBoxYMax.Text = CurrencyConverter.ConvertToInputString((long)totalMaxY);
+            textBoxYMin.Text = CurrencyConverter.ConvertToInputString(allMinY);
+            textBoxYMax.Text = CurrencyConverter.ConvertToInputString(allMaxY);
         }
 
         private void PrepareTransformations(
@@ -146,18 +148,29 @@ namespace Bank
             }
             DrawGraph();
         }
-
         
         private void DrawGraph()
         {
             canGraph.Children.Clear();
+            init = true;
             try
             {
                 var now = DateTime.Now;
                 var ymin = CurrencyConverter.ParseCurrency(textBoxYMin.Text);
+                if (ymin < totalMinY)
+                {
+                    ymin = totalMinY;
+                    textBoxYMin.Text = CurrencyConverter.ConvertToInputString(totalMinY);
+                }
                 var ymax = CurrencyConverter.ParseCurrency(textBoxYMax.Text);
+                if (ymax > totalMaxY)
+                {
+                    ymax = totalMaxY;
+                    textBoxYMax.Text = CurrencyConverter.ConvertToInputString(totalMaxY);
+                }
                 if (!datePickerFrom.SelectedDate.HasValue ||
-                    !datePickerTo.SelectedDate.HasValue)
+                    !datePickerTo.SelectedDate.HasValue ||
+                    ymin >= ymax)
                 {
                     return;
                 }
@@ -196,6 +209,10 @@ namespace Bank
             {
                 // ignored
             }
+            finally
+            {
+                init = false;
+            }
         }
 
         private void DrawAxis(double wxmin, double wxmax, double wymin, double wymax)
@@ -217,22 +234,31 @@ namespace Bank
                 EndPoint = new Point(pe.X + 8, pe.Y)
             });
             var ticks = new GeometryGroup();
+            double? lasty = null;
             for (var ticy = wys; ticy <= wye; ticy += 100000)
             {
                 var p = WtoD(new Point(wxmin, ticy));
-                var t = new TextBlock {
-                    Text = Convert.ToString((long)(ticy / 100.0)),
-                    TextAlignment = TextAlignment.Right,                    
-                    VerticalAlignment = VerticalAlignment.Top};
-                Canvas.SetLeft(t, p.X - 50);
-                Canvas.SetTop(t, p.Y - 8);
-                canGraph.Children.Add(t);
-                ticks.Children.Add(new LineGeometry
+                if (!lasty.HasValue || Math.Abs(p.Y - lasty.Value) > 15)
                 {
-                    StartPoint = new Point { X = p.X - 8, Y = p.Y },
-                    EndPoint = WtoD(new Point(wxmax, ticy))
-                });
+                    var t = new TextBlock
+                    {
+                        Text = Convert.ToString((long)(ticy / 100.0)),
+                        TextAlignment = TextAlignment.Right,
+                        VerticalAlignment = VerticalAlignment.Top
+                    };
+                    Canvas.SetLeft(t, p.X - 50);
+                    Canvas.SetTop(t, p.Y - 8);
+                    canGraph.Children.Add(t);
+                    ticks.Children.Add(new LineGeometry
+                    {
+                        StartPoint = new Point { X = p.X - 8, Y = p.Y },
+                        EndPoint = WtoD(new Point(wxmax, ticy))
+                    });
+                    lasty = p.Y;
+                }
             }
+            double? lastxDay = null;
+            double? lastxYear = null;
             var now = DateTime.Now;
             for (int ticx = (int)wxmin; ticx <= (int)wxmax; ticx++)
             {
@@ -240,32 +266,40 @@ namespace Bank
                 if (dt.Day == 1)
                 {
                     var p = WtoD(new Point(ticx, wys));
-                    var t = new TextBlock
+                    if (!lastxDay.HasValue || Math.Abs(p.X - lastxDay.Value) > 15)
                     {
-                        Text = $"{dt.Month}",
-                        TextAlignment = TextAlignment.Left,
-                        VerticalAlignment = VerticalAlignment.Top
-                    };
-                    Canvas.SetLeft(t, p.X - 4);
-                    Canvas.SetTop(t, p.Y + 8);
-                    canGraph.Children.Add(t);
-                    if (dt.Month == 1)
-                    {
-                        var ty = new TextBlock
+                        lastxDay = p.X;
+                        var t = new TextBlock
                         {
-                            Text = $"{dt.Year}",
+                            Text = $"{dt.Month}",
                             TextAlignment = TextAlignment.Left,
                             VerticalAlignment = VerticalAlignment.Top
                         };
-                        Canvas.SetLeft(ty, p.X - 10);
-                        Canvas.SetTop(ty, p.Y + 28);
-                        canGraph.Children.Add(ty);
+                        Canvas.SetLeft(t, p.X - 4);
+                        Canvas.SetTop(t, p.Y + 8);
+                        canGraph.Children.Add(t);
+                        ticks.Children.Add(new LineGeometry
+                        {
+                            StartPoint = new Point { X = p.X, Y = p.Y + 8 },
+                            EndPoint = WtoD(new Point(ticx, wye))
+                        });
                     }
-                    ticks.Children.Add(new LineGeometry
+                    if (dt.Month == 1)
                     {
-                        StartPoint = new Point { X = p.X, Y = p.Y + 8 },
-                        EndPoint = WtoD(new Point(ticx, wye))
-                    });
+                        if (!lastxYear.HasValue || Math.Abs(p.X - lastxYear.Value) > 30)
+                        {
+                            lastxYear = p.X;
+                            var ty = new TextBlock
+                            {
+                                Text = $"{dt.Year}",
+                                TextAlignment = TextAlignment.Left,
+                                VerticalAlignment = VerticalAlignment.Top
+                            };
+                            Canvas.SetLeft(ty, p.X - 10);
+                            Canvas.SetTop(ty, p.Y + 28);
+                            canGraph.Children.Add(ty);
+                        }
+                    }
                 }
             }
             canGraph.Children.Add(new Path { StrokeThickness = 1, Stroke = Brushes.LightGray, Data = ticks });
@@ -304,22 +338,25 @@ namespace Bank
             DrawGraph();
         }
 
-        private void TextBoxYMin_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxY_LostFocus(object sender, RoutedEventArgs e)
         {
             if (init) return;
             DrawGraph();
         }
 
-        private void TextBoxYMax_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxY_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (init) return;
-            DrawGraph();
+            if (e.Key == System.Windows.Input.Key.Return)
+            {
+                e.Handled = true;
+                if (init) return;
+                DrawGraph();
+            }
         }
 
         private void CheckBox_Changed(object sender, RoutedEventArgs e)
         {
             if (init) return;
-            UpdateMinMax();
             DrawGraph();
         }
 
@@ -327,32 +364,6 @@ namespace Bank
         {
             DialogResult = true;
             Close();
-        }
-
-        private void UpdateMinMax()
-        {
-            var now = DateTime.Now;
-            var totalMinY = Double.MaxValue;
-            var totalMaxY = Double.MinValue;
-            var found = false;
-            foreach (CheckBox cb in stackPanelAccounts.Children)
-            {
-                if (cb.IsChecked == true && cb.Tag is string name)
-                {
-                    var minp = minDict[name];
-                    var maxp = maxDict[name];
-                    totalMaxY = Math.Max(totalMaxY, maxp.Y);
-                    totalMinY = Math.Min(totalMinY, minp.Y);
-                    found = true;
-                }
-            }
-            if (found)
-            {
-                init = true;
-                textBoxYMin.Text = CurrencyConverter.ConvertToInputString((long)totalMinY);
-                textBoxYMax.Text = CurrencyConverter.ConvertToInputString((long)totalMaxY);
-                init = false;
-            }
         }
     }
 }

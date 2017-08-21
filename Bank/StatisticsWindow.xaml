@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Bank"
         xmlns:props="clr-namespace:Bank.Properties"
         mc:Ignorable="d"
-        Title="StatisticsWindow" Height="600" Width="800" SizeChanged="Window_SizeChanged">
+        Title="StatisticsWindow" Height="600" Width="800" MinHeight="400" MinWidth="400" SizeChanged="Window_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -20,16 +20,14 @@
             <Label Content="{x:Static props:Resources.LABEL_TO}" Target="{Binding ElementName=datePickerTo}"/>
             <DatePicker x:Name="datePickerTo" SelectedDateChanged="DatePickerTo_SelectedDateChanged" Height="23"/>
             <Label Content="{x:Static props:Resources.LABEL_Y_MIN}" Target="{Binding ElementName=textBoxYMin}"/>
-            <TextBox x:Name="textBoxYMin" Width="60" Text="0" Height="23" Margin="0,0,5,0" TextChanged="TextBoxYMin_TextChanged"/>
+            <TextBox x:Name="textBoxYMin" Width="60" Text="0" Height="23" Margin="0,0,5,0" LostFocus="TextBoxY_LostFocus" KeyUp="TextBoxY_KeyUp" MaxLength="8"/>
             <Label Content="{x:Static props:Resources.LABEL_Y_MAX}" Target="{Binding ElementName=textBoxYMax}"/>
-            <TextBox x:Name="textBoxYMax" Width="60" Text="40000" Height="23" Margin="0,0,5,0" TextChanged="TextBoxYMax_TextChanged"/>
+            <TextBox x:Name="textBoxYMax" Width="60" Text="40000" Height="23" Margin="0,0,5,0" LostFocus="TextBoxY_LostFocus" KeyUp="TextBoxY_KeyUp" MaxLength="8"/>
         </StackPanel>
         <StackPanel x:Name="stackPanelAccounts" Grid.Row="1" Orientation="Horizontal" Background="LightGreen">
         </StackPanel>
-        <Border Grid.Row="2" BorderThickness="1" BorderBrush="Black">
-            <Canvas Name="canGraph" Background="White" Width="680" Height="320" VerticalAlignment="Top" HorizontalAlignment="Left">
-            </Canvas>
-        </Border>
+        <Canvas Grid.Row="2" Name="canGraph" Background="White" Width="680" Height="320" VerticalAlignment="Top" HorizontalAlignment="Left">
+        </Canvas>
         <Button Grid.Row="3" HorizontalAlignment="Right" x:Name="buttonClose" Content="{x:Static props:Resources.CMD_CLOSE}" Height="23" Width="80" Margin="10" Click="ButtonClose_Click"/>
     </Grid>
 </Window>
