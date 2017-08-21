@@ -104,7 +104,7 @@ namespace Bank
                 totalMinY = Math.Min(totalMinY, minY);
             }
             datePickerFrom.SelectedDate = now.Subtract(new TimeSpan((int)totalMinX, 0, 0, 0));
-            datePickerTo.SelectedDate = now.Subtract(new TimeSpan((int)totalMaxX, 0, 0, 0));
+            datePickerTo.SelectedDate = new DateTime(datePickerFrom.SelectedDate.Value.Year - 1, 1, 1);
             textBoxYMin.Text = CurrencyConverter.ConvertToInputString((long)totalMinY);
             textBoxYMax.Text = CurrencyConverter.ConvertToInputString((long)totalMaxY);
         }
@@ -168,10 +168,10 @@ namespace Bank
                     return;
                 }
                 double
-                    dxmin = 10,
-                    dxmax = Math.Max(canGraph.Width - 10, 10),
-                    dymin = 10,
-                    dymax = Math.Max(canGraph.Height - 10, 10);
+                    dxmin = 60,
+                    dxmax = Math.Max(canGraph.Width - 60, 60),
+                    dymin = 60,
+                    dymax = Math.Max(canGraph.Height - 60, 60);
                 double
                     wxmin = fromdays,
                     wxmax = todays,
@@ -180,6 +180,7 @@ namespace Bank
                 PrepareTransformations(
                     wxmin, wxmax, wymin, wymax,
                     dxmin, dxmax, dymax, dymin);
+                DrawAxis(wxmin, wxmax, wymin, wymax);
                 foreach (CheckBox cb in stackPanelAccounts.Children)
                 {
                     if (cb.IsChecked == true && cb.Tag is string name)
@@ -195,6 +196,80 @@ namespace Bank
             {
                 // ignored
             }
+        }
+
+        private void DrawAxis(double wxmin, double wxmax, double wymin, double wymax)
+        {
+            var axis = new GeometryGroup();
+            var wys = Math.Round(wymin / 100000.0) * 100000.0;
+            var wye = Math.Round(wymax / 100000.0) * 100000.0;
+            var ps = WtoD(new Point(wxmin, wys));
+            var pe = WtoD(new Point(wxmin, wye));
+            axis.Children.Add(new LineGeometry
+            {
+                StartPoint = new Point(ps.X, ps.Y + 8),
+                EndPoint = new Point(pe.X, pe.Y - 8)
+            });
+            pe = WtoD(new Point(wxmax, wys));
+            axis.Children.Add(new LineGeometry
+            {
+                StartPoint = new Point(ps.X - 8, ps.Y),
+                EndPoint = new Point(pe.X + 8, pe.Y)
+            });
+            var ticks = new GeometryGroup();
+            for (var ticy = wys; ticy <= wye; ticy += 100000)
+            {
+                var p = WtoD(new Point(wxmin, ticy));
+                var t = new TextBlock {
+                    Text = Convert.ToString((long)(ticy / 100.0)),
+                    TextAlignment = TextAlignment.Right,                    
+                    VerticalAlignment = VerticalAlignment.Top};
+                Canvas.SetLeft(t, p.X - 50);
+                Canvas.SetTop(t, p.Y - 8);
+                canGraph.Children.Add(t);
+                ticks.Children.Add(new LineGeometry
+                {
+                    StartPoint = new Point { X = p.X - 8, Y = p.Y },
+                    EndPoint = WtoD(new Point(wxmax, ticy))
+                });
+            }
+            var now = DateTime.Now;
+            for (int ticx = (int)wxmin; ticx <= (int)wxmax; ticx++)
+            {
+                var dt = now.Subtract(new TimeSpan(ticx, 0, 0, 0));
+                if (dt.Day == 1)
+                {
+                    var p = WtoD(new Point(ticx, wys));
+                    var t = new TextBlock
+                    {
+                        Text = $"{dt.Month}",
+                        TextAlignment = TextAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Top
+                    };
+                    Canvas.SetLeft(t, p.X - 4);
+                    Canvas.SetTop(t, p.Y + 8);
+                    canGraph.Children.Add(t);
+                    if (dt.Month == 1)
+                    {
+                        var ty = new TextBlock
+                        {
+                            Text = $"{dt.Year}",
+                            TextAlignment = TextAlignment.Left,
+                            VerticalAlignment = VerticalAlignment.Top
+                        };
+                        Canvas.SetLeft(ty, p.X - 10);
+                        Canvas.SetTop(ty, p.Y + 28);
+                        canGraph.Children.Add(ty);
+                    }
+                    ticks.Children.Add(new LineGeometry
+                    {
+                        StartPoint = new Point { X = p.X, Y = p.Y + 8 },
+                        EndPoint = WtoD(new Point(ticx, wye))
+                    });
+                }
+            }
+            canGraph.Children.Add(new Path { StrokeThickness = 1, Stroke = Brushes.LightGray, Data = ticks });
+            canGraph.Children.Add(new Path { StrokeThickness = 1, Stroke = Brushes.Black, Data = axis });
         }
 
         private void DrawAccount(string name, Brush brush, double wxmin, double wxmax)
@@ -213,7 +288,7 @@ namespace Bank
                     geometryGroup.Children.Add(new EllipseGeometry(p, 5, 5));
                 }
             }
-            canGraph.Children.Add(new Path() { StrokeThickness = 1, Stroke = brush, Data = geometryGroup });
+            canGraph.Children.Add(new Path { StrokeThickness = 1, Stroke = brush, Data = geometryGroup });
             canGraph.Children.Add(new Polyline { StrokeThickness = 1, Stroke = brush, Points = pointCollection });
         }
 
@@ -244,6 +319,7 @@ namespace Bank
         private void CheckBox_Changed(object sender, RoutedEventArgs e)
         {
             if (init) return;
+            UpdateMinMax();
             DrawGraph();
         }
 
@@ -251,6 +327,32 @@ namespace Bank
         {
             DialogResult = true;
             Close();
+        }
+
+        private void UpdateMinMax()
+        {
+            var now = DateTime.Now;
+            var totalMinY = Double.MaxValue;
+            var totalMaxY = Double.MinValue;
+            var found = false;
+            foreach (CheckBox cb in stackPanelAccounts.Children)
+            {
+                if (cb.IsChecked == true && cb.Tag is string name)
+                {
+                    var minp = minDict[name];
+                    var maxp = maxDict[name];
+                    totalMaxY = Math.Max(totalMaxY, maxp.Y);
+                    totalMinY = Math.Min(totalMinY, minp.Y);
+                    found = true;
+                }
+            }
+            if (found)
+            {
+                init = true;
+                textBoxYMin.Text = CurrencyConverter.ConvertToInputString((long)totalMinY);
+                textBoxYMax.Text = CurrencyConverter.ConvertToInputString((long)totalMaxY);
+                init = false;
+            }
         }
     }
 }
