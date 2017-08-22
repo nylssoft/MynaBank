@@ -12,7 +12,6 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Label Content="{x:Static props:Resources.LABEL_FROM}" Target="{Binding ElementName=datePickerFrom}"/>
@@ -26,8 +25,7 @@
         </StackPanel>
         <StackPanel x:Name="stackPanelAccounts" Grid.Row="1" Orientation="Horizontal" Background="LightGreen">
         </StackPanel>
-        <Canvas Grid.Row="2" Name="canGraph" Background="White" Width="680" Height="320" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <Canvas Grid.Row="2" ClipToBounds="True" Name="canGraph" Background="White" Width="770" Height="490" VerticalAlignment="Top" HorizontalAlignment="Left">
         </Canvas>
-        <Button Grid.Row="3" HorizontalAlignment="Right" x:Name="buttonClose" Content="{x:Static props:Resources.CMD_CLOSE}" Height="23" Width="80" Margin="10" Click="ButtonClose_Click"/>
     </Grid>
 </Window>

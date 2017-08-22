@@ -140,11 +140,11 @@ namespace Bank
             if (init) return;
             if (e.HeightChanged)
             {
-                canGraph.Height = Math.Max(e.NewSize.Height - 160, 160);
+                canGraph.Height = Math.Max(e.NewSize.Height - 110, 110);
             }
             if (e.WidthChanged)
             {
-                canGraph.Width = Math.Max(e.NewSize.Width - 20, 20);
+                canGraph.Width = Math.Max(e.NewSize.Width - 10, 10);
             }
             DrawGraph();
         }
@@ -182,9 +182,9 @@ namespace Bank
                 }
                 double
                     dxmin = 60,
-                    dxmax = Math.Max(canGraph.Width - 60, 60),
-                    dymin = 60,
-                    dymax = Math.Max(canGraph.Height - 60, 60);
+                    dxmax = Math.Max(canGraph.Width - 30, 30),
+                    dymin = 30,
+                    dymax = Math.Max(canGraph.Height - 70, 70);
                 double
                     wxmin = fromdays,
                     wxmax = todays,
@@ -295,7 +295,7 @@ namespace Bank
                                 TextAlignment = TextAlignment.Left,
                                 VerticalAlignment = VerticalAlignment.Top
                             };
-                            Canvas.SetLeft(ty, p.X - 10);
+                            Canvas.SetLeft(ty, p.X - 15);
                             Canvas.SetTop(ty, p.Y + 28);
                             canGraph.Children.Add(ty);
                         }
@@ -358,12 +358,6 @@ namespace Bank
         {
             if (init) return;
             DrawGraph();
-        }
-
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-            Close();
         }
     }
 }
