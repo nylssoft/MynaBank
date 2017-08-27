@@ -291,7 +291,7 @@ namespace Bank
             double? lastxYear = null;
             for (int ticx = (int)wxmin; ticx <= (int)wxmax; ticx++)
             {
-                var dt = refdate.AddDays(-(ticx - (int)wxmin));
+                var dt = refdate.AddDays(-ticx);
                 if (dt.Day == 1)
                 {
                     var p = WtoD(new Point(ticx, wys));
