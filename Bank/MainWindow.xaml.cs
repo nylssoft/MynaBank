@@ -36,6 +36,7 @@ namespace Bank
         private List<Balance> balances = new List<Balance>();
         private ObservableCollection<Booking> bookings = new ObservableCollection<Booking>();
         private SecureString Password;
+        private StatisticsWindow statisticsWindow = null;
 
         public MainWindow()
         {
@@ -61,6 +62,11 @@ namespace Bank
         {
             try
             {
+                if (statisticsWindow != null && !statisticsWindow.IsClosed)
+                {
+                    statisticsWindow.Close();
+                    statisticsWindow = null;
+                }
                 if (WindowState == WindowState.Normal)
                 {
                     Properties.Settings.Default.Left = Left;
@@ -113,8 +119,10 @@ namespace Bank
                 case "ConfigureDefaultText":
                 case "ConfigureDefaultBooking":
                 case "SetPassword":
-                case "ShowGraph":
                     e.CanExecute = account != null;
+                    break;
+                case "ShowGraph":
+                    e.CanExecute = account != null && (statisticsWindow == null || statisticsWindow.IsClosed);
                     break;
                 case "DeleteSheet":
                     e.CanExecute = balances.Count > 0;
@@ -830,8 +838,12 @@ namespace Bank
         {
             try
             {
-                var dlg = new StatisticsWindow(this, Properties.Resources.TITLE_SHOW_GRAPH, database);
-                dlg.ShowDialog();
+                if (statisticsWindow == null || statisticsWindow.IsClosed)
+                {
+                    statisticsWindow = new StatisticsWindow(null, Properties.Resources.TITLE_SHOW_GRAPH);
+                    statisticsWindow.Show();
+                }
+                statisticsWindow.Update(database);
             }
             catch (Exception ex)
             {

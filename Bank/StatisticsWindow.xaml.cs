@@ -32,28 +32,53 @@ namespace Bank
         private bool init = false;
 
         private Dictionary<string, List<Point>> dataDict = new Dictionary<string, List<Point>>();
+        private Dictionary<string, List<string>> infoDict = new Dictionary<string, List<string>>();
+
+        private DateTime refdate;
         private long totalMinY = long.MaxValue;
         private long totalMaxY = long.MinValue;
 
         private Brush [] brushes = new[] { Brushes.Red, Brushes.Green, Brushes.Blue, Brushes.Black, Brushes.DarkBlue, Brushes.DarkGray, Brushes.DarkGreen };
 
-        public StatisticsWindow(Window owner, string title, Database database)
+        private TextBlock infoTextBlock = new TextBlock { Background = Brushes.Yellow, TextAlignment = TextAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+
+        public StatisticsWindow(Window owner, string title)
         {
             init = true;
             InitializeComponent();
             Owner = owner;
             Title = title;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            Init(database);
+            IsClosed = false;
             init = false;
+        }
+
+        public void Update(Database database)
+        {
+            init = true;
+            try
+            {
+                Init(database);
+                DrawGraph();
+            }
+            finally
+            {
+                init = false;
+            }
         }
 
         private void Init(Database database)
         {
-            var now = DateTime.Now;
-            var last = new DateTime(now.Year - 1, 1, 1);
-            var lastdays = (int)(now - last).TotalDays;
-            datePickerFrom.SelectedDate = now;
+            dataDict.Clear();
+            infoDict.Clear();
+            totalMinY = long.MaxValue;
+            totalMaxY = long.MinValue;
+            stackPanelAccounts.Children.Clear();
+            var nw = DateTime.Now;
+            refdate = new DateTime(nw.Year, nw.Month, nw.Day);
+            var last = new DateTime(refdate.Year - 1, 1, 1);
+            var lastdays = (int)(refdate - last).TotalDays;
+            datePickerFrom.SelectedDate = refdate;
             datePickerTo.SelectedDate = last;
             int brushidx = 0;
             long allMinY = long.MaxValue;
@@ -80,6 +105,7 @@ namespace Bank
                 long minY = long.MaxValue;
                 long maxY = long.MinValue;
                 var points = new List<Point>();
+                var info = new List<string>();
                 foreach (var balance in database.GetBalances(account))
                 {
                     long y = balance.First;
@@ -87,7 +113,7 @@ namespace Bank
                     {
                         y += booking.Amount;
                         var dt = new DateTime(balance.Year, balance.Month, booking.Day);
-                        var x = (now - new DateTime(balance.Year, balance.Month, booking.Day)).TotalDays;
+                        var x = (refdate - new DateTime(balance.Year, balance.Month, booking.Day)).TotalDays;
                         if (x <= lastdays)
                         {
                             if (cb.IsChecked == false)
@@ -100,10 +126,13 @@ namespace Bank
                         totalMinY = Math.Min(y, totalMinY);
                         totalMaxY = Math.Max(y, totalMaxY);
                         points.Add(new Point(x, y));
+                        info.Add($"{dt:d} {CurrencyConverter.ConvertToCurrencyString(y)}\r\n{booking.Text} {CurrencyConverter.ConvertToCurrencyString(booking.Amount)}");
                     }
                 }
                 points.Reverse();
+                info.Reverse();
                 dataDict[account.Name] = points;
+                infoDict[account.Name] = info;
                 allMinY = Math.Min(allMinY, minY);
                 allMaxY = Math.Max(allMaxY, maxY);
             }
@@ -155,7 +184,7 @@ namespace Bank
             init = true;
             try
             {
-                var now = DateTime.Now;
+                infoTextBlock.Visibility = Visibility.Hidden;
                 var ymin = CurrencyConverter.ParseCurrency(textBoxYMin.Text);
                 if (ymin < totalMinY)
                 {
@@ -174,8 +203,8 @@ namespace Bank
                 {
                     return;
                 }
-                var fromdays = Math.Max((int)((now - datePickerFrom.SelectedDate.Value).TotalDays), 0);
-                var todays = Math.Max((int)(now - datePickerTo.SelectedDate.Value).TotalDays, 0);
+                var fromdays = Math.Max((int)((refdate - datePickerFrom.SelectedDate.Value).TotalDays), 0);
+                var todays = Math.Max((int)(refdate - datePickerTo.SelectedDate.Value).TotalDays + 1, 0);
                 if (todays < fromdays)
                 {
                     return;
@@ -204,6 +233,7 @@ namespace Bank
                         }
                     }
                 }
+                canGraph.Children.Add(infoTextBlock);
             }
             catch
             {
@@ -259,10 +289,9 @@ namespace Bank
             }
             double? lastxDay = null;
             double? lastxYear = null;
-            var now = DateTime.Now;
             for (int ticx = (int)wxmin; ticx <= (int)wxmax; ticx++)
             {
-                var dt = now.Subtract(new TimeSpan(ticx, 0, 0, 0));
+                var dt = refdate.AddDays(-(ticx - (int)wxmin));
                 if (dt.Day == 1)
                 {
                     var p = WtoD(new Point(ticx, wys));
@@ -358,6 +387,62 @@ namespace Bank
         {
             if (init) return;
             DrawGraph();
+        }
+
+        public bool IsClosed { get; set; } = false;
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            IsClosed = true;
+        }
+
+        private void Window_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try
+            {
+                Point? found = null;
+                string info = "";
+                var mp = e.GetPosition(canGraph);
+                foreach (CheckBox cb in stackPanelAccounts.Children)
+                {
+                    if (cb.IsChecked == true && cb.Tag is string name)
+                    {
+                        var infoIdx = 0;
+                        foreach (var wp in dataDict[name])
+                        {
+                            var p = WtoD(wp);
+                            var vector = p - mp;
+                            if (vector.Length < 5)
+                            {
+                                found = wp;
+                                info = infoDict[name][infoIdx];
+                                break;
+                            }
+                            infoIdx++;
+                        }
+                    }
+                    if (found.HasValue)
+                    {
+                        break;
+                    }
+                }                
+                if (found.HasValue)
+                {
+                    infoTextBlock.Visibility = Visibility.Visible;
+                    infoTextBlock.Text = info;
+                    var p = WtoD(found.Value);
+                    Canvas.SetLeft(infoTextBlock, p.X - 10);
+                    Canvas.SetTop(infoTextBlock, p.Y - 10);
+                }
+                else
+                {
+                    infoTextBlock.Visibility = Visibility.Hidden;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }
