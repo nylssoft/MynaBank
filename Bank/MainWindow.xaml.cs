@@ -397,7 +397,7 @@ namespace Bank
                 {
                     DateTime now = DateTime.Now;
                     if (CurrentBalance.Year == now.Year && CurrentBalance.Month == now.Month - 1 ||
-                        CurrentBalance.Year == now.Year + 1 && CurrentBalance.Month == 12 && now.Month == 1)
+                        CurrentBalance.Year == now.Year - 1 && CurrentBalance.Month == 12 && now.Month == 1)
                     {
                         if (MessageBox.Show(
                             this,
