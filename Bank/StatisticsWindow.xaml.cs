@@ -40,7 +40,7 @@ namespace Bank
 
         private Brush [] brushes = new[] { Brushes.Red, Brushes.Green, Brushes.Blue, Brushes.Black, Brushes.DarkBlue, Brushes.DarkGray, Brushes.DarkGreen };
 
-        private TextBlock infoTextBlock = new TextBlock { Background = Brushes.Yellow, TextAlignment = TextAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+        private string resultInfoText = string.Empty;
 
         public StatisticsWindow(Window owner, string title)
         {
@@ -126,7 +126,11 @@ namespace Bank
                         totalMinY = Math.Min(y, totalMinY);
                         totalMaxY = Math.Max(y, totalMaxY);
                         points.Add(new Point(x, y));
-                        info.Add($"{dt:d} {CurrencyConverter.ConvertToCurrencyString(y)}\r\n{booking.Text} {CurrencyConverter.ConvertToCurrencyString(booking.Amount)}");
+                        info.Add(
+                            string.Format(Properties.Resources.ACCOUNT_BALANCE_0_1_2,
+                                account.Name,
+                                $"{dt:d}",
+                                CurrencyConverter.ConvertToCurrencyString(y)));
                     }
                 }
                 points.Reverse();
@@ -184,7 +188,6 @@ namespace Bank
             init = true;
             try
             {
-                infoTextBlock.Visibility = Visibility.Hidden;
                 var ymin = CurrencyConverter.ParseCurrency(textBoxYMin.Text);
                 if (ymin < totalMinY)
                 {
@@ -223,17 +226,20 @@ namespace Bank
                     wxmin, wxmax, wymin, wymax,
                     dxmin, dxmax, dymax, dymin);
                 DrawAxis(wxmin, wxmax, wymin, wymax);
+                long result = 0;
                 foreach (CheckBox cb in stackPanelAccounts.Children)
                 {
                     if (cb.IsChecked == true && cb.Tag is string name)
                     {
                         if (cb.Content is TextBlock tb)
                         {
-                            DrawAccount(name, tb.Background, wxmin, wxmax);
+                            result += DrawAccount(name, tb.Background, wxmin, wxmax);
                         }
                     }
                 }
-                canGraph.Children.Add(infoTextBlock);
+                resultInfoText = string.Format(Properties.Resources.BALANCE_0,
+                    CurrencyConverter.ConvertToCurrencyString(result));
+                textBlockInfo.Text = resultInfoText;
             }
             catch
             {
@@ -335,17 +341,23 @@ namespace Bank
             canGraph.Children.Add(new Path { StrokeThickness = 1, Stroke = Brushes.Black, Data = axis });
         }
 
-        private void DrawAccount(string name, Brush brush, double wxmin, double wxmax)
+        private long DrawAccount(string name, Brush brush, double wxmin, double wxmax)
         {
-            if (!dataDict.ContainsKey(name)) return;
+            if (!dataDict.ContainsKey(name)) return 0;
             var points = dataDict[name];
-            if (points.Count == 0) return;
+            if (points.Count == 0) return 0;
             var geometryGroup = new GeometryGroup();
             var pointCollection = new PointCollection();
+            long? x1 = null, x2 = null;
             foreach (var wp in points)
             {
                 if (wp.X >= wxmin && wp.X <= wxmax)
                 {
+                    x1 = (long)wp.Y;
+                    if (x2 == null)
+                    {
+                        x2 = x1;
+                    }
                     var p = WtoD(wp);
                     pointCollection.Add(p);
                     geometryGroup.Children.Add(new EllipseGeometry(p, 5, 5));
@@ -353,6 +365,7 @@ namespace Bank
             }
             canGraph.Children.Add(new Path { StrokeThickness = 1, Stroke = brush, Data = geometryGroup });
             canGraph.Children.Add(new Polyline { StrokeThickness = 1, Stroke = brush, Points = pointCollection });
+            return x1 != null && x2 != null ? x2.Value - x1.Value : 0;
         }
 
         private void DatePickerFrom_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -428,15 +441,11 @@ namespace Bank
                 }                
                 if (found.HasValue)
                 {
-                    infoTextBlock.Visibility = Visibility.Visible;
-                    infoTextBlock.Text = info;
-                    var p = WtoD(found.Value);
-                    Canvas.SetLeft(infoTextBlock, p.X - 10);
-                    Canvas.SetTop(infoTextBlock, p.Y - 10);
+                    textBlockInfo.Text = info;
                 }
                 else
                 {
-                    infoTextBlock.Visibility = Visibility.Hidden;
+                    textBlockInfo.Text = resultInfoText;
                 }
             }
             catch
