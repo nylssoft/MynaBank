@@ -254,7 +254,20 @@ namespace Bank
                         var m = 1 << (month - 1);
                         if ((defaultbooking.Monthmask & m) == m)
                         {
-                            CreateBooking(ret, defaultbooking.Day, defaultbooking.Text, defaultbooking.Amount);
+                            var day = defaultbooking.Day;
+                            while (day > 28) // every month has day 28
+                            {
+                                try
+                                {
+                                    new DateTime(year, month, day); // test if valid
+                                    break;
+                                }
+                                catch
+                                {
+                                    day--;
+                                }
+                            }
+                            CreateBooking(ret, day, defaultbooking.Text, defaultbooking.Amount);
                         }
                     }
                 }
