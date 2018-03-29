@@ -35,8 +35,9 @@ namespace Bank
         private ObservableCollection<Account> accounts = new ObservableCollection<Account>();
         private List<Balance> balances = new List<Balance>();
         private ObservableCollection<Booking> bookings = new ObservableCollection<Booking>();
-        private SecureString Password;
+        private SecureString password;
         private StatisticsWindow statisticsWindow = null;
+        private SortDecorator sortDecorator = new SortDecorator(ListSortDirection.Descending);
 
         public MainWindow()
         {
@@ -284,7 +285,7 @@ namespace Bank
                 try
                 {
                     database.Open(filename, null);
-                    Password = null;
+                    password = null;
                 }
                 catch
                 {
@@ -299,8 +300,8 @@ namespace Bank
                     Close();
                     return;
                 }
-                Password = w.Password;
-                Properties.Settings.Default.HasPassword = Password != null;
+                password = w.Password;
+                Properties.Settings.Default.HasPassword = password != null;
             }
             accounts.Clear();
             foreach (var account in database.GetAccounts())
@@ -310,14 +311,15 @@ namespace Bank
             var viewcombo = (CollectionView)CollectionViewSource.GetDefaultView(comboBox.ItemsSource);
             viewcombo.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-            viewlist.SortDescriptions.Add(new SortDescription("Day", ListSortDirection.Ascending));
-            viewlist.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
+            viewlist.SortDescriptions.Add(new SortDescription("Day", ListSortDirection.Descending));
+            viewlist.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Descending));
             if (accounts.Count > 0)
             {
                 Properties.Settings.Default.LastUsedAccount = Math.Min(Properties.Settings.Default.LastUsedAccount, accounts.Count - 1);
                 comboBox.SelectedIndex = Properties.Settings.Default.LastUsedAccount;
             }
             UpdateStatus();
+            sortDecorator.Click(gridViewColumHeaderDay);
         }
 
         private void UpdateStatus()
@@ -773,11 +775,11 @@ namespace Bank
         {
             try
             {
-                var wnd = new SetPasswordWindow(this, Properties.Resources.TITLE_SET_PASSWORD, database, Password);
+                var wnd = new SetPasswordWindow(this, Properties.Resources.TITLE_SET_PASSWORD, database, password);
                 if (wnd.ShowDialog() == true)
                 {
-                    Password = wnd.Password;
-                    Properties.Settings.Default.HasPassword = Password != null;
+                    password = wnd.Password;
+                    Properties.Settings.Default.HasPassword = password != null;
                 }
             }
             catch (Exception ex)
@@ -859,6 +861,22 @@ namespace Bank
                 Title,
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
+        }
+
+        private void ListView_ColumnHeaderClick(object sender, RoutedEventArgs e)
+        {
+            var column = (sender as GridViewColumnHeader);
+            if (column == null || column.Tag == null) return;
+            sortDecorator.Click(column);
+            string sortBy = column.Tag.ToString();
+            var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            viewlist.SortDescriptions.Clear();
+            viewlist.SortDescriptions.Add(new SortDescription(sortBy, sortDecorator.Direction));
+            if (sortBy != "Day")
+            {
+                viewlist.SortDescriptions.Add(new SortDescription("Day", sortDecorator.Direction));
+            }
+            viewlist.SortDescriptions.Add(new SortDescription("Id", sortDecorator.Direction));
         }
     }
 }

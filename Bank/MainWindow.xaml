@@ -9,7 +9,7 @@
         xmlns:self="clr-namespace:Bank"        
         xmlns:props="clr-namespace:Bank.Properties"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-        Height="400" Width="600" MinWidth="200" MinHeight="300" >
+        Height="400" Width="600" MinWidth="200" MinHeight="300">
     <Window.Resources>
         <self:CurrencyConverter x:Key="CurrencyConverter" />
         <Style x:Key="ImageEnabled" TargetType="Image">
@@ -161,7 +161,8 @@
             </Grid>
             <ListView x:Name="listView" TextSearch.TextPath="Text" KeyboardNavigation.TabIndex="6"
                       VirtualizingPanel.IsVirtualizing="False"
-                      SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick">
+                      SelectionChanged="ListView_SelectionChanged"
+                      MouseDoubleClick="ListView_MouseDoubleClick">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -169,16 +170,30 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_DAY}" Width="50" DisplayMemberBinding="{Binding Day}"/>
-                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_TEXT}" Width="200" DisplayMemberBinding="{Binding Text}"/>
-                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_AMOUNT}" Width="100">
+                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding Day}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader x:Name="gridViewColumHeaderDay" Tag="Day" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_DAY}"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding Text}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Text" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_TEXT}"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Amount" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_AMOUNT}" />
+                            </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Amount, Converter={StaticResource CurrencyConverter}}" TextAlignment="Right" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static props:Resources.COLUMN_BALANCE}" Width="100">
+                        <GridViewColumn Width="100">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="CurrentBalance" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_BALANCE}" />
+                            </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding CurrentBalance, Converter={StaticResource CurrencyConverter}}" TextAlignment="Right" />

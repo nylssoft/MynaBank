@@ -93,6 +93,7 @@
       <DependentUpon>EnterPasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions.cs" />
+    <Compile Include="SortDecorator.cs" />
     <Compile Include="PrepareWindow.xaml.cs">
       <DependentUpon>PrepareWindow.xaml</DependentUpon>
     </Compile>
