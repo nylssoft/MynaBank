@@ -1,6 +1,6 @@
 ﻿/*
     Myna Bank
-    Copyright (C) 2017 Niels Stockfleth
+    Copyright (C) 2018 Niels Stockfleth
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -144,6 +144,49 @@ namespace Bank
             textBoxYMax.Text = CurrencyConverter.ConvertToInputString(allMaxY);
         }
 
+        private void UpdateMinYMaxY()
+        {
+            var fromdays = Math.Max((int)((refdate - datePickerFrom.SelectedDate.Value).TotalDays), 0);
+            var todays = Math.Max((int)(refdate - datePickerTo.SelectedDate.Value).TotalDays + 1, 0);
+            if (todays < fromdays)
+            {
+                return;
+            }
+            long allMinY = long.MaxValue;
+            long allMaxY = long.MinValue;
+            double wxmin = fromdays, wxmax = todays;
+            foreach (CheckBox cb in stackPanelAccounts.Children)
+            {
+                if (cb.IsChecked == true && cb.Tag is string name)
+                {
+                    if (dataDict.ContainsKey(name))
+                    {
+                        long minY = long.MaxValue;
+                        long maxY = long.MinValue;
+                        var points = dataDict[name];
+                        foreach (var wp in points)
+                        {
+                            if (wp.X >= wxmin && wp.X <= wxmax)
+                            {
+                                minY = Math.Min((long)wp.Y, minY);
+                                maxY = Math.Max((long)wp.Y, maxY);
+                            }
+                        }
+                        if (minY != long.MaxValue && maxY != long.MaxValue)
+                        {
+                            allMinY = Math.Min(minY, allMinY);
+                            allMaxY = Math.Max(maxY, allMaxY);
+                        }
+                    }
+                }
+            }
+            if (allMinY != long.MaxValue && allMaxY != long.MaxValue)
+            {
+                textBoxYMin.Text = CurrencyConverter.ConvertToInputString(allMinY);
+                textBoxYMax.Text = CurrencyConverter.ConvertToInputString(allMaxY);
+            }
+        }
+
         private void PrepareTransformations(
             double wxmin, double wxmax, double wymin, double wymax,
             double dxmin, double dxmax, double dymin, double dymax)
@@ -166,20 +209,6 @@ namespace Bank
         private Point DtoW(Point point)
         {
             return DtoWMatrix.Transform(point);
-        }
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (init) return;
-            if (e.HeightChanged)
-            {
-                canGraph.Height = Math.Max(e.NewSize.Height - 110, 110);
-            }
-            if (e.WidthChanged)
-            {
-                canGraph.Width = Math.Max(e.NewSize.Width - 10, 10);
-            }
-            DrawGraph();
         }
         
         private void DrawGraph()
@@ -371,12 +400,14 @@ namespace Bank
         private void DatePickerFrom_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (init) return;
+            UpdateMinYMaxY();
             DrawGraph();
         }
 
         private void DatePickerTo_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (init) return;
+            UpdateMinYMaxY();
             DrawGraph();
         }
 
@@ -399,6 +430,7 @@ namespace Bank
         private void CheckBox_Changed(object sender, RoutedEventArgs e)
         {
             if (init) return;
+            UpdateMinYMaxY();
             DrawGraph();
         }
 
@@ -407,6 +439,20 @@ namespace Bank
         private void Window_Closed(object sender, EventArgs e)
         {
             IsClosed = true;
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (init) return;
+            if (e.HeightChanged)
+            {
+                canGraph.Height = Math.Max(e.NewSize.Height - 110, 110);
+            }
+            if (e.WidthChanged)
+            {
+                canGraph.Width = Math.Max(e.NewSize.Width - 10, 10);
+            }
+            DrawGraph();
         }
 
         private void Window_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
