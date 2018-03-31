@@ -85,6 +85,13 @@ namespace Bank
             typeof(CustomCommands),
             new InputGestureCollection() { new KeyGesture(Key.Enter) });
 
+        public static readonly RoutedUICommand Search =
+            new RoutedUICommand(
+                Properties.Resources.CMD_SEARCH,
+                "Search",
+                typeof(CustomCommands),
+                new InputGestureCollection() { new KeyGesture(Key.F, ModifierKeys.Control) });
+
         public static readonly RoutedUICommand About =
             new RoutedUICommand(
             Properties.Resources.CMD_ABOUT,

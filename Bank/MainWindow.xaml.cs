@@ -37,6 +37,7 @@ namespace Bank
         private ObservableCollection<Booking> bookings = new ObservableCollection<Booking>();
         private SecureString password;
         private StatisticsWindow statisticsWindow = null;
+        private SearchWindow searchWindow = null;
         private SortDecorator sortDecorator = new SortDecorator(ListSortDirection.Descending);
 
         public MainWindow()
@@ -67,6 +68,11 @@ namespace Bank
                 {
                     statisticsWindow.Close();
                     statisticsWindow = null;
+                }
+                if (searchWindow != null && !searchWindow.IsClosed)
+                {
+                    searchWindow.Close();
+                    searchWindow = null;
                 }
                 if (WindowState == WindowState.Normal)
                 {
@@ -128,6 +134,9 @@ namespace Bank
                 case "DeleteSheet":
                     e.CanExecute = balances.Count > 0;
                     break;
+                case "Search":
+                    e.CanExecute = account != null && (searchWindow == null || searchWindow.IsClosed);
+                    break;
                 case "Edit":
                     e.CanExecute = selcount == 1;
                     break;
@@ -173,6 +182,9 @@ namespace Bank
                     break;
                 case "UpdateBalance":
                     UpdateBalance();
+                    break;
+                case "Search":
+                    SearchBooking();
                     break;
                 case "Add":
                     InsertBooking();
@@ -846,6 +858,23 @@ namespace Bank
                     statisticsWindow.Show();
                 }
                 statisticsWindow.Update(database);
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void SearchBooking()
+        {
+            try
+            {
+                if (searchWindow == null || searchWindow.IsClosed)
+                {
+                    searchWindow = new SearchWindow(null, Properties.Resources.TITLE_SEARCH);
+                    searchWindow.Show();
+                }
+                searchWindow.Update(database);
             }
             catch (Exception ex)
             {

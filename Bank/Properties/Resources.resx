@@ -189,6 +189,9 @@
   <data name="CMD_RENAME_ACCOUNT" xml:space="preserve">
     <value>_Rename account...</value>
   </data>
+  <data name="CMD_SEARCH" xml:space="preserve">
+    <value>_Search booking...</value>
+  </data>
   <data name="CMD_SET_PASSWORD" xml:space="preserve">
     <value>Set _password...</value>
   </data>
@@ -197,6 +200,9 @@
   </data>
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
     <value>_Update balance...</value>
+  </data>
+  <data name="COLUMN_ACCOUNT" xml:space="preserve">
+    <value>Account</value>
   </data>
   <data name="COLUMN_AMOUNT" xml:space="preserve">
     <value>Amount</value>
@@ -260,6 +266,12 @@
   </data>
   <data name="LABEL_PASSWORD" xml:space="preserve">
     <value>_Password:</value>
+  </data>
+  <data name="LABEL_SEARCH_FOR" xml:space="preserve">
+    <value>_Search for:</value>
+  </data>
+  <data name="LABEL_SEARCH_IN" xml:space="preserve">
+    <value>Search _in:</value>
   </data>
   <data name="LABEL_TEXT" xml:space="preserve">
     <value>_Text:</value>
@@ -357,6 +369,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   </data>
   <data name="TITLE_RENAME_ACCOUNT" xml:space="preserve">
     <value>Rename account</value>
+  </data>
+  <data name="TITLE_SEARCH" xml:space="preserve">
+    <value>Search booking</value>
   </data>
   <data name="TITLE_SET_PASSWORD" xml:space="preserve">
     <value>Set password</value>

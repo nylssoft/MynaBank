@@ -113,7 +113,7 @@ namespace Bank
                     {
                         y += booking.Amount;
                         var dt = new DateTime(balance.Year, balance.Month, booking.Day);
-                        var x = (refdate - new DateTime(balance.Year, balance.Month, booking.Day)).TotalDays;
+                        var x = (refdate - dt).TotalDays;
                         if (x <= lastdays)
                         {
                             if (cb.IsChecked == false)

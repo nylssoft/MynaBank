@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded" Closing="Window_Closing"
         Icon="Images/logo.png"
-        xmlns:self="clr-namespace:Bank"        
+        xmlns:self="clr-namespace:Bank"      
         xmlns:props="clr-namespace:Bank.Properties"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
         Height="400" Width="600" MinWidth="200" MinHeight="300">
@@ -28,6 +28,7 @@
         <CommandBinding Command="self:CustomCommands.DeleteSheet" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.UpdateBalance" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Exit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Search" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Add" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Edit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Remove" CanExecute="Command_CanExecute" Executed="Command_Executed" />
@@ -78,6 +79,8 @@
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="{x:Static props:Resources.MENUITEM_EDIT}">
+                        <MenuItem Command="self:CustomCommands.Search" />
+                        <Separator />
                         <MenuItem Command="self:CustomCommands.Add">
                             <MenuItem.Icon>
                                 <Image Source="Images/16x16/list-add-4.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>

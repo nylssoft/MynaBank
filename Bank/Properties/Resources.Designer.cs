@@ -277,6 +277,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Search booking... ähnelt.
+        /// </summary>
+        public static string CMD_SEARCH {
+            get {
+                return ResourceManager.GetString("CMD_SEARCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Set _password... ähnelt.
         /// </summary>
         public static string CMD_SET_PASSWORD {
@@ -300,6 +309,15 @@ namespace Bank.Properties {
         public static string CMD_UPDATE_BALANCE {
             get {
                 return ResourceManager.GetString("CMD_UPDATE_BALANCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Account ähnelt.
+        /// </summary>
+        public static string COLUMN_ACCOUNT {
+            get {
+                return ResourceManager.GetString("COLUMN_ACCOUNT", resourceCulture);
             }
         }
         
@@ -489,6 +507,24 @@ namespace Bank.Properties {
         public static string LABEL_PASSWORD {
             get {
                 return ResourceManager.GetString("LABEL_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Search for: ähnelt.
+        /// </summary>
+        public static string LABEL_SEARCH_FOR {
+            get {
+                return ResourceManager.GetString("LABEL_SEARCH_FOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Search _in: ähnelt.
+        /// </summary>
+        public static string LABEL_SEARCH_IN {
+            get {
+                return ResourceManager.GetString("LABEL_SEARCH_IN", resourceCulture);
             }
         }
         
@@ -772,6 +808,15 @@ namespace Bank.Properties {
         public static string TITLE_RENAME_ACCOUNT {
             get {
                 return ResourceManager.GetString("TITLE_RENAME_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Search booking ähnelt.
+        /// </summary>
+        public static string TITLE_SEARCH {
+            get {
+                return ResourceManager.GetString("TITLE_SEARCH", resourceCulture);
             }
         }
         
