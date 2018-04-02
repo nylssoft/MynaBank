@@ -273,6 +273,9 @@
   <data name="LABEL_SEARCH_IN" xml:space="preserve">
     <value>Search _in:</value>
   </data>
+  <data name="LABEL_SEARCH_REGULAR_EXPR" xml:space="preserve">
+    <value>_Regular Expression</value>
+  </data>
   <data name="LABEL_TEXT" xml:space="preserve">
     <value>_Text:</value>
   </data>
@@ -323,6 +326,9 @@
   </data>
   <data name="STATUS_AVERAGE_PER_MONTH_0" xml:space="preserve">
     <value>Average balance per month: {0}.</value>
+  </data>
+  <data name="STATUS_SEARCH_AVG_0_1_2_3" xml:space="preserve">
+    <value>{0} in {1} days. Average {2} per day and {3} per month.</value>
   </data>
   <data name="TEXT_COPYRIGHT" xml:space="preserve">
     <value>Copyright 2018 Niels Stockfleth

@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -35,6 +36,7 @@ namespace Bank
         private DateTime? lastFromDate = null;
         private DateTime? lastToDate = null;
         private string lastSearchText = string.Empty;
+        private bool lastRegularExpr = false;
         private ISet<string> lastAccountNames = new HashSet<string>();
 
         public SearchWindow(Window owner, string title)
@@ -68,7 +70,7 @@ namespace Bank
             stackPanelAccounts.Children.Clear();
             var nw = DateTime.Now;
             refdate = new DateTime(nw.Year, nw.Month, nw.Day);
-            var last = new DateTime(refdate.Year - 1, 1, 1);
+            var last = refdate.Subtract(new TimeSpan(365,0,0,0));
             var lastdays = (int)(refdate - last).TotalDays;
             datePickerFrom.SelectedDate = refdate;
             datePickerTo.SelectedDate = last;
@@ -177,62 +179,81 @@ namespace Bank
 
         private void Search()
         {
-            var search = textBoxSearch.Text.ToLower();
-            if (string.IsNullOrEmpty(search) ||
-                !datePickerFrom.SelectedDate.HasValue ||
-                !datePickerTo.SelectedDate.HasValue)
+            try
             {
-                return;
-            }
-            var fromdays = Math.Max((int)((refdate - datePickerFrom.SelectedDate.Value).TotalDays), 0);
-            var todays = Math.Max((int)(refdate - datePickerTo.SelectedDate.Value).TotalDays + 1, 0);
-            if (todays < fromdays)
-            {
-                return;
-            }
-            ISet<string> accountNames = new HashSet<string>();
-            foreach (CheckBox cb in stackPanelAccounts.Children)
-            {
-                if (cb.IsChecked == true && cb.Tag is Account account)
+                var search = textBoxSearch.Text.ToLower();
+                if (string.IsNullOrEmpty(search) ||
+                    !datePickerFrom.SelectedDate.HasValue ||
+                    !datePickerTo.SelectedDate.HasValue)
                 {
-                    accountNames.Add(account.Name);
+                    return;
                 }
-            }
-            if (lastFromDate == datePickerFrom.SelectedDate &&
-                lastToDate == datePickerTo.SelectedDate && 
-                lastSearchText == textBoxSearch.Text &&
-                lastAccountNames.SetEquals(accountNames))
-            {
-                return;
-            }
-            lastFromDate = datePickerFrom.SelectedDate;
-            lastToDate = datePickerTo.SelectedDate;
-            lastSearchText = textBoxSearch.Text;
-            lastAccountNames = accountNames;
-            result.Clear();
-            foreach (var sb in all)
-            {
-                if (accountNames.Contains(sb.AccountName))
+                var fromdays = Math.Max((int)((refdate - datePickerFrom.SelectedDate.Value).TotalDays), 0);
+                var todays = Math.Max((int)(refdate - datePickerTo.SelectedDate.Value).TotalDays, 0);
+                if (todays < fromdays)
                 {
-                    if (sb.Text.ToLower().Contains(search))
+                    return;
+                }
+                ISet<string> accountNames = new HashSet<string>();
+                foreach (CheckBox cb in stackPanelAccounts.Children)
+                {
+                    if (cb.IsChecked == true && cb.Tag is Account account)
                     {
-                        var x = (refdate - sb.Date).TotalDays;
-                        if (x >= fromdays && x <= todays)
+                        accountNames.Add(account.Name);
+                    }
+                }
+                if (lastFromDate == datePickerFrom.SelectedDate &&
+                    lastToDate == datePickerTo.SelectedDate &&
+                    lastSearchText == textBoxSearch.Text &&
+                    lastRegularExpr == checkBoxRegularExpression.IsChecked &&
+                    lastAccountNames.SetEquals(accountNames))
+                {
+                    return;
+                }
+                lastFromDate = datePickerFrom.SelectedDate;
+                lastToDate = datePickerTo.SelectedDate;
+                lastSearchText = textBoxSearch.Text;
+                lastRegularExpr = checkBoxRegularExpression.IsChecked == true;
+                lastAccountNames = accountNames;
+                result.Clear();
+                bool regex = checkBoxRegularExpression.IsChecked == true;
+                foreach (var sb in all)
+                {
+                    if (accountNames.Contains(sb.AccountName))
+                    {
+                        bool ok = false;
+                        if (regex)
                         {
-                            result.Add(sb);
+                            ok = Regex.IsMatch(sb.Text, search);
+                        }
+                        else
+                        {
+                            ok = sb.Text.ToLower().Contains(search);
+                        }
+                        if (ok)
+                        {
+                            var x = (refdate - sb.Date).TotalDays;
+                            if (x >= fromdays && x <= todays)
+                            {
+                                result.Add(sb);
+                            }
                         }
                     }
                 }
+                if (sortDecorator == null)
+                {
+                    sortDecorator = new SortDecorator(ListSortDirection.Descending);
+                    sortDecorator.Click(gridViewColumHeaderDate);
+                    var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                    viewlist.SortDescriptions.Clear();
+                    viewlist.SortDescriptions.Add(new SortDescription("Date", ListSortDirection.Descending));
+                }
+                UpdateStatus();
             }
-            if (sortDecorator == null)
+            catch (Exception ex)
             {
-                sortDecorator = new SortDecorator(ListSortDirection.Descending);
-                sortDecorator.Click(gridViewColumHeaderDate);
-                var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-                viewlist.SortDescriptions.Clear();
-                viewlist.SortDescriptions.Add(new SortDescription("Date", ListSortDirection.Descending));
+                MessageBox.Show(ex.Message);
             }
-            UpdateStatus();
         }
 
         private void UpdateStatus()
@@ -263,6 +284,23 @@ namespace Bank
                 else
                 {
                     status = string.Format(Properties.Resources.TOTAL_0, total);
+                    var fromdays = Math.Max((int)((refdate - datePickerFrom.SelectedDate.Value).TotalDays), 0);
+                    var todays = Math.Max((int)(refdate - datePickerTo.SelectedDate.Value).TotalDays, 0);
+                    if (todays > fromdays)
+                    {
+                        var days = todays - fromdays;
+                        long sum = 0;
+                        foreach (var b in result)
+                        {
+                            sum += b.Amount;
+                        }
+                        status += " ";
+                        status += string.Format(Properties.Resources.STATUS_SEARCH_AVG_0_1_2_3,
+                            CurrencyConverter.ConvertToCurrencyString(sum),
+                            days,
+                            CurrencyConverter.ConvertToCurrencyString(sum / days),
+                            CurrencyConverter.ConvertToCurrencyString((long)((sum / days) * 30.42)));
+                    }
                 }
             }
             textBlockInfo.Text = status;

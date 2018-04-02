@@ -273,6 +273,9 @@
   <data name="LABEL_SEARCH_IN" xml:space="preserve">
     <value>Suchen _in:</value>
   </data>
+  <data name="LABEL_SEARCH_REGULAR_EXPR" xml:space="preserve">
+    <value>_Regulärer Ausdruck</value>
+  </data>
   <data name="LABEL_TEXT" xml:space="preserve">
     <value>T_ext:</value>
   </data>
@@ -323,6 +326,9 @@
   </data>
   <data name="STATUS_AVERAGE_PER_MONTH_0" xml:space="preserve">
     <value>Monatliche Durchschnittsbelastung: {0}</value>
+  </data>
+  <data name="STATUS_SEARCH_AVG_0_1_2_3" xml:space="preserve">
+    <value>{0} in {1} Tagen. Im Durchschnitt {2} pro Tag und {3} pro Monat.</value>
   </data>
   <data name="TEXT_COPYRIGHT" xml:space="preserve">
     <value>Copyright 2018 Niels Stockfleth

@@ -16,28 +16,31 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="{x:Static props:Resources.LABEL_SEARCH_FOR}" Target="{Binding ElementName=textBoxSearch}"/>
-            <TextBox Grid.Row="0" Grid.Column="1" x:Name="textBoxSearch" Height="23" Margin="0,0,5,0" LostFocus="TextBoxSearch_LostFocus" KeyUp="TextBoxSearch_KeyUp" MaxLength="1024"/>
-            <Label Grid.Row="0" Grid.Column="2" Content="{x:Static props:Resources.LABEL_FROM}" Target="{Binding ElementName=datePickerFrom}"/>
-            <DatePicker Grid.Row="0" Grid.Column="3" x:Name="datePickerFrom" SelectedDateChanged="DatePickerFrom_SelectedDateChanged" Height="23"/>
-            <Label Grid.Row="0" Grid.Column="4" Content="{x:Static props:Resources.LABEL_TO}" Target="{Binding ElementName=datePickerTo}"/>
-            <DatePicker Grid.Row="0" Grid.Column="5" x:Name="datePickerTo" SelectedDateChanged="DatePickerTo_SelectedDateChanged" Height="23"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" x:Name="textBoxSearch" Height="23" Margin="0,0,5,0" LostFocus="TextBoxSearch_LostFocus" KeyUp="TextBoxSearch_KeyUp" MaxLength="1024"/>
+            <CheckBox Grid.Row="0" Grid.Column="5" x:Name="checkBoxRegularExpression" Content="{x:Static props:Resources.LABEL_SEARCH_REGULAR_EXPR}" Margin="5,5,0,0" Click="CheckBox_Changed"/>
             <Label Grid.Row="1" Grid.Column="0" x:Name="labelAccount" Content="{x:Static props:Resources.LABEL_SEARCH_IN}" />
             <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" x:Name="stackPanelAccounts" Orientation="Horizontal"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="{x:Static props:Resources.LABEL_FROM}" Target="{Binding ElementName=datePickerFrom}"/>
+            <DatePicker Grid.Row="2" Grid.Column="1" x:Name="datePickerFrom" SelectedDateChanged="DatePickerFrom_SelectedDateChanged" Margin="0,0,0,5"/>
+            <Label Grid.Row="2" Grid.Column="2" Content="{x:Static props:Resources.LABEL_TO}" Target="{Binding ElementName=datePickerTo}"/>
+            <DatePicker Grid.Row="2" Grid.Column="3" x:Name="datePickerTo" SelectedDateChanged="DatePickerTo_SelectedDateChanged" Margin="0,0,0,5"/>
         </Grid>
         <ListView Grid.Row="1" x:Name="listView" SelectionChanged="ListView_SelectionChanged">
             <ListView.ItemContainerStyle>
@@ -47,7 +50,7 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding DateString}">
+                    <GridViewColumn Width="90" DisplayMemberBinding="{Binding DateString}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader x:Name="gridViewColumHeaderDate" Tag="Date" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_DATE}"/>
                         </GridViewColumn.Header>
@@ -57,7 +60,7 @@
                             <GridViewColumnHeader Tag="Text" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_TEXT}"/>
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn Width="100">
+                    <GridViewColumn Width="70">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Tag="Amount" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_AMOUNT}" />
                         </GridViewColumn.Header>
@@ -75,6 +78,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBlock Grid.Row="2" x:Name="textBlockInfo" TextTrimming="CharacterEllipsis"/>
+        <TextBlock Grid.Row="2" x:Name="textBlockInfo" TextTrimming="CharacterEllipsis" Margin="0,5,0,5"/>
     </Grid>
 </Window>

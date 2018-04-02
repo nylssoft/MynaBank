@@ -183,7 +183,7 @@
                                 <GridViewColumnHeader Tag="Text" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_TEXT}"/>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="100">
+                        <GridViewColumn Width="70">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Amount" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_AMOUNT}" />
                             </GridViewColumn.Header>
@@ -193,7 +193,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="100">
+                        <GridViewColumn Width="90">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="CurrentBalance" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_BALANCE}" />
                             </GridViewColumn.Header>

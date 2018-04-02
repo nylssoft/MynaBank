@@ -529,6 +529,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Regular Expression ähnelt.
+        /// </summary>
+        public static string LABEL_SEARCH_REGULAR_EXPR {
+            get {
+                return ResourceManager.GetString("LABEL_SEARCH_REGULAR_EXPR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Text: ähnelt.
         /// </summary>
         public static string LABEL_TEXT {
@@ -678,6 +687,15 @@ namespace Bank.Properties {
         public static string STATUS_AVERAGE_PER_MONTH_0 {
             get {
                 return ResourceManager.GetString("STATUS_AVERAGE_PER_MONTH_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} in {1} days. Average {2} per day and {3} per month. ähnelt.
+        /// </summary>
+        public static string STATUS_SEARCH_AVG_0_1_2_3 {
+            get {
+                return ResourceManager.GetString("STATUS_SEARCH_AVG_0_1_2_3", resourceCulture);
             }
         }
         
