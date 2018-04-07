@@ -180,7 +180,7 @@ namespace Bank
 
         #region Balance
 
-        public Balance GetBalance(Account account, int month, int year, bool create)
+        public Balance GetBalance(Account account, int month, int year, bool create, bool applyDefaultBookings = true)
         {
             using (var cmd = new SQLiteCommand(con))
             {
@@ -220,14 +220,15 @@ namespace Bank
                             last = reader.GetInt64(0);
                         }
                     }
-                    return CreateBalance(account, month, year, last, last);
+                    return CreateBalance(account, month, year, last, last, applyDefaultBookings);
                 }
                 return null;
             }
         }
-        public Balance CreateBalance(Account account, int month, int year, long first, long last)
+
+        private Balance CreateBalance(Account account, int month, int year, long first, long last, bool applyDefaultBookings)
         {
-            var defaultbookings = GetDefaultBookings(account);
+            var defaultbookings = applyDefaultBookings ? GetDefaultBookings(account) : new List<DefaultBooking>();
             using (var trans = con.BeginTransaction())
             {
                 Balance ret = null;

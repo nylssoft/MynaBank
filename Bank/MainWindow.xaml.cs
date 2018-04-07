@@ -143,6 +143,9 @@ namespace Bank
                 case "Remove":
                     e.CanExecute = selcount >= 1;
                     break;
+                case "Import":
+                    e.CanExecute = account != null;
+                    break;
                 case "Next":
                 case "Last":
                     e.CanExecute = next;
@@ -194,6 +197,9 @@ namespace Bank
                     break;
                 case "Remove":
                     DeleteBooking();
+                    break;
+                case "Import":
+                    ImportBooking();
                     break;
                 case "About":
                     About();
@@ -875,6 +881,46 @@ namespace Bank
                     searchWindow.Show();
                 }
                 searchWindow.Update(database);
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void ImportBooking()
+        {
+            try
+            {
+                var account = comboBox.SelectedItem as Account;
+                if (account == null) return;
+                var openFileDialog = new System.Windows.Forms.OpenFileDialog
+                {
+                    Filter = Properties.Resources.OPEN_FILE_FILTER,
+                    FilterIndex = 1,
+                    Multiselect = false
+                };
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string path = openFileDialog.FileName;
+                    var dlg = new ImportWindow(this, Properties.Resources.TITLE_IMPORT, path);
+                    if (dlg.ShowDialog() == true)
+                    {
+                        Balance balance = null;
+                        foreach (var ib in dlg.Result)
+                        {
+                            int month = ib.Date.Month;
+                            int year = ib.Date.Year;
+                            int day = ib.Date.Day;
+                            balance = database.GetBalance(account, month, year, true /* create */, false /* applyDefaultBookings */);
+                            database.CreateBooking(balance, day, ib.Text, ib.Amount);
+                        }
+                        if (balance != null)
+                        {
+                            ShowAccount(balance);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

@@ -93,6 +93,9 @@
       <DependentUpon>EnterPasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions.cs" />
+    <Compile Include="ImportWindow.xaml.cs">
+      <DependentUpon>ImportWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SortDecorator.cs" />
     <Compile Include="PrepareWindow.xaml.cs">
       <DependentUpon>PrepareWindow.xaml</DependentUpon>
@@ -141,6 +144,10 @@
     <Page Include="EnterPasswordWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ImportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

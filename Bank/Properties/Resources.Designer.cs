@@ -88,6 +88,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Back ähnelt.
+        /// </summary>
+        public static string BUTTON_BACK {
+            get {
+                return ResourceManager.GetString("BUTTON_BACK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Cancel ähnelt.
         /// </summary>
         public static string BUTTON_CANCEL {
@@ -102,6 +111,24 @@ namespace Bank.Properties {
         public static string BUTTON_EDIT {
             get {
                 return ResourceManager.GetString("BUTTON_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Finish ähnelt.
+        /// </summary>
+        public static string BUTTON_FINISH {
+            get {
+                return ResourceManager.GetString("BUTTON_FINISH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Next ähnelt.
+        /// </summary>
+        public static string BUTTON_NEXT {
+            get {
+                return ResourceManager.GetString("BUTTON_NEXT", resourceCulture);
             }
         }
         
@@ -228,6 +255,15 @@ namespace Bank.Properties {
         public static string CMD_FIRST {
             get {
                 return ResourceManager.GetString("CMD_FIRST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Import booking... ähnelt.
+        /// </summary>
+        public static string CMD_IMPORT {
+            get {
+                return ResourceManager.GetString("CMD_IMPORT", resourceCulture);
             }
         }
         
@@ -403,6 +439,33 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the rows that should be imported. ähnelt.
+        /// </summary>
+        public static string HEADER_IMPORT_1 {
+            get {
+                return ResourceManager.GetString("HEADER_IMPORT_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the colums for the date, text and amount. ähnelt.
+        /// </summary>
+        public static string HEADER_IMPORT_2 {
+            get {
+                return ResourceManager.GetString("HEADER_IMPORT_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The following bookings will be added to the account. ähnelt.
+        /// </summary>
+        public static string HEADER_IMPORT_3 {
+            get {
+                return ResourceManager.GetString("HEADER_IMPORT_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Account: ähnelt.
         /// </summary>
         public static string LABEL_ACCOUNT {
@@ -439,6 +502,24 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Language for currency format: ähnelt.
+        /// </summary>
+        public static string LABEL_CURRENCY_LANGUAGE {
+            get {
+                return ResourceManager.GetString("LABEL_CURRENCY_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Date f_ormat: ähnelt.
+        /// </summary>
+        public static string LABEL_DATE_FORMAT {
+            get {
+                return ResourceManager.GetString("LABEL_DATE_FORMAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Day: ähnelt.
         /// </summary>
         public static string LABEL_DAY {
@@ -457,11 +538,56 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die C_haracter encoding: ähnelt.
+        /// </summary>
+        public static string LABEL_ENCODING {
+            get {
+                return ResourceManager.GetString("LABEL_ENCODING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _From: ähnelt.
         /// </summary>
         public static string LABEL_FROM {
             get {
                 return ResourceManager.GetString("LABEL_FROM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Column for _amount: ähnelt.
+        /// </summary>
+        public static string LABEL_MAP_COLUMN_AMOUNT {
+            get {
+                return ResourceManager.GetString("LABEL_MAP_COLUMN_AMOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Column for _date: ähnelt.
+        /// </summary>
+        public static string LABEL_MAP_COLUMN_DATE {
+            get {
+                return ResourceManager.GetString("LABEL_MAP_COLUMN_DATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Column for _text 1: ähnelt.
+        /// </summary>
+        public static string LABEL_MAP_COLUMN_TEXT_1 {
+            get {
+                return ResourceManager.GetString("LABEL_MAP_COLUMN_TEXT_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Column for t_ext 2: ähnelt.
+        /// </summary>
+        public static string LABEL_MAP_COLUMN_TEXT_2 {
+            get {
+                return ResourceManager.GetString("LABEL_MAP_COLUMN_TEXT_2", resourceCulture);
             }
         }
         
@@ -529,11 +655,20 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Regular Expression ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Regular expression ähnelt.
         /// </summary>
         public static string LABEL_SEARCH_REGULAR_EXPR {
             get {
                 return ResourceManager.GetString("LABEL_SEARCH_REGULAR_EXPR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Separator: ähnelt.
+        /// </summary>
+        public static string LABEL_SEPARATOR {
+            get {
+                return ResourceManager.GetString("LABEL_SEPARATOR", resourceCulture);
             }
         }
         
@@ -543,6 +678,24 @@ namespace Bank.Properties {
         public static string LABEL_TEXT {
             get {
                 return ResourceManager.GetString("LABEL_TEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text 1 sta_rts after: ähnelt.
+        /// </summary>
+        public static string LABEL_TEXT_1_STARTS_AFTER {
+            get {
+                return ResourceManager.GetString("LABEL_TEXT_1_STARTS_AFTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text 2 start_s after: ähnelt.
+        /// </summary>
+        public static string LABEL_TEXT_2_STARTS_AFTER {
+            get {
+                return ResourceManager.GetString("LABEL_TEXT_2_STARTS_AFTER", resourceCulture);
             }
         }
         
@@ -615,6 +768,15 @@ namespace Bank.Properties {
         public static string MONTH_BALANCE_0 {
             get {
                 return ResourceManager.GetString("MONTH_BALANCE_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die CSV Files (*.csv)|*.csv|All Files (*.*)|*.* ähnelt.
+        /// </summary>
+        public static string OPEN_FILE_FILTER {
+            get {
+                return ResourceManager.GetString("OPEN_FILE_FILTER", resourceCulture);
             }
         }
         
@@ -808,6 +970,15 @@ namespace Bank.Properties {
         public static string TITLE_ENTER_PASSWORD {
             get {
                 return ResourceManager.GetString("TITLE_ENTER_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Import booking ähnelt.
+        /// </summary>
+        public static string TITLE_IMPORT {
+            get {
+                return ResourceManager.GetString("TITLE_IMPORT", resourceCulture);
             }
         }
         

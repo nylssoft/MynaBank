@@ -126,11 +126,20 @@
   <data name="BUTTON_ADD" xml:space="preserve">
     <value>_Hinzufügen</value>
   </data>
+  <data name="BUTTON_BACK" xml:space="preserve">
+    <value>_Zurück</value>
+  </data>
   <data name="BUTTON_CANCEL" xml:space="preserve">
     <value>_Abbrechen</value>
   </data>
   <data name="BUTTON_EDIT" xml:space="preserve">
     <value>_Bearbeiten</value>
+  </data>
+  <data name="BUTTON_FINISH" xml:space="preserve">
+    <value>_Fertig</value>
+  </data>
+  <data name="BUTTON_NEXT" xml:space="preserve">
+    <value>_Weiter</value>
   </data>
   <data name="BUTTON_OK" xml:space="preserve">
     <value>_OK</value>
@@ -173,6 +182,9 @@
   </data>
   <data name="CMD_FIRST" xml:space="preserve">
     <value>_Erster</value>
+  </data>
+  <data name="CMD_IMPORT" xml:space="preserve">
+    <value>Buchung _importieren...</value>
   </data>
   <data name="CMD_IMPORT_ACCOUNT" xml:space="preserve">
     <value>Konto _importieren...</value>
@@ -231,6 +243,15 @@
   <data name="ERROR_WRONG_PASSWORD" xml:space="preserve">
     <value>Das Passwort ist nicht richtig.</value>
   </data>
+  <data name="HEADER_IMPORT_1" xml:space="preserve">
+    <value>Wählen Sie die Zeilen, die importiert werden sollen.</value>
+  </data>
+  <data name="HEADER_IMPORT_2" xml:space="preserve">
+    <value>Wählen Sie die Spalten für Datum, Text und Betrag.</value>
+  </data>
+  <data name="HEADER_IMPORT_3" xml:space="preserve">
+    <value>Die folgenden Buchungen werden zum Konto hinzugefügt.</value>
+  </data>
   <data name="LABEL_ACCOUNT" xml:space="preserve">
     <value>_Konto:</value>
   </data>
@@ -243,14 +264,35 @@
   <data name="LABEL_CONFIRM_NEW_PASSWORD" xml:space="preserve">
     <value>Bestätigtes _neues Passwort:</value>
   </data>
+  <data name="LABEL_CURRENCY_LANGUAGE" xml:space="preserve">
+    <value>_Sprache für Währungsformat:</value>
+  </data>
+  <data name="LABEL_DATE_FORMAT" xml:space="preserve">
+    <value>Datumsf_ormat:</value>
+  </data>
   <data name="LABEL_DAY" xml:space="preserve">
     <value>_Tag:</value>
   </data>
   <data name="LABEL_DEFAULT_TEXT" xml:space="preserve">
     <value>_Vorgabetext:</value>
   </data>
+  <data name="LABEL_ENCODING" xml:space="preserve">
+    <value>Zeichen-_Kodierung:</value>
+  </data>
   <data name="LABEL_FROM" xml:space="preserve">
     <value>_Von:</value>
+  </data>
+  <data name="LABEL_MAP_COLUMN_AMOUNT" xml:space="preserve">
+    <value>Spalte für _Betrag:</value>
+  </data>
+  <data name="LABEL_MAP_COLUMN_DATE" xml:space="preserve">
+    <value>Spalte für _Datum:</value>
+  </data>
+  <data name="LABEL_MAP_COLUMN_TEXT_1" xml:space="preserve">
+    <value>Spalte für _Text 1:</value>
+  </data>
+  <data name="LABEL_MAP_COLUMN_TEXT_2" xml:space="preserve">
+    <value>Spalte für T_ext 2:</value>
   </data>
   <data name="LABEL_MONTH" xml:space="preserve">
     <value>_Monat:</value>
@@ -276,8 +318,17 @@
   <data name="LABEL_SEARCH_REGULAR_EXPR" xml:space="preserve">
     <value>_Regulärer Ausdruck</value>
   </data>
+  <data name="LABEL_SEPARATOR" xml:space="preserve">
+    <value>_Trennzeichen:</value>
+  </data>
   <data name="LABEL_TEXT" xml:space="preserve">
     <value>T_ext:</value>
+  </data>
+  <data name="LABEL_TEXT_1_STARTS_AFTER" xml:space="preserve">
+    <value>Text 1 beg_innt nach:</value>
+  </data>
+  <data name="LABEL_TEXT_2_STARTS_AFTER" xml:space="preserve">
+    <value>Text 2 begi_nnt nach:</value>
   </data>
   <data name="LABEL_TO" xml:space="preserve">
     <value>_Bis:</value>
@@ -302,6 +353,9 @@
   </data>
   <data name="MONTH_BALANCE_0" xml:space="preserve">
     <value>Monatsbilanz: {0}</value>
+  </data>
+  <data name="OPEN_FILE_FILTER" xml:space="preserve">
+    <value>CSV-Dateien (*.csv)|*.csv|Alle Dateien (*.*)|*.*</value>
   </data>
   <data name="QUESTION_CREATE_SHEET_0" xml:space="preserve">
     <value>Wollen Sie den Kontoauszug für {0} anlegen?</value>
@@ -369,6 +423,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   </data>
   <data name="TITLE_ENTER_PASSWORD" xml:space="preserve">
     <value>Passwort überprüfen</value>
+  </data>
+  <data name="TITLE_IMPORT" xml:space="preserve">
+    <value>Buchung importieren</value>
   </data>
   <data name="TITLE_NEW" xml:space="preserve">
     <value>Neues Konto anlegen</value>
