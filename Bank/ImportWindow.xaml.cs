@@ -32,7 +32,8 @@ namespace Bank
     {
         private string csvFile;
         private int page = 1;
-        private bool pageChanged = false;
+        private bool page1Changed = false;
+        private bool page2Changed = false;
         private bool init = true;
         private Encoding encoding = null;
         private ObservableCollection<ImportBooking> result = new ObservableCollection<ImportBooking>();
@@ -50,14 +51,13 @@ namespace Bank
             listViewPreview.ItemsSource = result;
             textBoxLanguage.Text = CultureInfo.CurrentUICulture.IetfLanguageTag;
             int idx = textBoxLanguage.Text.IndexOf("-");
-            if (idx >= 0)
+            if (idx > 0)
             {
-                textBoxLanguage.Text = textBoxLanguage.Text.Substring(idx + 1);
+                textBoxLanguage.Text = textBoxLanguage.Text.Substring(0, idx);
             }
             var fi = CultureInfo.CurrentCulture.DateTimeFormat;
             textBoxDateFormat.Text = fi.ShortDatePattern;
             ReadLines();
-            pageChanged = false;
             ShowPage();
         }
 
@@ -122,7 +122,7 @@ namespace Bank
             return ci != null && !string.IsNullOrEmpty(ci.Content as string);
         }
 
-        private void InitColumnMapping()
+        private bool InitColumnMapping()
         {
             try
             {
@@ -160,10 +160,12 @@ namespace Bank
             catch (Exception ex)
             {
                 MessageBox.Show(string.Format(Properties.Resources.ERROR_OCCURRED_0, ex.Message), Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
+            return true;
         }
 
-        private void InitPreview()
+        private bool InitPreview()
         {
             try
             {
@@ -231,17 +233,19 @@ namespace Bank
             catch (Exception ex)
             {
                 MessageBox.Show(string.Format(Properties.Resources.ERROR_OCCURRED_0, ex.Message), Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
+            return true;
         }
 
-        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Page1SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (init) return;
-            pageChanged = true;
+            page1Changed = true;
             ShowPage();
         }
 
-        private void TextBoxEncoding_LostFocus(object sender, RoutedEventArgs e)
+        private void Page1TextBoxEncoding_LostFocus(object sender, RoutedEventArgs e)
         {
             if (init) return;
             try
@@ -250,7 +254,7 @@ namespace Bank
                 if (enc != encoding)
                 {
                     ReadLines();
-                    pageChanged = true;
+                    page1Changed = true;
                     ShowPage();
                 }
             }
@@ -260,10 +264,24 @@ namespace Bank
             }
         }
 
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        private void Page1TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (init) return;
-            pageChanged = true;
+            page1Changed = true;
+            ShowPage();
+        }
+
+        private void Page2SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (init) return;
+            page2Changed = true;
+            ShowPage();
+        }
+
+        private void Page2TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (init) return;
+            page2Changed = true;
             ShowPage();
         }
 
@@ -271,20 +289,23 @@ namespace Bank
         {
             if (page < 3)
             {
-                page++;
-                if (pageChanged)
+                if (page == 1 && page1Changed)
                 {
-                    if (page == 2)
+                    if (!InitColumnMapping())
                     {
-                        InitColumnMapping();
-                        pageChanged = false;
+                        return;
                     }
-                    if (page == 3)
-                    {
-                        InitPreview();
-                        pageChanged = false;
-                    }
+                    page1Changed = false;
                 }
+                if (page == 2 && page2Changed)
+                {
+                    if (!InitPreview())
+                    {
+                        return;
+                    }
+                    page2Changed = false;
+                }
+                page++;
                 ShowPage();
             }
         }
@@ -294,7 +315,6 @@ namespace Bank
             if (page > 1)
             {
                 page--;
-                pageChanged = false;
                 ShowPage();
             }
         }

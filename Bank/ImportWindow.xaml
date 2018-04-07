@@ -30,11 +30,11 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{x:Static props:Resources.LABEL_ENCODING}" Target="{Binding ElementName=textBoxEncoding}"/>
-                <TextBox Grid.Column="1" MaxLength="20" Width="80" Height="21" x:Name="textBoxEncoding" Text="ISO-8859-1" LostFocus="TextBoxEncoding_LostFocus"/>
+                <TextBox Grid.Column="1" MaxLength="20" Width="80" Height="21" x:Name="textBoxEncoding" Text="ISO-8859-1" LostFocus="Page1TextBoxEncoding_LostFocus"/>
                 <Label Grid.Column="2" Content="{x:Static props:Resources.LABEL_SEPARATOR}" Target="{Binding ElementName=textBoxSeparator}"/>
-                <TextBox Grid.Column="3" MaxLength="1" Width="20" Height="21" x:Name="textBoxSeparator" Text=";" LostFocus="TextBox_LostFocus"/>
+                <TextBox Grid.Column="3" MaxLength="1" Width="20" Height="21" x:Name="textBoxSeparator" Text=";" LostFocus="Page1TextBox_LostFocus"/>
             </Grid>
-            <ListView Grid.Row="2" x:Name="listViewImport" MinHeight="200" SelectionMode="Extended" SelectionChanged="SelectionChanged"/>
+            <ListView Grid.Row="2" x:Name="listViewImport" MinHeight="200" SelectionMode="Extended" SelectionChanged="Page1SelectionChanged"/>
         </Grid>
         <Grid Grid.Row="0" x:Name="gridWizard2" Visibility="Visible">
             <Grid.RowDefinitions>
@@ -56,21 +56,21 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="{x:Static props:Resources.LABEL_MAP_COLUMN_DATE}" Target="{Binding ElementName=comboBoxColumnDate}"/>
-                <ComboBox Grid.Row="0" x:Name="comboBoxColumnDate" Grid.Column="1" Height="23" SelectionChanged="SelectionChanged"/>
+                <ComboBox Grid.Row="0" x:Name="comboBoxColumnDate" Grid.Column="1" Height="23" SelectionChanged="Page2SelectionChanged"/>
                 <Label Grid.Row="0" Grid.Column="2" Content="{x:Static props:Resources.LABEL_DATE_FORMAT}" Target="{Binding ElementName=textBoxDateFormat}"/>
-                <TextBox Grid.Row="0" Grid.Column="3" Height="23" Text="dd.MM.yyyy" Width="80" HorizontalAlignment="Left" MaxLength="10" x:Name="textBoxDateFormat" LostFocus="TextBox_LostFocus"/>
+                <TextBox Grid.Row="0" Grid.Column="3" Height="23" Text="dd.MM.yyyy" Width="80" HorizontalAlignment="Left" MaxLength="10" x:Name="textBoxDateFormat" LostFocus="Page2TextBox_LostFocus"/>
                 <Label Grid.Row="1" Grid.Column="0" Content="{x:Static props:Resources.LABEL_MAP_COLUMN_TEXT_1}" Target="{Binding ElementName=comboBoxColumnText1}"/>
-                <ComboBox Grid.Row="1" x:Name="comboBoxColumnText1" Grid.Column="1" Height="23" SelectionChanged="SelectionChanged"/>
+                <ComboBox Grid.Row="1" x:Name="comboBoxColumnText1" Grid.Column="1" Height="23" SelectionChanged="Page2SelectionChanged"/>
                 <Label Grid.Row="1" Grid.Column="2" Content="{x:Static props:Resources.LABEL_TEXT_1_STARTS_AFTER}" Target="{Binding ElementName=textBoxText1Start}"/>
-                <TextBox Grid.Row="1" Grid.Column="3" Height="23" x:Name="textBoxText1Start" MaxLength="100" LostFocus="TextBox_LostFocus"/>
+                <TextBox Grid.Row="1" Grid.Column="3" Height="23" x:Name="textBoxText1Start" MaxLength="100" LostFocus="Page2TextBox_LostFocus"/>
                 <Label Grid.Row="2" Grid.Column="0" Content="{x:Static props:Resources.LABEL_MAP_COLUMN_TEXT_2}" Target="{Binding ElementName=comboBoxColumnText2}"/>
-                <ComboBox Grid.Row="2" x:Name="comboBoxColumnText2" Grid.Column="1" Height="23" SelectionChanged="SelectionChanged"/>
+                <ComboBox Grid.Row="2" x:Name="comboBoxColumnText2" Grid.Column="1" Height="23" SelectionChanged="Page2SelectionChanged"/>
                 <Label Grid.Row="2" Grid.Column="2" Content="{x:Static props:Resources.LABEL_TEXT_2_STARTS_AFTER}" Target="{Binding ElementName=textBoxText2Start}"/>
-                <TextBox Grid.Row="2" Grid.Column="3" Height="23" x:Name="textBoxText2Start" MaxLength="100" LostFocus="TextBox_LostFocus"/>
+                <TextBox Grid.Row="2" Grid.Column="3" Height="23" x:Name="textBoxText2Start" MaxLength="100" LostFocus="Page2TextBox_LostFocus"/>
                 <Label Grid.Row="3" Grid.Column="0" Content="{x:Static props:Resources.LABEL_MAP_COLUMN_AMOUNT}" Target="{Binding ElementName=comboBoxColumnAmount}"/>
-                <ComboBox Grid.Row="3" x:Name="comboBoxColumnAmount" Grid.Column="1" Height="23" SelectionChanged="SelectionChanged"/>
+                <ComboBox Grid.Row="3" x:Name="comboBoxColumnAmount" Grid.Column="1" Height="23" SelectionChanged="Page2SelectionChanged"/>
                 <Label Grid.Row="3" Grid.Column="2" Content="{x:Static props:Resources.LABEL_CURRENCY_LANGUAGE}" Target="{Binding ElementName=textBoxLanguage}"/>
-                <TextBox Grid.Row="3" Grid.Column="3" Height="21" Text="de" Width="30" HorizontalAlignment="Left" MaxLength="2" x:Name="textBoxLanguage" LostFocus="TextBox_LostFocus"/>
+                <TextBox Grid.Row="3" Grid.Column="3" Height="21" Text="de" Width="30" HorizontalAlignment="Left" MaxLength="2" x:Name="textBoxLanguage" LostFocus="Page2TextBox_LostFocus"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="0" x:Name="gridWizard3" Visibility="Hidden">
