@@ -96,6 +96,20 @@ namespace Bank
                     " text TEXT NOT NULL," +
                     " amount INTEGER NOT NULL);";
                 cmd.ExecuteNonQuery();
+                cmd.CommandText =
+                    "CREATE TABLE IF NOT EXISTS importsetting " +
+                    "(accountid INTEGER NOT NULL," +
+                    " encoding TEXT NOT NULL," +
+                    " separator TEXT NOT NULL," +
+                    " datecolumn INTEGER NOT NULL," +
+                    " text1column INTEGER NOT NULL," +
+                    " text2column INTEGER NOT NULL," +
+                    " amountcolumn INTEGER NOT NULL," +
+                    " dateformat TEXT NOT NULL," +
+                    " currencylanguage TEXT NOT NULL," +
+                    " text1start TEXT NOT NULL," +
+                    " text2start TEXT NOT NULL);";
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -173,6 +187,90 @@ namespace Bank
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+            }
+        }
+
+        #endregion
+
+        #region ImportSetting
+
+        public ImportSetting GetImportSetting(Account account)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText =
+                    "SELECT rowid, encoding, separator, datecolumn, text1column,"+
+                    " text2column, amountcolumn, dateformat, currencylanguage,"+
+                    " text1start, text2start FROM importsetting WHERE accountid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows && reader.Read())
+                    {
+                        return new ImportSetting
+                        {
+                            Id = reader.GetInt64(0),
+                            Account = account,
+                            Encoding = reader.GetString(1),
+                            Separator = reader.GetString(2),
+                            DateColumn = (int)reader.GetInt64(3),
+                            Text1Column = (int)reader.GetInt64(4),
+                            Text2Column = (int)reader.GetInt64(5),
+                            AmountColumn = (int)reader.GetInt64(6),
+                            DateFormat = reader.GetString(7),
+                            CurrencyLanguage = reader.GetString(8),
+                            Text1Start = reader.GetString(9),
+                            Text2Start = reader.GetString(10)
+                        };
+                    }
+                }
+            }
+            var currencyLanguage = CultureInfo.CurrentUICulture.IetfLanguageTag;
+            int idx = currencyLanguage.IndexOf("-");
+            if (idx > 0)
+            {
+                currencyLanguage = currencyLanguage.Substring(0, idx);
+            }
+            var fi = CultureInfo.CurrentCulture.DateTimeFormat;
+            var dateFormat = fi.ShortDatePattern;
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "INSERT INTO importsetting VALUES " +
+                    "(@p1,'ISO-8859-1',';',-1,-1,-1,-1,@p2,@p3,'','')";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", dateFormat));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", currencyLanguage));
+                cmd.ExecuteNonQuery();
+                return new ImportSetting
+                {
+                    Id = con.LastInsertRowId,
+                    Account = account,
+                    DateFormat = dateFormat,
+                    CurrencyLanguage = currencyLanguage
+                };
+            }
+        }
+
+        public void UpdateImportSetting(ImportSetting importSetting)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "UPDATE importsetting SET"+
+                    " encoding=@p2, separator=@p3, datecolumn=@p4," +
+                    " text1column=@p5, text2column=@p6, amountcolumn=@p7, dateformat=@p8," +
+                    " currencylanguage=@p9, text1start=@p10, text2start=@p11 WHERE accountid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", importSetting.Account.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", importSetting.Encoding));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", importSetting.Separator));
+                cmd.Parameters.Add(new SQLiteParameter("@p4", importSetting.DateColumn));
+                cmd.Parameters.Add(new SQLiteParameter("@p5", importSetting.Text1Column));
+                cmd.Parameters.Add(new SQLiteParameter("@p6", importSetting.Text2Column));
+                cmd.Parameters.Add(new SQLiteParameter("@p7", importSetting.AmountColumn));
+                cmd.Parameters.Add(new SQLiteParameter("@p8", importSetting.DateFormat));
+                cmd.Parameters.Add(new SQLiteParameter("@p9", importSetting.CurrencyLanguage));
+                cmd.Parameters.Add(new SQLiteParameter("@p10", importSetting.Text1Start));
+                cmd.Parameters.Add(new SQLiteParameter("@p11", importSetting.Text2Start));
+                cmd.ExecuteNonQuery();
             }
         }
 

@@ -213,6 +213,9 @@
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
     <value>_Kontostand anpassen...</value>
   </data>
+  <data name="COLUMN_1_2" xml:space="preserve">
+    <value>Spalte #{0} : '{1}'</value>
+  </data>
   <data name="COLUMN_ACCOUNT" xml:space="preserve">
     <value>Konto</value>
   </data>

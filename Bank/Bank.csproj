@@ -93,6 +93,7 @@
       <DependentUpon>EnterPasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions.cs" />
+    <Compile Include="ImportSetting.cs" />
     <Compile Include="ImportWindow.xaml.cs">
       <DependentUpon>ImportWindow.xaml</DependentUpon>
     </Compile>

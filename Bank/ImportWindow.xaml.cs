@@ -41,22 +41,23 @@ namespace Bank
 
         public List<ImportBooking> Result { get; set; }
 
-        public ImportWindow(Window owner, string title, string csvFile)
+        public ImportSetting Setting { get; private set; }
+
+        public ImportWindow(Window owner, string title, string csvFile, ImportSetting setting)
         {
             this.csvFile = csvFile;
+            Setting = setting;
             InitializeComponent();
             Owner = owner;
             Title = title;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             listViewPreview.ItemsSource = result;
-            textBoxLanguage.Text = CultureInfo.CurrentUICulture.IetfLanguageTag;
-            int idx = textBoxLanguage.Text.IndexOf("-");
-            if (idx > 0)
-            {
-                textBoxLanguage.Text = textBoxLanguage.Text.Substring(0, idx);
-            }
-            var fi = CultureInfo.CurrentCulture.DateTimeFormat;
-            textBoxDateFormat.Text = fi.ShortDatePattern;
+            textBoxEncoding.Text = Setting.Encoding;
+            textBoxLanguage.Text = Setting.CurrencyLanguage;
+            textBoxDateFormat.Text = Setting.DateFormat;
+            textBoxSeparator.Text = Setting.Separator;
+            textBoxText1Start.Text = Setting.Text1Start;
+            textBoxText2Start.Text = Setting.Text2Start;
             ReadLines();
             ShowPage();
         }
@@ -143,16 +144,32 @@ namespace Bank
                         int gridrow = 0;
                         foreach (var str in cols)
                         {
-                            var s = $"Spalte #{gridrow + 1} : '{str}'";
+                            var s = string.Format(Properties.Resources.COLUMN_1_2, gridrow + 1, str.Trim());
                             if (s.Length > 40)
                             {
-                                s = s.Substring(0, 40) + " ...";
+                                s = s.Substring(0, 40) + "...";
                             }
                             comboBoxColumnDate.Items.Add(new ComboBoxItem() { Content = s, Tag = gridrow });
                             comboBoxColumnText1.Items.Add(new ComboBoxItem() { Content = s, Tag = gridrow });
                             comboBoxColumnText2.Items.Add(new ComboBoxItem() { Content = s, Tag = gridrow });
                             comboBoxColumnAmount.Items.Add(new ComboBoxItem() { Content = s, Tag = gridrow });
                             gridrow++;
+                        }
+                        if (Setting.DateColumn >= 0 && Setting.DateColumn < cols.Length)
+                        {
+                            comboBoxColumnDate.SelectedIndex = Setting.DateColumn;
+                        }
+                        if (Setting.Text1Column >= 0 && Setting.Text1Column < cols.Length)
+                        {
+                            comboBoxColumnText1.SelectedIndex = Setting.Text1Column;
+                        }
+                        if (Setting.Text2Column >= 0 && Setting.Text2Column < cols.Length)
+                        {
+                            comboBoxColumnText2.SelectedIndex = Setting.Text2Column;
+                        }
+                        if (Setting.AmountColumn >= 0 && Setting.AmountColumn < cols.Length)
+                        {
+                            comboBoxColumnAmount.SelectedIndex = Setting.AmountColumn;
                         }
                     }
                 }
@@ -196,7 +213,7 @@ namespace Bank
                         {
                             Date = dt,
                             Amount = currency,
-                            Text = cols[idxtext1.Value],
+                            Text = cols[idxtext1.Value].Trim(),
                             AmountString = CurrencyConverter.ConvertToCurrencyString(currency),
                             DateString = $"{dt:d}"
                         };
@@ -205,16 +222,16 @@ namespace Bank
                             var idx1 = b.Text.IndexOf(textBoxText1Start.Text);
                             if (idx1 >= 0)
                             {
-                                b.Text = b.Text.Substring(idx1 + textBoxText1Start.Text.Length);
+                                b.Text = b.Text.Substring(idx1 + textBoxText1Start.Text.Length).Trim();
                             }
                         }
                         if (idxtext2.HasValue)
                         {
-                            var text2 = cols[idxtext2.Value];
+                            var text2 = cols[idxtext2.Value].Trim();
                             var idx2 = text2.IndexOf(textBoxText2Start.Text);
                             if (idx2 >= 0)
                             {
-                                text2 = text2.Substring(idx2 + textBoxText2Start.Text.Length);
+                                text2 = text2.Substring(idx2 + textBoxText2Start.Text.Length).Trim();
                             }
                             b.Text += $" {text2}";
                         }
@@ -327,6 +344,16 @@ namespace Bank
                 Result.Add(ib);                
             }
             Result.Sort((ImportBooking c1, ImportBooking c2) => c1.Date.CompareTo(c2.Date) );
+            Setting.Encoding = textBoxEncoding.Text;
+            Setting.Separator = textBoxSeparator.Text;
+            Setting.DateFormat = textBoxDateFormat.Text;
+            Setting.CurrencyLanguage = textBoxLanguage.Text;
+            Setting.DateColumn = comboBoxColumnDate.SelectedIndex;
+            Setting.Text1Column = comboBoxColumnText1.SelectedIndex;
+            Setting.Text2Column = comboBoxColumnText2.SelectedIndex;
+            Setting.AmountColumn = comboBoxColumnAmount.SelectedIndex;
+            Setting.Text1Start = textBoxText1Start.Text;
+            Setting.Text2Start = textBoxText2Start.Text;
             DialogResult = true;
             Close();
         }

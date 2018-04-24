@@ -63,7 +63,7 @@ namespace Bank
             {
                 if (comboBoxText.Template.FindName("PART_EditableTextBox", comboBoxText) is TextBox textBox)
                 {
-                    textBox.MaxLength = 100;
+                    textBox.MaxLength = 260;
                 }
             };
         }

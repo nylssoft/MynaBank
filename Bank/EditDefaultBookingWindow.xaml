@@ -24,7 +24,7 @@
             <Label Grid.Row="0" Grid.Column="0" Content="{x:Static props:Resources.LABEL_DAY}" Target="{Binding ElementName=textBoxDay}"/>
             <TextBox x:Name="textBoxDay" Grid.Row="0" Grid.Column="1" Width="40" Height="23" HorizontalAlignment="Left" MaxLength="2" TextChanged="TextBox_TextChanged"/>
             <Label Grid.Row="1" Grid.Column="0" Content="{x:Static props:Resources.LABEL_TEXT}" Target="{Binding ElementName=textBoxText}" />
-            <TextBox Grid.Row="1" Grid.Column="1" x:Name="textBoxText" MaxLength="100" Height="23" Margin="0,0,6,0" TextChanged="TextBox_TextChanged"/>
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="textBoxText" MaxLength="260" Height="23" Margin="0,0,6,0" TextChanged="TextBox_TextChanged"/>
             <Label Grid.Row="2" Grid.Column="0" Content="{x:Static props:Resources.LABEL_AMOUNT}" Target="{Binding ElementName=textBoxAmount}"/>
             <TextBox x:Name="textBoxAmount" Grid.Row="2" Grid.Column="1" Width="100" Height="23" HorizontalAlignment="Left" MaxLength="10" TextChanged="TextBox_TextChanged"/>
             <Label Grid.Row="3" Grid.Column="0" Content="{x:Static props:Resources.LABEL_MONTH}" Target="{Binding ElementName=checkBox1}"/>

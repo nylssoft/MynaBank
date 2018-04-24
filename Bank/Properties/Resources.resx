@@ -213,6 +213,9 @@
   <data name="CMD_UPDATE_BALANCE" xml:space="preserve">
     <value>_Update balance...</value>
   </data>
+  <data name="COLUMN_1_2" xml:space="preserve">
+    <value>Column #{0} : '{1}'</value>
+  </data>
   <data name="COLUMN_ACCOUNT" xml:space="preserve">
     <value>Account</value>
   </data>

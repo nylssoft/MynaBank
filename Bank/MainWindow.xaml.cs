@@ -903,9 +903,14 @@ namespace Bank
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     string path = openFileDialog.FileName;
-                    var dlg = new ImportWindow(this, Properties.Resources.TITLE_IMPORT, path);
+                    var dlg = new ImportWindow(
+                        this,
+                        Properties.Resources.TITLE_IMPORT,
+                        path,
+                        database.GetImportSetting(account));
                     if (dlg.ShowDialog() == true)
                     {
+                        database.UpdateImportSetting(dlg.Setting);
                         Balance balance = null;
                         foreach (var ib in dlg.Result)
                         {

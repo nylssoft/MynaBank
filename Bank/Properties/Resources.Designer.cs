@@ -349,6 +349,15 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Column #{0} : &apos;{1}&apos; ähnelt.
+        /// </summary>
+        public static string COLUMN_1_2 {
+            get {
+                return ResourceManager.GetString("COLUMN_1_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Account ähnelt.
         /// </summary>
         public static string COLUMN_ACCOUNT {
