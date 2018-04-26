@@ -104,11 +104,16 @@ namespace Bank
                     " datecolumn INTEGER NOT NULL," +
                     " text1column INTEGER NOT NULL," +
                     " text2column INTEGER NOT NULL," +
+                    " text3column INTEGER NOT NULL," +
                     " amountcolumn INTEGER NOT NULL," +
                     " dateformat TEXT NOT NULL," +
                     " currencylanguage TEXT NOT NULL," +
                     " text1start TEXT NOT NULL," +
-                    " text2start TEXT NOT NULL);";
+                    " text1end TEXT NOT NULL," +
+                    " text2start TEXT NOT NULL," +
+                    " text2end TEXT NOT NULL," +
+                    " text3start TEXT NOT NULL," +
+                    " text3end TEXT NOT NULL);";
                 cmd.ExecuteNonQuery();
             }
         }
@@ -200,8 +205,9 @@ namespace Bank
             {
                 cmd.CommandText =
                     "SELECT rowid, encoding, separator, datecolumn, text1column,"+
-                    " text2column, amountcolumn, dateformat, currencylanguage,"+
-                    " text1start, text2start FROM importsetting WHERE accountid=@p1";
+                    " text2column, text3column, amountcolumn, dateformat, currencylanguage,"+
+                    " text1start, text1end, text2start, text2end, text3start, text3end" +
+                    " FROM importsetting WHERE accountid=@p1";
                 cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -216,11 +222,16 @@ namespace Bank
                             DateColumn = (int)reader.GetInt64(3),
                             Text1Column = (int)reader.GetInt64(4),
                             Text2Column = (int)reader.GetInt64(5),
-                            AmountColumn = (int)reader.GetInt64(6),
-                            DateFormat = reader.GetString(7),
-                            CurrencyLanguage = reader.GetString(8),
-                            Text1Start = reader.GetString(9),
-                            Text2Start = reader.GetString(10)
+                            Text3Column = (int)reader.GetInt64(6),
+                            AmountColumn = (int)reader.GetInt64(7),
+                            DateFormat = reader.GetString(8),
+                            CurrencyLanguage = reader.GetString(9),
+                            Text1Start = reader.GetString(10),
+                            Text1End = reader.GetString(11),
+                            Text2Start = reader.GetString(12),
+                            Text2End = reader.GetString(13),
+                            Text3Start = reader.GetString(14),
+                            Text3End = reader.GetString(15)
                         };
                     }
                 }
@@ -236,7 +247,7 @@ namespace Bank
             using (var cmd = new SQLiteCommand(con))
             {
                 cmd.CommandText = "INSERT INTO importsetting VALUES " +
-                    "(@p1,'ISO-8859-1',';',-1,-1,-1,-1,@p2,@p3,'','')";
+                    "(@p1,'ISO-8859-1',';',-1,-1,-1,-1,-1,@p2,@p3,'','','','','','')";
                 cmd.Parameters.Add(new SQLiteParameter("@p1", account.Id));
                 cmd.Parameters.Add(new SQLiteParameter("@p2", dateFormat));
                 cmd.Parameters.Add(new SQLiteParameter("@p3", currencyLanguage));
@@ -257,19 +268,26 @@ namespace Bank
             {
                 cmd.CommandText = "UPDATE importsetting SET"+
                     " encoding=@p2, separator=@p3, datecolumn=@p4," +
-                    " text1column=@p5, text2column=@p6, amountcolumn=@p7, dateformat=@p8," +
-                    " currencylanguage=@p9, text1start=@p10, text2start=@p11 WHERE accountid=@p1";
+                    " text1column=@p5, text2column=@p6, text3column=@p7, amountcolumn=@p8, dateformat=@p9," +
+                    " currencylanguage=@p10, text1start=@p11, text1end=@p12," +
+                    " text2start=@p13, text2end=@p14, text3start=@p15, text3end=@p16" +
+                    " WHERE accountid=@p1";
                 cmd.Parameters.Add(new SQLiteParameter("@p1", importSetting.Account.Id));
                 cmd.Parameters.Add(new SQLiteParameter("@p2", importSetting.Encoding));
                 cmd.Parameters.Add(new SQLiteParameter("@p3", importSetting.Separator));
                 cmd.Parameters.Add(new SQLiteParameter("@p4", importSetting.DateColumn));
                 cmd.Parameters.Add(new SQLiteParameter("@p5", importSetting.Text1Column));
                 cmd.Parameters.Add(new SQLiteParameter("@p6", importSetting.Text2Column));
-                cmd.Parameters.Add(new SQLiteParameter("@p7", importSetting.AmountColumn));
-                cmd.Parameters.Add(new SQLiteParameter("@p8", importSetting.DateFormat));
-                cmd.Parameters.Add(new SQLiteParameter("@p9", importSetting.CurrencyLanguage));
-                cmd.Parameters.Add(new SQLiteParameter("@p10", importSetting.Text1Start));
-                cmd.Parameters.Add(new SQLiteParameter("@p11", importSetting.Text2Start));
+                cmd.Parameters.Add(new SQLiteParameter("@p7", importSetting.Text3Column));
+                cmd.Parameters.Add(new SQLiteParameter("@p8", importSetting.AmountColumn));
+                cmd.Parameters.Add(new SQLiteParameter("@p9", importSetting.DateFormat));
+                cmd.Parameters.Add(new SQLiteParameter("@p10", importSetting.CurrencyLanguage));
+                cmd.Parameters.Add(new SQLiteParameter("@p11", importSetting.Text1Start));
+                cmd.Parameters.Add(new SQLiteParameter("@p12", importSetting.Text1End));
+                cmd.Parameters.Add(new SQLiteParameter("@p13", importSetting.Text2Start));
+                cmd.Parameters.Add(new SQLiteParameter("@p14", importSetting.Text2End));
+                cmd.Parameters.Add(new SQLiteParameter("@p15", importSetting.Text3Start));
+                cmd.Parameters.Add(new SQLiteParameter("@p16", importSetting.Text3End));
                 cmd.ExecuteNonQuery();
             }
         }

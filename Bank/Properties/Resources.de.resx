@@ -268,7 +268,7 @@
     <value>Bestätigtes _neues Passwort:</value>
   </data>
   <data name="LABEL_CURRENCY_LANGUAGE" xml:space="preserve">
-    <value>_Sprache für Währungsformat:</value>
+    <value>Währung_sformat:</value>
   </data>
   <data name="LABEL_DATE_FORMAT" xml:space="preserve">
     <value>Datumsf_ormat:</value>
@@ -281,6 +281,9 @@
   </data>
   <data name="LABEL_ENCODING" xml:space="preserve">
     <value>Zeichen-_Kodierung:</value>
+  </data>
+  <data name="LABEL_ENDS_BEFORE" xml:space="preserve">
+    <value>Endet vor:</value>
   </data>
   <data name="LABEL_FROM" xml:space="preserve">
     <value>_Von:</value>
@@ -296,6 +299,9 @@
   </data>
   <data name="LABEL_MAP_COLUMN_TEXT_2" xml:space="preserve">
     <value>Spalte für T_ext 2:</value>
+  </data>
+  <data name="LABEL_MAP_COLUMN_TEXT_3" xml:space="preserve">
+    <value>Spalte für Te_xt 3:</value>
   </data>
   <data name="LABEL_MONTH" xml:space="preserve">
     <value>_Monat:</value>
@@ -324,14 +330,11 @@
   <data name="LABEL_SEPARATOR" xml:space="preserve">
     <value>_Trennzeichen:</value>
   </data>
+  <data name="LABEL_STARTS_AFTER" xml:space="preserve">
+    <value>Beginnt nach:</value>
+  </data>
   <data name="LABEL_TEXT" xml:space="preserve">
     <value>T_ext:</value>
-  </data>
-  <data name="LABEL_TEXT_1_STARTS_AFTER" xml:space="preserve">
-    <value>Text 1 beg_innt nach:</value>
-  </data>
-  <data name="LABEL_TEXT_2_STARTS_AFTER" xml:space="preserve">
-    <value>Text 2 begi_nnt nach:</value>
   </data>
   <data name="LABEL_TO" xml:space="preserve">
     <value>_Bis:</value>

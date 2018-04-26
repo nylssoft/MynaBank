@@ -511,7 +511,7 @@ namespace Bank.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Language for currency format: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die C_urrency format: ähnelt.
         /// </summary>
         public static string LABEL_CURRENCY_LANGUAGE {
             get {
@@ -552,6 +552,15 @@ namespace Bank.Properties {
         public static string LABEL_ENCODING {
             get {
                 return ResourceManager.GetString("LABEL_ENCODING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ends before: ähnelt.
+        /// </summary>
+        public static string LABEL_ENDS_BEFORE {
+            get {
+                return ResourceManager.GetString("LABEL_ENDS_BEFORE", resourceCulture);
             }
         }
         
@@ -597,6 +606,15 @@ namespace Bank.Properties {
         public static string LABEL_MAP_COLUMN_TEXT_2 {
             get {
                 return ResourceManager.GetString("LABEL_MAP_COLUMN_TEXT_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Column for te_xt 3: ähnelt.
+        /// </summary>
+        public static string LABEL_MAP_COLUMN_TEXT_3 {
+            get {
+                return ResourceManager.GetString("LABEL_MAP_COLUMN_TEXT_3", resourceCulture);
             }
         }
         
@@ -682,29 +700,20 @@ namespace Bank.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Starts after: ähnelt.
+        /// </summary>
+        public static string LABEL_STARTS_AFTER {
+            get {
+                return ResourceManager.GetString("LABEL_STARTS_AFTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Text: ähnelt.
         /// </summary>
         public static string LABEL_TEXT {
             get {
                 return ResourceManager.GetString("LABEL_TEXT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Text 1 sta_rts after: ähnelt.
-        /// </summary>
-        public static string LABEL_TEXT_1_STARTS_AFTER {
-            get {
-                return ResourceManager.GetString("LABEL_TEXT_1_STARTS_AFTER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Text 2 start_s after: ähnelt.
-        /// </summary>
-        public static string LABEL_TEXT_2_STARTS_AFTER {
-            get {
-                return ResourceManager.GetString("LABEL_TEXT_2_STARTS_AFTER", resourceCulture);
             }
         }
         

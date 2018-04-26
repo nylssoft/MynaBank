@@ -33,6 +33,8 @@ namespace Bank
 
         public int Text2Column { get; set; } = -1;
 
+        public int Text3Column { get; set; } = -1;
+
         public int AmountColumn { get; set; } = -1;
 
         public string DateFormat { get; set; } = "dd.MM.yyyy";
@@ -41,6 +43,14 @@ namespace Bank
 
         public string Text1Start { get; set; } = "";
 
+        public string Text1End { get; set; } = "";
+
         public string Text2Start { get; set; } = "";
+
+        public string Text2End { get; set; } = "";
+
+        public string Text3Start { get; set; } = "";
+
+        public string Text3End { get; set; } = "";
     }
 }
