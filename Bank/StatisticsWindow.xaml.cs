@@ -242,10 +242,10 @@ namespace Bank
                     return;
                 }
                 double
-                    dxmin = 60,
-                    dxmax = Math.Max(canGraph.Width - 30, 30),
+                    dxmin = 70,
+                    dxmax = Math.Max(canGraph.ActualWidth - 30, 30),
                     dymin = 30,
-                    dymax = Math.Max(canGraph.Height - 70, 70);
+                    dymax = Math.Max(canGraph.ActualHeight - 50, 50);
                 double
                     wxmin = fromdays,
                     wxmax = todays,
@@ -254,7 +254,22 @@ namespace Bank
                 PrepareTransformations(
                     wxmin, wxmax, wymin, wymax,
                     dxmin, dxmax, dymax, dymin);
-                DrawAxis(wxmin, wxmax, wymin, wymax);
+                const double minticky = 30;
+                var p = DtoW(new Point(dxmin, dymax - minticky));
+                var n = Math.Floor(Math.Log10(p.Y - wymin));
+                double ystep = Math.Pow(10, n);
+                p = WtoD(new Point(wymin, wymin + ystep));
+                if (dymax > p.Y)
+                {
+                    n = Math.Round(minticky / (dymax - p.Y));
+                    ystep *= n;
+                }
+                wymin = Math.Round(wymin / ystep) * ystep;
+                wymax = Math.Round(wymax / ystep) * ystep;
+                PrepareTransformations(
+                    wxmin, wxmax, wymin, wymax,
+                    dxmin, dxmax, dymax, dymin);
+                DrawAxis(wxmin, wxmax, wymin, wymax, ystep);
                 long result = 0;
                 foreach (CheckBox cb in stackPanelAccounts.Children)
                 {
@@ -280,47 +295,40 @@ namespace Bank
             }
         }
 
-        private void DrawAxis(double wxmin, double wxmax, double wymin, double wymax)
+        private void DrawAxis(double wxmin, double wxmax, double wymin, double wymax, double ystep)
         {
             var axis = new GeometryGroup();
-            var wys = Math.Round(wymin / 100000.0) * 100000.0;
-            var wye = Math.Round(wymax / 100000.0) * 100000.0;
-            var ps = WtoD(new Point(wxmin, wys));
-            var pe = WtoD(new Point(wxmin, wye));
+            var ps = WtoD(new Point(wxmin, wymin));
+            var pe = WtoD(new Point(wxmin, wymax));
             axis.Children.Add(new LineGeometry
             {
                 StartPoint = new Point(ps.X, ps.Y + 8),
                 EndPoint = new Point(pe.X, pe.Y - 8)
             });
-            pe = WtoD(new Point(wxmax, wys));
+            pe = WtoD(new Point(wxmax, wymin));
             axis.Children.Add(new LineGeometry
             {
                 StartPoint = new Point(ps.X - 8, ps.Y),
                 EndPoint = new Point(pe.X + 8, pe.Y)
             });
             var ticks = new GeometryGroup();
-            double? lasty = null;
-            for (var ticy = wys; ticy <= wye; ticy += 100000)
+            for (var ticy = wymin; ticy <= wymax; ticy += ystep)
             {
                 var p = WtoD(new Point(wxmin, ticy));
-                if (!lasty.HasValue || Math.Abs(p.Y - lasty.Value) > 15)
+                var t = new TextBlock
                 {
-                    var t = new TextBlock
-                    {
-                        Text = Convert.ToString((long)(ticy / 100.0)),
-                        TextAlignment = TextAlignment.Right,
-                        VerticalAlignment = VerticalAlignment.Top
-                    };
-                    Canvas.SetLeft(t, p.X - 50);
-                    Canvas.SetTop(t, p.Y - 8);
-                    canGraph.Children.Add(t);
-                    ticks.Children.Add(new LineGeometry
-                    {
-                        StartPoint = new Point { X = p.X - 8, Y = p.Y },
-                        EndPoint = WtoD(new Point(wxmax, ticy))
-                    });
-                    lasty = p.Y;
-                }
+                    Text = Convert.ToString((long)(ticy / 100.0)),
+                    TextAlignment = TextAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Top
+                };
+                Canvas.SetLeft(t, p.X - 50);
+                Canvas.SetTop(t, p.Y - 8);
+                canGraph.Children.Add(t);
+                ticks.Children.Add(new LineGeometry
+                {
+                    StartPoint = new Point { X = p.X - 8, Y = p.Y },
+                    EndPoint = WtoD(new Point(wxmax, ticy))
+                });
             }
             double? lastxDay = null;
             double? lastxYear = null;
@@ -329,7 +337,7 @@ namespace Bank
                 var dt = refdate.AddDays(-ticx);
                 if (dt.Day == 1)
                 {
-                    var p = WtoD(new Point(ticx, wys));
+                    var p = WtoD(new Point(ticx, wymin));
                     if (!lastxDay.HasValue || Math.Abs(p.X - lastxDay.Value) > 15)
                     {
                         lastxDay = p.X;
@@ -345,7 +353,7 @@ namespace Bank
                         ticks.Children.Add(new LineGeometry
                         {
                             StartPoint = new Point { X = p.X, Y = p.Y + 8 },
-                            EndPoint = WtoD(new Point(ticx, wye))
+                            EndPoint = WtoD(new Point(ticx, wymax))
                         });
                     }
                     if (dt.Month == 1)
@@ -444,14 +452,6 @@ namespace Bank
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (init) return;
-            if (e.HeightChanged)
-            {
-                canGraph.Height = Math.Max(e.NewSize.Height - 110, 110);
-            }
-            if (e.WidthChanged)
-            {
-                canGraph.Width = Math.Max(e.NewSize.Width - 10, 10);
-            }
             DrawGraph();
         }
 

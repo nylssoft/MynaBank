@@ -29,8 +29,10 @@
         </StackPanel>
         <StackPanel x:Name="stackPanelAccounts" Grid.Row="1" Orientation="Horizontal">
         </StackPanel>
-        <Canvas Grid.Row="2" ClipToBounds="True" Name="canGraph" Background="White" Width="770" Height="490" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <Canvas Grid.Row="2" ClipToBounds="True" Name="canGraph" Background="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         </Canvas>
-        <TextBlock Grid.Row="3" HorizontalAlignment="Center" x:Name="textBlockInfo" Height="23" Margin="10,0,5,0" />
+        <Grid Grid.Row="3" Background="White">
+            <TextBlock HorizontalAlignment="Center" x:Name="textBlockInfo" Height="23" Margin="10,0,5,0" />
+        </Grid>
     </Grid>
 </Window>
