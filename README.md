@@ -8,8 +8,6 @@ An application to manage bank accounts for Windows using WPF.
 
 ## Installation
 
-The latest MSI file can be found here: https://github.com/nylssoft/MynaBank/releases/download/v1.0.5.1/MynaBank.msi
-
 The program requires .NET framework v4.7.
 
 ## Screenshots
@@ -36,7 +34,7 @@ The program requires .NET framework v4.7.
 
 ## Build
 
-- Build with VS 2017
+- Build with VS 2022
 - WiX ToolSet is required to build a MSI, see https://wixtoolset.org/
 
 ## Licenses
