@@ -71,8 +71,6 @@
                         <Separator />
                         <MenuItem Command="self:CustomCommands.ShowGraph" />
                         <Separator />
-                        <MenuItem Command="self:CustomCommands.SetPassword" />
-                        <Separator />
                         <MenuItem Command="self:CustomCommands.Exit">
                             <MenuItem.Icon>
                                 <Image Source="Images/16x16/application-exit-5.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>

@@ -1,6 +1,6 @@
 ﻿/*
     Myna Bank
-    Copyright (C) 2017 Niels Stockfleth
+    Copyright (C) 2017-2024 Niels Stockfleth
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -115,12 +115,6 @@ namespace Bank
             Properties.Resources.CMD_CONFIGURE_DEFAULT_BOOKING,
             "ConfigureDefaultBooking",
             typeof(CustomCommands));
-
-        public static readonly RoutedUICommand SetPassword =
-            new RoutedUICommand(
-                Properties.Resources.CMD_SET_PASSWORD,
-                "SetPassword",
-                typeof(CustomCommands));
 
         public static readonly RoutedUICommand Next =
             new RoutedUICommand(

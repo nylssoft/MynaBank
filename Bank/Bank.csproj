@@ -9,9 +9,9 @@
     <Product>Myna Bank</Product>
     <Copyright>2024 Niels Stockfleth</Copyright>
     <ApplicationIcon>Images\icon.ico</ApplicationIcon>
-    <Version>8.0.2</Version>
+    <Version>8.0.3</Version>
     <AssemblyName>MynaBank</AssemblyName>
-    <AssemblyVersion>8.0.2</AssemblyVersion>
+    <AssemblyVersion>8.0.3</AssemblyVersion>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
   <ItemGroup>
