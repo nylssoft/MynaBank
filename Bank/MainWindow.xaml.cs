@@ -1,6 +1,6 @@
 /*
     Myna Bank
-    Copyright (C) 2017 Niels Stockfleth
+    Copyright (C) 2017-2024 Niels Stockfleth
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,7 +35,6 @@ namespace Bank
         private ObservableCollection<Account> accounts = new ObservableCollection<Account>();
         private List<Balance> balances = new List<Balance>();
         private ObservableCollection<Booking> bookings = new ObservableCollection<Booking>();
-        private SecureString password;
         private StatisticsWindow statisticsWindow = null;
         private SearchWindow searchWindow = null;
         private SortDecorator sortDecorator = new SortDecorator(ListSortDirection.Descending);
@@ -125,9 +124,6 @@ namespace Bank
                 case "RenameAccount":
                 case "ConfigureDefaultText":
                 case "ConfigureDefaultBooking":
-                case "SetPassword":
-                    e.CanExecute = account != null;
-                    break;
                 case "ShowGraph":
                     e.CanExecute = account != null && (statisticsWindow == null || statisticsWindow.IsClosed);
                     break;
@@ -209,9 +205,6 @@ namespace Bank
                     break;
                 case "ConfigureDefaultBooking":
                     ConfigureDefaultBooking();
-                    break;
-                case "SetPassword":
-                    SetPassword();
                     break;
                 case "Next":
                     Next();
@@ -297,30 +290,7 @@ namespace Bank
             {
                 Directory.CreateDirectory(di.FullName);
             }
-            bool enterpwd = Properties.Settings.Default.HasPassword;
-            if (!enterpwd)
-            {
-                try
-                {
-                    database.Open(filename, null);
-                    password = null;
-                }
-                catch
-                {
-                    enterpwd = true;
-                }
-            }
-            if (enterpwd)
-            {
-                EnterPasswordWindow w = new EnterPasswordWindow(this, Properties.Resources.TITLE_ENTER_PASSWORD, database, filename);
-                if (w.ShowDialog() == false)
-                {
-                    Close();
-                    return;
-                }
-                password = w.Password;
-                Properties.Settings.Default.HasPassword = password != null;
-            }
+            database.Open(filename);
             accounts.Clear();
             foreach (var account in database.GetAccounts())
             {
@@ -781,23 +751,6 @@ namespace Bank
                 if (dlg.ShowDialog() == true)
                 {
                     database.SetDefaultBookings(account, dlg.DefaultBookings);
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleError(ex);
-            }
-        }
-
-        private void SetPassword()
-        {
-            try
-            {
-                var wnd = new SetPasswordWindow(this, Properties.Resources.TITLE_SET_PASSWORD, database, password);
-                if (wnd.ShowDialog() == true)
-                {
-                    password = wnd.Password;
-                    Properties.Settings.Default.HasPassword = password != null;
                 }
             }
             catch (Exception ex)

@@ -9,9 +9,9 @@
     <Product>Myna Bank</Product>
     <Copyright>2024 Niels Stockfleth</Copyright>
     <ApplicationIcon>Images\icon.ico</ApplicationIcon>
-    <Version>8.0.1</Version>
+    <Version>8.0.2</Version>
     <AssemblyName>MynaBank</AssemblyName>
-    <AssemblyVersion>8.0.1</AssemblyVersion>
+    <AssemblyVersion>8.0.2</AssemblyVersion>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
   <ItemGroup>
@@ -40,5 +40,18 @@
     <Resource Include="Images\32x32\arrow-left-double-2.png" />
     <Resource Include="Images\32x32\arrow-right-2.png" />
     <Resource Include="Images\32x32\arrow-right-double-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>

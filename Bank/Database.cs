@@ -1,6 +1,6 @@
 ﻿/*
     Myna Bank
-    Copyright (C) 2017 Niels Stockfleth
+    Copyright (C) 2017-2024 Niels Stockfleth
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
-using System.Security;
 using System.Text;
 
 namespace Bank
@@ -35,21 +34,12 @@ namespace Bank
             con?.Dispose();
         }
 
-        public void Open(string filename, SecureString pwd)
+        public void Open(string filename)
         {
             var sb = new SQLiteConnectionStringBuilder() { DataSource = filename };
             con = new SQLiteConnection(sb.ToString());
-            if (pwd != null && pwd.Length > 0)
-            {
-                con.SetPassword(pwd.GetAsString());
-            }
             con.Open();
             Init(con);
-        }
-
-        public void ChangePassword(SecureString pwd)
-        {
-            con.ChangePassword(pwd.GetAsString());
         }
 
         private void Init(SQLiteConnection con)
