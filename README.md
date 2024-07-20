@@ -2,13 +2,13 @@
 
 ## Overview
 
-An application to manage bank accounts for Windows using WPF.
+An application to manage bank accounts.
 
 ![Myna Bank Screenshot](Screenshots/mynabank.png)
 
 ## Installation
 
-The program requires .NET framework v4.7.
+The program requires .NET 8.
 
 ## Screenshots
 
@@ -31,11 +31,6 @@ The program requires .NET framework v4.7.
 ### Configure Regular Bookings
 
 ![Configure Regular Booking Screenshot](Screenshots/mynabank_regularbookings.png)
-
-## Build
-
-- Build with VS 2022
-- WiX ToolSet is required to build a MSI, see https://wixtoolset.org/
 
 ## Licenses
 
