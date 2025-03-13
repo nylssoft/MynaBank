@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>Niels Stockfleth</Authors>
@@ -9,9 +9,9 @@
     <Product>Myna Bank</Product>
     <Copyright>2024 Niels Stockfleth</Copyright>
     <ApplicationIcon>Images\icon.ico</ApplicationIcon>
-    <Version>8.0.4</Version>
+    <Version>9.0.1</Version>
     <AssemblyName>MynaBank</AssemblyName>
-    <AssemblyVersion>8.0.4</AssemblyVersion>
+    <AssemblyVersion>9.0.1</AssemblyVersion>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
   <ItemGroup>
