@@ -8,7 +8,7 @@ An application to manage bank accounts.
 
 ## Installation
 
-The program requires .NET 8.
+The program requires .NET 9.
 
 ## Screenshots
 
